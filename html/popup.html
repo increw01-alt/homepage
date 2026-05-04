@@ -1,25 +1,49 @@
 <div class="popup" data-popup="popup1">
   <div class="popup-box">
 
-    <!-- 버튼들을 감싸는 컨테이너 -->
+    <!-- 닫기 버튼 영역 -->
     <div class="popup-buttons">
-      <!-- n시간 안보기 버튼 -->
       <button class="close-btn close-n" data-hours="24" title="오늘 하루 보지 않기">
         오늘 하루 보지 않기
       </button>
-      <!-- X 버튼 (즉시 닫기) -->
       <div class="close-btn close-x" title="닫기">
         <div class="x-line x-line-1"></div>
         <div class="x-line x-line-2"></div>
       </div>
     </div>
 
-    <a href="https://koreagiftcard.channel.io/" target="_blank">
-      <img src="img/popup.png" class="popup-img">
+    <!-- 컬쳐랜드 카드 비주얼 (우측) -->
+    <div class="popup-visual" aria-hidden="true">
+      <img src="img/popup_bg_circle.png" class="popup-circle" alt="">
+      <img src="img/popup_card.png" class="popup-card" alt="">
+    </div>
+
+    <!-- 본문 콘텐츠 (좌측) -->
+    <a href="https://koreagiftcard.channel.io/" target="_blank" class="popup-link">
+      <div class="popup-content">
+        <div class="popup-logo">
+          <img src="img/logo/logo.png" alt="한국상품권협회">
+        </div>
+
+        <h2 class="popup-title">
+          <span class="hl">신용카드 · 소액결제</span> 상품권<br>
+          구매부터 판매까지!<br>
+          채널톡 상담으로 간편하게!
+        </h2>
+
+        <ul class="popup-bullets">
+          <li>전문 상담 매니저 1:1 맞춤 안내</li>
+          <li>상품권 종류 · 신용카드 · 소액결제 전문 상담</li>
+          <li>구매부터 판매까지 원스톱 처리</li>
+          <li>지금 바로 채널톡에서 간편 상담 신청!</li>
+        </ul>
+
+        <span class="popup-cta">지금 채널톡 문의하기</span>
+      </div>
     </a>
+
   </div>
 </div>
-
 
 
 <style>
@@ -28,72 +52,136 @@
     top: 12%;
     right: 9.5%;
     z-index: 99999;
+    font-family: 'Paperlogy', sans-serif;
   }
 
   .popup-box {
     position: relative;
     width: 700px;
-    /* animation: fadeUp .35s ease-out; */
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    padding: 28px 36px;
+    box-sizing: border-box;
   }
 
-  .popup-box a img {
-    width: 100%;
+  .popup-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* 우측 컬쳐랜드 카드 비주얼 */
+  .popup-visual {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 320px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .popup-circle {
+    position: absolute;
+    right: -30px;
+    bottom: -10px;
+    width: 280px;
+    height: auto;
+  }
+
+  .popup-card {
+    position: absolute;
+    right: 25px;
+    bottom: 35px;
+    width: 240px;
+    height: auto;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.15));
+  }
+
+  /* 좌측 본문 콘텐츠 */
+  .popup-content {
+    max-width: 60%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .popup-logo img {
+    width: 158px;
     height: auto;
     display: block;
+    margin-bottom: 18px;
+  }
+
+  .popup-title {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #111;
+    margin: 0 0 18px;
+    letter-spacing: -0.02em;
+  }
+
+  .popup-title .hl {
+    color: #E63946;
+  }
+
+  .popup-bullets {
+    background: #F6F6F6;
     border-radius: 10px;
+    padding: 16px 22px;
+    margin: 0 0 18px;
+    list-style: none;
   }
 
-  @media (max-width: 500px) {
-    .popup {
-      top: 80px;
-      left: 20px;
-    }
-
-    .popup-box {
-      width: 350px;
-    }
-
-    .popup-buttons {
-      bottom: -40px !important;
-      top: auto !important;
-      right: 0 !important;
-    }
-
-    .close-x {
-      background: #f9f9f9 !important;
-    }
-
-    .close-x .x-line {
-      background: #111 !important;
-    }
+  .popup-bullets li {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #333;
+    line-height: 2;
+    padding-left: 14px;
+    position: relative;
   }
 
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .popup-bullets li::before {
+    content: "-";
+    position: absolute;
+    left: 0;
+    color: #333;
   }
 
+  .popup-cta {
+    display: inline-block;
+    background: #111;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px 32px;
+    border-radius: 999px;
+    text-align: center;
+    transition: background .2s ease;
+  }
+
+  .popup-cta:hover {
+    background: #333;
+  }
+
+  /* 닫기 버튼들 */
   .popup-buttons {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 14px;
+    right: 14px;
     display: flex;
     gap: 8px;
     align-items: center;
+    z-index: 10;
   }
 
-  /* X 버튼 */
   .close-x {
-    background: #111;
+    background: #f3f3f3;
     width: 31px;
     height: 30px;
     border-radius: 8px;
@@ -106,9 +194,9 @@
 
   .close-x .x-line {
     position: absolute;
-    width: 60%;
+    width: 50%;
     height: 2px;
-    background: #fff;
+    background: #111;
     transform: rotate(45deg);
   }
 
@@ -116,21 +204,74 @@
     transform: rotate(-45deg);
   }
 
-  /* n시간 안보기 버튼 */
   .close-n {
-    font-family: 'paperlogy-M';
-    background: #eee;
-    color: #666;
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 500;
+    background: #f3f3f3;
+    color: #555;
     height: 30px;
-    padding: 4px 10px;
+    padding: 4px 12px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 13px;
     transition: .2s ease-in-out;
   }
 
   .close-n:hover {
     background: #111;
     color: #fff;
+  }
+
+  /* 모바일 반응형 */
+  @media (max-width: 500px) {
+    .popup {
+      top: 80px;
+      left: 20px;
+      right: 20px;
+    }
+
+    .popup-box {
+      width: auto;
+      padding: 24px 20px;
+    }
+
+    .popup-content {
+      max-width: 100%;
+    }
+
+    .popup-logo img {
+      width: 120px;
+    }
+
+    .popup-title {
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .popup-bullets {
+      padding: 14px 18px;
+    }
+
+    .popup-bullets li {
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .popup-cta {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px 0;
+    }
+
+    .popup-visual {
+      display: none;
+    }
+
+    .popup-buttons {
+      top: 14px;
+      right: 14px;
+    }
   }
 </style>
