@@ -1,0 +1,221 @@
+@charset "utf-8";
+
+#sec-1 {
+    margin-top: 12rem;
+}
+
+.sec_title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.sec_title span {
+    font-size: 2rem;
+    color: var(--po-color);
+    font-weight: 500;
+}
+
+.sec_title p {
+    font-size: 2rem;
+}
+
+.sec_title h2 {
+    font-size: 3.4rem;
+    font-weight: 800;
+}
+
+.sec_title span.gray{
+  color: #929292;
+  font-size: 3.4rem;
+  font-weight: 700;
+}
+
+/* 창업 컨설팅 버튼 */
+
+.kv_work_btn {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--po-color);
+    padding: 4rem 6rem;
+    color: #fff;
+    border-radius: var(--bdrs);
+    font-size: 2.2rem;
+    font-weight: 400;
+    gap: 5rem;
+}
+
+.kv_work_btn .left p {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.kv_work_btn .center.line {
+    width: 15vw;
+    height: 1px;
+    background: #fff;
+}
+
+.kv_work_btn .right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+ruby>rt {
+    display: none;
+}
+
+/* 채널톡 버튼 */
+.c_talk {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    height: 109px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    border: 1px solid var(--po-color);
+    border-radius: var(--bdrs);
+    background: #fff;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.c_talk:hover {
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.06);
+}
+
+.c_talk:hover .ct_btn .arrow {
+    animation: arrow 1s ease-in-out infinite;
+}
+
+@keyframes arrow {
+    0% {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+    }
+
+    50% {
+        transform: matrix(1, 0, 0, 1, 2, -2);
+    }
+
+    100% {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+    }
+}
+
+.c_talk .img_txt {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.c_talk img {
+    width: 70px;
+}
+
+.c_talk .txt {
+    font-size: 2.2rem;
+    font-family: 'Paperlogy';
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+.c_talk .ct_btn {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    background: var(--po-color);
+    color: transparent;
+    -webkit-background-clip: text;
+    font-weight: 500;
+}
+
+.c_talk .ct_btn .arrow {
+    fill: var(--po-color);
+}
+
+
+@media screen and (max-width:970px) {
+    #sec-1 {
+        margin-top: 12rem;
+    }
+
+    .sec_title h2,.sec_title span.gray {
+        font-size: 2.8rem;
+    }
+
+    .kv_work_btn {
+        font-size: 2rem;
+        gap: 2rem;
+        flex-wrap: wrap;
+        padding: 3rem 3rem;
+    }
+
+    .kv_work_btn .left p {
+        font-size: 2.6rem;
+    }
+
+    .kv_work_btn .center.line {
+        display: none;
+    }
+
+    .kv_work_btn .right {
+        position: absolute;
+        right: 4rem;
+        gap: 3px;
+    }
+
+    .kv_work_btn .right p {
+        font-weight: 600;
+    }
+
+    .kv_work_btn .right p span {
+        display: none;
+    }
+
+    .kv_work_btn ruby>rt {
+        display: ruby-text;
+        font-size: 75%;
+        margin-bottom: 2px;
+        text-align: end;
+        font-weight: 200;
+    }
+}
+
+@media screen and (max-width:500px){
+    .c_talk{
+        height: 70px;
+        padding-left: 10px;
+    }
+    .c_talk .img_txt{
+        gap: 1rem;
+    }
+    .c_talk img{
+        width: 50px;
+    }
+    .c_talk .txt{
+        font-size: 14px;
+    }
+    .c_talk .ct_btn{
+        font-size: 14px;
+    }
+    .c_talk .ct_btn .arrow{
+        width: 16px;
+    }
+}
+
+@media screen and (max-width:399px) {
+    .kv_work_btn .left p {
+        font-size: 2.4rem;
+    }
+}

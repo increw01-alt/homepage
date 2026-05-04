@@ -1,0 +1,28 @@
+{
+  "qna": [
+    {
+      "id": "01",
+      "question": "컬쳐랜드 구입 쇼핑몰 알려주세요",
+      "answer": "한국상품권협회에서 운영 및 관리하는 쇼핑몰에서 간편하게 구입이 가능하시고 <a href=\"https://plusyou.co.kr\" target=\"_blank\" style='color:var(--po-color); border-bottom:2px solid var(--po-color);'>플러스유</a> 및 <a href=\"https://plusmoon.co.kr\" target=\"_blank\" style='color:var(--po-color); border-bottom:2px solid var(--po-color);'>플러스문</a>에서 신용카드 및 휴대폰 소액결제로 안전하게 구입이 가능하십니다.",
+      "date": "2025-08-21"
+    },
+    {
+      "id": "02",
+      "question": "컬쳐랜드 상품권 매입은 어떻게 진행 되나요?",
+      "answer": "<a href=\"https://plus-zone.co.kr\" target=\"_blank\" style='color:var(--po-color); border-bottom:2px solid var(--po-color);'>플러스존</a>에서 컬쳐랜드 PIN 번호 및 컬쳐랜드에 충전되어있는 컬쳐캐쉬 등 다양하게 판매·매입하실 수 있습니다.<br>또한 충전 후 바로 출금 이용도 가능하십니다.",
+      "date": "2025-08-21"
+    },
+    {
+      "id": "03",
+      "question": "구입은 안전한가요?",
+      "answer": "한국상품권협회의 보안 시스템으로 안전하게 신용카드 및 휴대폰 결제를 이용하실 수 있으며,<br>구매 후 실시간 발송이 되기 때문에 구입 즉시 사용이 가능합니다.",
+      "date": "2025-08-21"
+    },
+    {
+      "id": "04",
+      "question": "상품권 구매 후 환불 가능한가요?",
+      "answer": "전자코드 형태의 상품권 특성상 발송 완료 후에는 환불이 불가합니다.<br>다만, 발송 오류나 시스템 문제 발생 시 즉시 고객센터를 통해 도움을 받으실 수 있습니다.",
+      "date": "2025-08-21"
+    }
+  ]
+}

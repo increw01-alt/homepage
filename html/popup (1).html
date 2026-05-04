@@ -1,0 +1,136 @@
+<div class="popup" data-popup="popup1">
+  <div class="popup-box">
+
+    <!-- 버튼들을 감싸는 컨테이너 -->
+    <div class="popup-buttons">
+      <!-- n시간 안보기 버튼 -->
+      <button class="close-btn close-n" data-hours="24" title="오늘 하루 보지 않기">
+        오늘 하루 보지 않기
+      </button>
+      <!-- X 버튼 (즉시 닫기) -->
+      <div class="close-btn close-x" title="닫기">
+        <div class="x-line x-line-1"></div>
+        <div class="x-line x-line-2"></div>
+      </div>
+    </div>
+
+    <a href="https://koreagiftcard.channel.io/" target="_blank">
+      <img src="img/popup.png" class="popup-img">
+    </a>
+  </div>
+</div>
+
+
+
+<style>
+  .popup {
+    position: fixed;
+    top: 12%;
+    right: 9.5%;
+    z-index: 99999;
+  }
+
+  .popup-box {
+    position: relative;
+    width: 700px;
+    /* animation: fadeUp .35s ease-out; */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
+  .popup-box a img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 500px) {
+    .popup {
+      top: 80px;
+      left: 20px;
+    }
+
+    .popup-box {
+      width: 350px;
+    }
+
+    .popup-buttons {
+      bottom: -40px !important;
+      top: auto !important;
+      right: 0 !important;
+    }
+
+    .close-x {
+      background: #f9f9f9 !important;
+    }
+
+    .close-x .x-line {
+      background: #111 !important;
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .popup-buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* X 버튼 */
+  .close-x {
+    background: #111;
+    width: 31px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .close-x .x-line {
+    position: absolute;
+    width: 60%;
+    height: 2px;
+    background: #fff;
+    transform: rotate(45deg);
+  }
+
+  .close-x .x-line-2 {
+    transform: rotate(-45deg);
+  }
+
+  /* n시간 안보기 버튼 */
+  .close-n {
+    font-family: 'Paperlogy';
+    background: #eee;
+    color: #666;
+    height: 30px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+  }
+
+  .close-n:hover {
+    background: #111;
+    color: #fff;
+  }
+</style>

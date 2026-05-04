@@ -1,0 +1,103 @@
+@charset "utf-8";
+
+.tab_body .qna_body li,
+.question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3.5rem;
+    gap: 2rem;
+    border-top: 1px solid #ddd;
+    cursor: pointer;
+}
+
+/* .tab_body li:first-child{
+    border-top: 2px solid #333;
+} */
+.tab_body li:last-child {
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+.tab_body li .date,
+.tab_body li .arrow {
+    height: 16px;
+    line-height: 16px;
+    text-align: right;
+}
+
+
+/* faq */
+.accordion {
+    box-sizing: border-box;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+}
+
+.qna_body li {
+    transition: .4s;
+}
+
+
+.accordion:hover,
+.qna_body li:hover {
+    background-color: var(--box-bg);
+}
+
+.accordion.active:hover {
+    background: #fff;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    display: flex;
+    gap: 2rem;
+    padding: 0 3.5rem;
+    background-color: var(--box-bg);
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.panel .number,
+.panel .title {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    height: fit-content;
+}
+
+.accordion .arrow {
+    transition: .3s ease-in-out;
+    color: var(--po-color);
+    font-size: 3.2rem;
+    font-weight: 300;
+}
+
+.accordion.active .arrow {
+    transform: rotate(-180deg);
+}
+
+
+/* FAQ 답변 Class */
+.question .title,
+.answer a {
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 500;
+}
+
+.answer {
+    flex-grow: 0;
+    width: 85%;
+    font-weight: 400;
+    font-family: 'Paperlogy', sans-serif;
+    font-weight: 500;
+}
+
+.answer .h_link {
+    color: var(--po-color);
+    border-bottom: 1px solid var(--po-color);
+}

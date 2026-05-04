@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /facebook/
+Disallow: /Helpers/
+
+Allow: /
+
+Sitemap: https://koreagiftcard.co.kr/sitemap.xml
