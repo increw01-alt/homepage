@@ -78,8 +78,8 @@
   .popup-visual {
     position: absolute;
     right: 0;
-    bottom: 0;
-    width: 320px;
+    top: 0;
+    width: 380px;
     height: 100%;
     pointer-events: none;
     z-index: 1;
@@ -87,24 +87,25 @@
 
   .popup-circle {
     position: absolute;
-    right: -30px;
-    bottom: -10px;
-    width: 280px;
+    right: -40px;
+    bottom: -20px;
+    width: 340px;
     height: auto;
   }
 
   .popup-card {
     position: absolute;
-    right: 25px;
-    bottom: 35px;
-    width: 240px;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
     height: auto;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.18));
   }
 
   /* 좌측 본문 콘텐츠 */
   .popup-content {
-    max-width: 60%;
+    max-width: 56%;
     position: relative;
     z-index: 2;
   }
@@ -126,7 +127,7 @@
   }
 
   .popup-title .hl {
-    color: #E63946;
+    color: #F03052;
   }
 
   .popup-bullets {
