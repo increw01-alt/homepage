@@ -1,7 +1,22 @@
 User-agent: *
+Allow: /
 Disallow: /facebook/
 Disallow: /Helpers/
+Disallow: /.well-known/
 
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: NaverBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Daum
 Allow: /
 
 Sitemap: https://koreagiftcard.co.kr/sitemap.xml
