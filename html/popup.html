@@ -17,19 +17,21 @@
     <div class="frame-outer"></div>
     <div class="frame-inner"></div>
 
-    <!-- 좌측 콘텐츠 -->
     <a href="https://koreagiftcard.channel.io/home?page=홈페이지팝업" target="_blank" rel="noopener noreferrer" class="popup-link">
 
-      <img class="logo" src="img/logo/logo_white.png" alt="한국상품권협회" onerror="this.src='img/logo/logo.png';this.style.filter='brightness(0) invert(1)'">
-
-      <div class="badge">
-        <span class="dot"></span>
-        <span class="est">EST.</span>
-        <span class="since">SINCE 1998</span>
+      <!-- 로고 + 배지 -->
+      <div class="top-row">
+        <img class="logo" src="img/logo/logo.png" alt="한국상품권협회" style="filter:brightness(0) invert(1)">
+        <div class="badge">
+          <span class="dot"></span>
+          <span class="est">EST.</span>
+          <span class="since">SINCE 1998</span>
+        </div>
       </div>
 
       <div class="gold-dots"><span></span><span></span><span></span></div>
 
+      <!-- 헤드라인 -->
       <div class="headline">
         <div class="h1">
           상품권 <span class="gold">구입</span>부터<br>
@@ -41,6 +43,13 @@
         </div>
       </div>
 
+      <!-- 카드 이미지 (모바일: 중앙, 데스크탑: 우측) -->
+      <div class="phone-wrap">
+        <div class="halo"></div>
+        <img src="img/popup_card2.png" alt="컬쳐랜드 상품권">
+      </div>
+
+      <!-- 칩 -->
       <div class="chips-wrap">
         <div class="chips-label">거래 방식</div>
         <div class="chips">
@@ -51,6 +60,7 @@
         </div>
       </div>
 
+      <!-- CTA -->
       <div class="cta-wrap">
         <span class="cta">
           <span>지금 채널톡 문의하기</span>
@@ -59,30 +69,21 @@
         </span>
       </div>
 
-      <!-- 우측 카드 이미지 -->
-      <div class="phone">
-        <div class="halo"></div>
-        <img src="img/popup_card2.png" alt="컬쳐랜드 상품권">
-      </div>
-
     </a>
   </div>
 </div>
 
 
 <style>
+  /* ===== 공통 ===== */
   .popup {
     position: fixed;
-    top: 80px;
-    right: 32px;
     z-index: 99999;
     font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   .popup-box {
     position: relative;
-    width: 640px;
-    height: 340px;
     overflow: hidden;
     background: #0A1E3F;
     border-radius: 12px;
@@ -91,15 +92,10 @@
 
   .popup-link {
     display: block;
-    width: 100%;
-    height: 100%;
     text-decoration: none;
     color: inherit;
-    position: relative;
-    z-index: 2;
   }
 
-  /* 배경 그라디언트 */
   .vb-bg {
     position: absolute;
     inset: 0;
@@ -128,166 +124,45 @@
     z-index: 1;
   }
 
-  /* 로고 */
-  .logo {
-    position: absolute;
-    top: 28px;
-    left: 32px;
-    height: 22px;
-    width: auto;
-    display: block;
-    z-index: 3;
-    filter: brightness(0) invert(1);
-  }
+  .badge .dot { width: 5px; height: 5px; border-radius: 999px; background: #C8A96A; }
+  .badge .est { color: #C8A96A; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; }
+  .badge .since { color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; }
 
-  /* 배지 */
-  .badge {
-    position: absolute;
-    top: 32px;
-    right: 220px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    z-index: 3;
-  }
-
-  .badge .dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 999px;
-    background: #C8A96A;
-  }
-
-  .badge .est {
-    color: #C8A96A;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-  }
-
-  .badge .since {
-    color: #fff;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-  }
-
-  /* 골드 점 */
-  .gold-dots {
-    position: absolute;
-    left: 32px;
-    top: 64px;
-    display: flex;
-    gap: 4px;
-    z-index: 3;
-  }
-
-  .gold-dots span {
-    width: 3px;
-    height: 3px;
-    border-radius: 999px;
-    background: #C8A96A;
-  }
-
+  .gold-dots span { width: 3px; height: 3px; border-radius: 999px; background: #C8A96A; }
   .gold-dots span:nth-child(2) { opacity: 0.6; }
   .gold-dots span:nth-child(3) { opacity: 0.3; }
 
-  /* 헤드라인 */
-  .headline {
-    position: absolute;
-    top: 76px;
-    left: 32px;
-    right: 240px;
-    z-index: 3;
-  }
-
-  .headline .h1 {
-    font-size: 30px;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-  }
-
+  .headline .h1 { font-weight: 800; color: #fff; letter-spacing: -0.025em; line-height: 1.2; }
   .headline .h1 .gold { color: #E8D5A8; }
-
   .headline .h1 .grad {
     background: linear-gradient(90deg, #E8D5A8, #C8A96A);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .headline .sub { color: rgba(255, 255, 255, 0.85); font-weight: 500; line-height: 1.6; }
+  .headline .sub b { color: #E8D5A8; font-weight: 700; }
 
-  .headline .sub {
-    margin-top: 14px;
-    padding-left: 12px;
-    border-left: 2px solid #C8A96A;
-    font-size: 12.5px;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 500;
-    line-height: 1.6;
-  }
-
-  .headline .sub b {
-    color: #E8D5A8;
-    font-weight: 700;
-  }
-
-  /* 칩 */
-  .chips-wrap {
-    position: absolute;
-    left: 32px;
-    top: 222px;
-    z-index: 3;
-  }
-
-  .chips-label {
-    font-size: 9px;
-    color: rgba(232, 213, 168, 0.7);
-    letter-spacing: 0.2em;
-    margin-bottom: 6px;
-    font-weight: 600;
-  }
-
-  .chips {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-  }
-
+  .chips-label { color: rgba(232, 213, 168, 0.7); letter-spacing: 0.2em; font-weight: 600; }
+  .chips { display: flex; gap: 5px; flex-wrap: wrap; }
   .chip {
-    padding: 4px 8px;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(200, 169, 106, 0.4);
     border-radius: 999px;
     color: #fff;
-    font-size: 10px;
     font-weight: 600;
     letter-spacing: -0.01em;
     white-space: nowrap;
-  }
-
-  /* CTA 버튼 */
-  .cta-wrap {
-    position: absolute;
-    left: 32px;
-    bottom: 24px;
-    right: 240px;
-    z-index: 3;
   }
 
   .cta {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
     width: 100%;
-    padding: 14px 20px;
     background: linear-gradient(135deg, #E8D5A8 0%, #C8A96A 50%, #B8934A 100%);
-    background-size: 200% 100%;
     color: #0A1E3F;
     border-radius: 8px;
-    font-size: 13px;
     font-weight: 800;
     letter-spacing: -0.01em;
     font-family: inherit;
@@ -298,60 +173,20 @@
     animation: vbCtaPulse 2.4s ease-in-out infinite;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-
   .cta span { position: relative; z-index: 2; }
-
-  .cta .arrow {
-    font-size: 15px;
-    font-weight: 900;
-    animation: vbCtaArrow 1.4s ease-in-out infinite;
-    display: inline-block;
-  }
-
+  .cta .arrow { font-weight: 900; animation: vbCtaArrow 1.4s ease-in-out infinite; display: inline-block; }
   .cta .shine {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
+    position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
     animation: vbShine 2.8s ease-in-out infinite;
     z-index: 1;
   }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(200, 169, 106, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
 
-  .cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 40px rgba(200, 169, 106, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  }
-
-  /* 카드 이미지 */
-  .phone {
+  .halo {
     position: absolute;
-    right: 20px;
-    top: 0;
-    bottom: 0;
-    width: 220px;
-    animation: vbFloat 6s ease-in-out infinite;
-    z-index: 3;
-  }
-
-  .phone .halo {
-    position: absolute;
-    width: 260px;
-    height: 260px;
-    left: -30px;
-    top: 20px;
     background: radial-gradient(circle, rgba(200, 169, 106, 0.45) 0%, transparent 55%);
     filter: blur(20px);
-  }
-
-  .phone img {
-    height: 100%;
-    width: auto;
-    display: block;
-    object-fit: contain;
-    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.25));
-    position: relative;
   }
 
   /* 닫기 버튼 */
@@ -377,22 +212,9 @@
     cursor: pointer;
     transition: background 0.2s;
   }
-
-  .close-x:hover {
-    background: rgba(255, 255, 255, 0.22);
-  }
-
-  .close-x .x-line {
-    position: absolute;
-    width: 50%;
-    height: 1.5px;
-    background: #fff;
-    transform: rotate(45deg);
-  }
-
-  .close-x .x-line-2 {
-    transform: rotate(-45deg);
-  }
+  .close-x:hover { background: rgba(255, 255, 255, 0.22); }
+  .close-x .x-line { position: absolute; width: 50%; height: 1.5px; background: #fff; transform: rotate(45deg); }
+  .close-x .x-line-2 { transform: rotate(-45deg); }
 
   .close-n {
     font-family: 'Paperlogy', sans-serif;
@@ -407,13 +229,157 @@
     font-size: 11px;
     transition: 0.2s ease-in-out;
   }
+  .close-n:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
 
-  .close-n:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
+  /* ===== 데스크탑 ===== */
+  @media (min-width: 701px) {
+    .popup { top: 80px; right: 32px; }
+
+    .popup-box { width: 640px; height: 340px; }
+
+    .popup-link { width: 100%; height: 100%; position: relative; z-index: 2; }
+
+    .top-row {
+      position: absolute;
+      top: 28px; left: 32px; right: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3;
+    }
+
+    .logo { height: 22px; width: auto; display: block; }
+
+    .badge { display: flex; align-items: center; gap: 6px; }
+
+    .gold-dots {
+      position: absolute;
+      left: 32px; top: 64px;
+      display: flex; gap: 4px;
+      z-index: 3;
+    }
+
+    .headline {
+      position: absolute;
+      top: 76px; left: 32px; right: 240px;
+      z-index: 3;
+    }
+    .headline .h1 { font-size: 30px; }
+    .headline .sub { margin-top: 14px; padding-left: 12px; border-left: 2px solid #C8A96A; font-size: 12.5px; }
+
+    .chips-wrap {
+      position: absolute;
+      left: 32px; top: 222px;
+      z-index: 3;
+    }
+    .chips-label { font-size: 9px; margin-bottom: 6px; }
+    .chip { padding: 4px 8px; font-size: 10px; }
+
+    .cta-wrap {
+      position: absolute;
+      left: 32px; bottom: 24px; right: 240px;
+      z-index: 3;
+    }
+    .cta { gap: 8px; padding: 14px 20px; font-size: 13px; }
+    .cta .arrow { font-size: 15px; }
+
+    .phone-wrap {
+      position: absolute;
+      right: 20px; top: 0; bottom: 0;
+      width: 220px;
+      animation: vbFloat 6s ease-in-out infinite;
+      z-index: 3;
+    }
+    .halo { width: 260px; height: 260px; left: -30px; top: 20px; }
+    .phone-wrap img {
+      height: 100%; width: auto; display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.25));
+      position: relative;
+    }
   }
 
-  /* 애니메이션 */
+  /* ===== 모바일 (팝업2.html 디자인) ===== */
+  @media (max-width: 700px) {
+    .popup {
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100vw - 24px);
+      max-width: 360px;
+    }
+
+    .popup-box {
+      width: 100%;
+      aspect-ratio: 360 / 560;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .popup-link { width: 100%; height: 100%; position: relative; z-index: 2; }
+
+    .top-row {
+      position: absolute;
+      top: 24px; left: 28px; right: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .logo { height: 22px; width: auto; display: block; }
+
+    .badge { display: flex; align-items: center; gap: 6px; }
+
+    .gold-dots {
+      position: absolute;
+      left: 28px; top: 60px;
+      display: flex; gap: 4px;
+      z-index: 3;
+    }
+
+    .headline {
+      position: absolute;
+      top: 84px; left: 28px; right: 28px;
+      text-align: left;
+      z-index: 3;
+    }
+    .headline .h1 { font-size: 30px; }
+    .headline .sub { margin-top: 14px; padding-left: 12px; border-left: 2px solid #C8A96A; font-size: 13px; }
+
+    .phone-wrap {
+      position: absolute;
+      left: 50%; top: 240px;
+      transform: translateX(-50%);
+      animation: vbFloatM 6s ease-in-out infinite;
+      z-index: 3;
+    }
+    .halo { width: 280px; height: 280px; left: 50%; top: 50%; transform: translate(-50%, -50%); filter: blur(24px); }
+    .phone-wrap img {
+      height: 220px; width: auto; display: block;
+      filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.3));
+      position: relative;
+    }
+
+    .chips-wrap {
+      position: absolute;
+      left: 28px; right: 28px; bottom: 92px;
+      z-index: 3;
+    }
+    .chips-label { font-size: 9px; margin-bottom: 6px; text-align: center; }
+    .chips { flex-wrap: nowrap; justify-content: center; gap: 4px; }
+    .chip { padding: 4px 8px; font-size: 10px; }
+
+    .cta-wrap {
+      position: absolute;
+      left: 24px; right: 24px; bottom: 24px;
+      z-index: 3;
+    }
+    .cta { gap: 8px; padding: 16px 20px; font-size: 15px; }
+    .cta .arrow { font-size: 17px; }
+  }
+
+  /* ===== 애니메이션 ===== */
   @keyframes vbShift {
     0%, 100% { transform: translate(0, 0); }
     50% { transform: translate(12px, -8px); }
@@ -422,6 +388,11 @@
   @keyframes vbFloat {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-5px) rotate(0.5deg); }
+  }
+
+  @keyframes vbFloatM {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-6px); }
   }
 
   @keyframes vbShine {
@@ -443,58 +414,5 @@
   @keyframes vbCtaArrow {
     0%, 100% { transform: translateX(0); }
     50% { transform: translateX(5px); }
-  }
-
-  /* 모바일 반응형 */
-  @media (max-width: 700px) {
-    .popup {
-      top: 70px;
-      left: 12px;
-      right: 12px;
-    }
-
-    .popup-box {
-      width: auto;
-      height: auto;
-      min-height: 260px;
-    }
-
-    .popup-link {
-      display: block;
-      padding: 28px 20px 20px;
-      position: relative;
-    }
-
-    .logo { top: 24px; left: 20px; }
-    .badge { display: none; }
-    .gold-dots { left: 20px; top: 58px; }
-
-    .headline {
-      position: relative;
-      top: auto;
-      left: auto;
-      right: auto;
-      margin-top: 12px;
-    }
-
-    .headline .h1 { font-size: 22px; }
-    .headline .sub { font-size: 11px; }
-
-    .chips-wrap {
-      position: relative;
-      top: auto;
-      left: auto;
-      margin-top: 14px;
-    }
-
-    .cta-wrap {
-      position: relative;
-      left: auto;
-      bottom: auto;
-      right: auto;
-      margin-top: 14px;
-    }
-
-    .phone { display: none; }
   }
 </style>
