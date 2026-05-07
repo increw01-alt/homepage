@@ -20,7 +20,7 @@ $(function() {
   }
 
   // fetch로 popup.html 불러오기
-  fetch("/popup.html")
+  fetch("popup.html")
     .then(res => res.text())
     .then(html => {
       document.body.insertAdjacentHTML("beforeend", html);
