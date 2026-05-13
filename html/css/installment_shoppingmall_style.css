@@ -45,3 +45,64 @@
   border-color: #00D1C7;
 }
 
+/* 상품권 할부 구매의 장점 섹션 */
+#sec-benefit {
+  padding-top: 7rem;
+  padding-bottom: 9rem;
+  background: #f8f9fb;
+}
+
+.benefit_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.benefit_card {
+  background: #fff;
+  border-radius: var(--bdrs);
+  padding: 3rem 2.5rem;
+  border: 1px solid #e8e8e8;
+  transition: box-shadow .3s;
+}
+
+.benefit_card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.benefit_num {
+  font-size: 3.8rem;
+  font-weight: 800;
+  color: var(--po-color);
+  opacity: 0.18;
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  font-family: 'paperlogy', sans-serif;
+}
+
+.benefit_card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #222;
+  font-family: 'paperlogy', sans-serif;
+}
+
+.benefit_card p {
+  font-size: 1.6rem;
+  color: #666;
+  line-height: 1.75;
+}
+
+@media screen and (max-width: 970px) {
+  .benefit_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .benefit_grid {
+    grid-template-columns: 1fr;
+  }
+}
+
