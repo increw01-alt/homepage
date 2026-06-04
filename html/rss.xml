@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>한국상품권협회 공지사항</title>
+    <link>https://koreagiftcard.co.kr</link>
+    <description>한국상품권협회 공식 공지사항 RSS 피드</description>
+    <language>ko</language>
+    <lastBuildDate>Mon, 04 May 2026 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://koreagiftcard.co.kr/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>2026년 5월 상품권 할부 구매 안내</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=8</link>
+      <description>신용카드 무이자 할부를 이용한 상품권 구매 방법과 혜택을 안내드립니다.</description>
+      <pubDate>Sat, 04 May 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=8</guid>
+    </item>
+
+    <item>
+      <title>소액결제 상품권 구매 서비스 확대 안내</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=7</link>
+      <description>휴대폰 소액결제를 통한 상품권 구매 서비스가 확대 운영됩니다.</description>
+      <pubDate>Thu, 01 May 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=7</guid>
+    </item>
+
+    <item>
+      <title>상품권 매입 수수료 안내</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=6</link>
+      <description>상품권 종류별 매입 수수료 및 정산 기준을 안내드립니다.</description>
+      <pubDate>Tue, 29 Apr 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=6</guid>
+    </item>
+
+    <item>
+      <title>채널톡 상담 서비스 도입 안내</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=5</link>
+      <description>보다 빠르고 편리한 상담을 위해 채널톡 실시간 상담 서비스를 도입하였습니다.</description>
+      <pubDate>Sun, 27 Apr 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=5</guid>
+    </item>
+
+    <item>
+      <title>홈페이지 리뉴얼 안내</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=4</link>
+      <description>한국상품권협회 공식 홈페이지가 새롭게 리뉴얼되었습니다.</description>
+      <pubDate>Fri, 25 Apr 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=4</guid>
+    </item>
+
+    <item>
+      <title>상품권 원스톱 처리 서비스 안내</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=3</link>
+      <description>구매부터 판매까지 한 번에 처리되는 원스톱 서비스를 안내드립니다.</description>
+      <pubDate>Wed, 23 Apr 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=3</guid>
+    </item>
+
+    <item>
+      <title>신용카드 상품권 할부 이용 방법</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=2</link>
+      <description>신용카드로 상품권을 할부 구매하는 방법과 주의사항을 안내드립니다.</description>
+      <pubDate>Mon, 21 Apr 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=2</guid>
+    </item>
+
+    <item>
+      <title>한국상품권협회 서비스 소개</title>
+      <link>https://koreagiftcard.co.kr/noti_detail.html?id=1</link>
+      <description>한국상품권협회의 주요 서비스와 이용 방법을 소개합니다.</description>
+      <pubDate>Sat, 19 Apr 2026 09:00:00 +0900</pubDate>
+      <guid>https://koreagiftcard.co.kr/noti_detail.html?id=1</guid>
+    </item>
+
+  </channel>
+</rss>
