@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소액결제 상품권 상담 - 한국상품권협회 | 전문 매니저 1:1 즉시 상담</title>
+
+  <meta name="description" content="휴대폰 소액결제로 상품권 구입부터 판매까지, 전문 매니저가 1:1로 도와드립니다. 채널톡으로 지금 바로 상담하세요.">
+  <meta name="keywords" content="소액결제 상품권 상담, 휴대폰 소액결제 상품권, 소액결제 상품권 구매, 소액결제 현금화, 한국상품권협회">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="소액결제 상품권 상담 - 한국상품권협회">
+  <meta property="og:description" content="휴대폰 소액결제로 상품권 구입부터 판매까지, 전문 매니저 1:1 즉시 상담.">
+  <meta property="og:url" content="https://koreagiftcard.co.kr/소액결제-상품권-상담">
+  <meta property="og:image" content="https://koreagiftcard.co.kr/url_img.png">
+  <link rel="canonical" href="https://koreagiftcard.co.kr/소액결제-상품권-상담">
+  <meta name="robots" content="index, follow">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/navi_footer.css">
+  <link rel="stylesheet" href="css/navi_footer_white.css">
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="js/navi.js"></script>
+  <script src="js/popup.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&">
+
+  <style>
+    :root {
+      --primary: #1a3a6b;
+      --accent: #F03052;
+      --gold: #C8A96A;
+      --bg-light: #f8f9fb;
+      --text: #111;
+      --text-sub: #555;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Paperlogy', -apple-system, sans-serif; color: var(--text); }
+
+    /* ===== HERO ===== */
+    .lp-hero {
+      background: linear-gradient(135deg, #0A1E3F 0%, #1a3a6b 60%, #0d2d52 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lp-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200,169,106,0.15), transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(240,48,82,0.1), transparent 50%);
+    }
+
+    .lp-hero-inner { position: relative; z-index: 1; max-width: 720px; }
+
+    .lp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(200,169,106,0.15);
+      border: 1px solid rgba(200,169,106,0.4);
+      color: #C8A96A;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+    }
+
+    .lp-hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .lp-hero h1 em {
+      font-style: normal;
+      color: #C8A96A;
+    }
+
+    .lp-hero p {
+      font-size: clamp(15px, 2vw, 18px);
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .lp-cta-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #E8D5A8, #C8A96A);
+      color: #0A1E3F;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 16px 36px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(200,169,106,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(200,169,106,0.55);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+    .lp-hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: bounce 2s infinite;
+    }
+
+    .lp-hero-scroll span { font-size: 20px; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ===== SECTION 공통 ===== */
+    .lp-section {
+      padding: 80px 20px;
+    }
+
+    .lp-section-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .lp-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .lp-section-title {
+      font-size: clamp(24px, 3.5vw, 38px);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .lp-section-sub {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ===== 장점 카드 ===== */
+    .lp-benefits {
+      background: var(--bg-light);
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .benefit-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .benefit-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #f0f4ff, #e8f0fe);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .benefit-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .benefit-card p {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.7;
+    }
+
+    /* ===== 이용 방법 ===== */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid #eee;
+      position: relative;
+    }
+
+    .step-item:last-child { border-bottom: none; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-text h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-text p {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* ===== 상품권 종류 ===== */
+    .lp-types { background: var(--bg-light); }
+
+    .type-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .type-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      border: 1px solid #eee;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .type-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 20px rgba(200,169,106,0.15);
+    }
+
+    .type-card .type-emoji { font-size: 36px; margin-bottom: 12px; }
+    .type-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .type-card p { font-size: 12px; color: var(--text-sub); }
+
+    /* ===== 최종 CTA ===== */
+    .lp-final-cta {
+      background: linear-gradient(135deg, #0A1E3F, #1a3a6b);
+      padding: 80px 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .lp-final-cta h2 {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+
+    .lp-final-cta h2 em {
+      font-style: normal;
+      color: #C8A96A;
+    }
+
+    .lp-final-cta p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 36px;
+    }
+
+    .lp-contact-info {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .lp-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+    }
+
+    .lp-contact-item strong { color: #fff; }
+
+    /* ===== 반응형 ===== */
+    @media (max-width: 768px) {
+      .benefit-grid { grid-template-columns: 1fr; }
+      .type-grid { grid-template-columns: repeat(2, 1fr); }
+      .lp-section { padding: 56px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .type-grid { grid-template-columns: repeat(2, 1fr); }
+      .lp-cta-group { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 네비게이션 -->
+  <header>
+    <div id="gnb">
+      <div class="pc_navi_wrap row_c padding_LR">
+        <div class="logo" onclick="location.href='index.html'" style="cursor:pointer;">
+          <img class="pc_logo" src="img/logo/logo.png" alt="한국상품권협회 로고">
+          <img class="pc_logo_white" src="img/logo/logo_white.png" alt="한국상품권협회 로고">
+        </div>
+        <ul class="menu">
+          <li class="main-menu has-submenu">
+            <a href="/introduce">소개</a>
+            <div class="sub-wrap">
+              <ul class="submenu">
+                <li><a href="/introduce">협회 소개</a></li>
+                <li><a href="/support">지원사업</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="main-menu has-submenu">
+            <a href="/shoppingmall">쇼핑몰 안내</a>
+            <div class="sub-wrap">
+              <ul class="submenu">
+                <li><a href="/shoppingmall">제휴 쇼핑몰 안내</a></li>
+                <li><a target="_blank" href="https://plusmoon.co.kr/">플러스문</a></li>
+                <li><a target="_blank" href="https://plusyou.co.kr/">플러스유</a></li>
+                <li><a target="_blank" href="https://moapin.co.kr/">모아핀</a></li>
+                <li><a target="_blank" href="https://pinq.co.kr/">핀큐</a></li>
+                <li><a target="_blank" href="https://plus-zone.co.kr/">플러스존</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="main-menu has-submenu">
+            <a href="/컬쳐랜드-할부구매">할부 구매</a>
+            <div class="sub-wrap">
+              <ul class="submenu">
+                <li><a href="/installment_shoppingmall">할부 구매 쇼핑몰</a></li>
+                <li><a href="/컬쳐랜드-할부구매">컬쳐랜드 할부 구매</a></li>
+                <li><a href="/백화점상품권-할부구매">백화점상품권 할부 구매</a></li>
+                <li><a href="/신용카드-상품권-할부구매">신용카드 상품권 할부 구매</a></li>
+                <li><a href="/소액결제-상품권-구매">소액결제 상품권 구매</a></li>
+              </ul>
+            </div>
+          </li>
+          <li><a href="/qna">Q&A</a></li>
+          <li><a href="/noti">공지사항</a></li>
+        </ul>
+        <a href="https://koreagiftcard.channel.io/home?page=소액결제상품권상담" target="_blank" class="navi_btn">
+          <img src="img/talk_icon.svg" alt="말풍선 아이콘">
+          <p>채널톡 상담</p>
+        </a>
+      </div>
+
+      <div class="mob_navi_wrap padding_LR">
+        <div class="logo">
+          <a href="index.html" class="mob_logo"><img src="img/logo/logo.png" alt="한국상품권협회 로고"></a>
+          <a href="index.html" class="mob_logo_white"><img src="img/logo/logo_white.png" alt="한국상품권협회 로고"></a>
+        </div>
+        <div class="mob_nav_btn">
+          <a href="https://koreagiftcard.channel.io/home?page=소액결제상품권상담" target="_blank" class="navi_btn">
+            <img src="img/talk_icon.svg" alt="말풍선 아이콘">
+          </a>
+          <div class="menu-button">
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+        <div class="mob_menu_wrap"></div>
+      </div>
+    </div>
+
+    <script>
+      (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.");}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return;}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x);}}if(document.readyState==="complete"){l();}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l);}})();
+      ChannelIO('boot', { "pluginKey": "11aaed06-5686-491b-8e9b-5f8848a5b94d" });
+    </script>
+  </header>
+
+  <!-- HERO -->
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div class="lp-badge">✦ 한국상품권협회 공식 상담</div>
+      <h1>소액결제로 상품권<br><em>구입부터 판매까지</em><br>전문 매니저가 도와드립니다</h1>
+      <p>휴대폰 소액결제 상품권 거래, 처음이라도 걱정 없습니다.<br>전문 상담 매니저가 1:1로 빠르고 안전하게 안내해 드립니다.</p>
+      <div class="lp-cta-group">
+        <a href="https://koreagiftcard.channel.io/home?page=소액결제상품권상담" target="_blank" class="btn-primary">
+          💬 지금 바로 상담하기
+        </a>
+        <a href="/소액결제-상품권-구매" class="btn-secondary">
+          서비스 자세히 보기 →
+        </a>
+      </div>
+    </div>
+    <div class="lp-hero-scroll">
+      <span class="material-symbols-outlined">keyboard_arrow_down</span>
+      scroll
+    </div>
+  </section>
+
+  <!-- 장점 -->
+  <section class="lp-section lp-benefits">
+    <div class="lp-section-inner">
+      <div class="lp-section-label">WHY US</div>
+      <h2 class="lp-section-title">왜 한국상품권협회인가요?</h2>
+      <p class="lp-section-sub">공식 협회 인증 기업으로 안전하고 투명한 거래를 보장합니다.</p>
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🛡️</div>
+          <h3>공식 협회 인증 업체</h3>
+          <p>한국상품권협회 정식 인증 기업으로 믿을 수 있는 안전한 거래 환경을 제공합니다.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">⚡</div>
+          <h3>즉시 처리 · 빠른 입금</h3>
+          <p>상담 접수 후 평균 10분 이내 처리, 검증 완료 후 평균 5분 이내 입금해 드립니다.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🧑‍💼</div>
+          <h3>전문 매니저 1:1 상담</h3>
+          <p>소액결제 전문 상담 매니저가 처음부터 끝까지 1:1로 맞춤 안내해 드립니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 이용 방법 -->
+  <section class="lp-section">
+    <div class="lp-section-inner" style="text-align:center;">
+      <div class="lp-section-label">HOW IT WORKS</div>
+      <h2 class="lp-section-title">이용 방법</h2>
+      <p class="lp-section-sub">채널톡 상담 하나로 모든 것이 해결됩니다.</p>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h3>채널톡으로 상담 신청</h3>
+            <p>아래 버튼을 눌러 채널톡을 시작하세요. 원하시는 상품권 종류와 금액을 알려주시면 됩니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h3>전문 매니저 확인 및 안내</h3>
+            <p>소액결제 전문 매니저가 거래 조건과 수수료를 투명하게 안내해 드립니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h3>상품권 구매 또는 판매 완료</h3>
+            <p>안내에 따라 진행하시면 빠르고 안전하게 거래가 완료됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상담 가능 상품권 -->
+  <section class="lp-section lp-types">
+    <div class="lp-section-inner">
+      <div class="lp-section-label">GIFT CARDS</div>
+      <h2 class="lp-section-title">상담 가능 상품권 종류</h2>
+      <p class="lp-section-sub">소액결제로 구매 가능한 다양한 상품권을 안내해 드립니다.</p>
+      <div class="type-grid">
+        <div class="type-card">
+          <div class="type-emoji">🎭</div>
+          <h3>컬쳐랜드</h3>
+          <p>문화상품권 즉시 구매</p>
+        </div>
+        <div class="type-card">
+          <div class="type-emoji">🏬</div>
+          <h3>백화점상품권</h3>
+          <p>신세계 · 롯데 · 현대</p>
+        </div>
+        <div class="type-card">
+          <div class="type-emoji">😊</div>
+          <h3>해피머니</h3>
+          <p>해피머니 상품권 구매</p>
+        </div>
+        <div class="type-card">
+          <div class="type-emoji">📱</div>
+          <h3>모바일상품권</h3>
+          <p>다양한 모바일 상품권</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 최종 CTA -->
+  <section class="lp-final-cta">
+    <h2>지금 바로 <em>채널톡</em>으로<br>무료 상담 받으세요</h2>
+    <p>소액결제 상품권 거래, 전문 매니저가 처음부터 끝까지 도와드립니다.</p>
+    <a href="https://koreagiftcard.channel.io/home?page=소액결제상품권상담" target="_blank" class="btn-primary" style="font-size:17px; padding:18px 48px;">
+      💬 채널톡 무료 상담 시작하기
+    </a>
+    <div class="lp-contact-info">
+      <div class="lp-contact-item">📞 <strong>1800-2434</strong></div>
+      <div class="lp-contact-item">✉️ <strong>www@koreagiftcard.co.kr</strong></div>
+      <div class="lp-contact-item">🕐 <strong>24시간 상담 가능</strong></div>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer>
+    <div class="wrap row_c">
+      <div class="top">
+        <img src="img/logo/foot_logo.png" alt="" style="width:180px">
+        <p>&#40;주&#41; 한국상품권협회</p>
+      </div>
+      <div class="bot">
+        <div class="left">
+          <a href="">사업자등록번호 : 625-88-02085</a>
+          <p>경기도 광명시 일직로 43, B동 27층 2707호 <span>&#40;일직동,GIDC&#41;</span></p>
+        </div>
+        <div class="right">
+          <a href="tel:1800-2434">TEL : 1800-2434</a>
+          <a href="mailto:www@koreagiftcard.co.kr">Mail : www@koreagiftcard.co.kr</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
