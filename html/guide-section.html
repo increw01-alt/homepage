@@ -1,0 +1,486 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[미리보기] 신용카드 할부 상품권구입 가이드 콘텐츠</title>
+
+  <style>
+    /* ===== 미리보기용 기본 리셋 (실제 사이트에는 불필요) ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 10px; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                   'Malgun Gothic', '맑은 고딕', sans-serif;
+      background: #fff;
+      color: #1c2440;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* 실제 사이트의 row_c / padding_LR 와 동일한 역할 */
+    .row_c { max-width: 1400px; margin: 0 auto; }
+    .padding_LR { padding-left: 4rem; padding-right: 4rem; }
+    @media (max-width: 500px) {
+      .padding_LR { padding-left: 2rem; padding-right: 2rem; }
+    }
+
+
+    /* =========================================================
+       ▼ 여기부터 실제 사이트에 옮길 CSS ▼
+       sub_06-installment.css 하단에 추가하거나
+       <style> 블록으로 페이지에 삽입하시면 됩니다.
+       ========================================================= */
+
+    /* ===== 가이드 콘텐츠 섹션 ===== */
+    #sec-guide {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+      background: #fafbfd;
+    }
+    #sec-guide .guide_inner { max-width: 1200px; margin: 0 auto; }
+
+    /* 히어로 */
+    #sec-guide .guide_hero {
+      position: relative;
+      margin-bottom: 5rem;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(28,36,64,.08);
+    }
+    #sec-guide .guide_hero img { display: block; width: 100%; height: auto; }
+
+    /* 인트로 카피 */
+    #sec-guide .guide_intro {
+      text-align: center;
+      margin-bottom: 4.5rem;
+      padding: 0 1rem;
+    }
+    #sec-guide .guide_intro .label {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #fff3e0;
+      color: #ff8b1f;
+      border-radius: 999px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      letter-spacing: -.3px;
+    }
+    #sec-guide .guide_intro h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #1c2440;
+      letter-spacing: -1.5px;
+      line-height: 1.3;
+      margin-bottom: 1.8rem;
+    }
+    #sec-guide .guide_intro h2 .accent { color: #ff8b1f; }
+    #sec-guide .guide_intro p {
+      font-size: 1.6rem;
+      color: #666;
+      line-height: 1.7;
+      letter-spacing: -.5px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* 흐름 비주얼 이미지 */
+    #sec-guide .guide_flow_img {
+      margin: 0 auto 5rem;
+      max-width: 1100px;
+    }
+    #sec-guide .guide_flow_img img {
+      width: 100%; height: auto; display: block;
+      border-radius: 20px;
+      box-shadow: 0 6px 24px rgba(28,36,64,.06);
+      background: #fff;
+    }
+
+    /* 핵심 공식 박스 */
+    #sec-guide .formula_box {
+      background: linear-gradient(135deg, #1c2440 0%, #2d3a66 100%);
+      border-radius: 20px;
+      padding: 4rem 3rem;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 5rem;
+    }
+    #sec-guide .formula_box .small {
+      font-size: 1.3rem;
+      color: #ffb155;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    #sec-guide .formula_box .formula {
+      font-size: 3.6rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.3;
+      margin-bottom: 1.4rem;
+    }
+    #sec-guide .formula_box .formula .plus,
+    #sec-guide .formula_box .formula .eq { color: #ff8b1f; padding: 0 .8rem; }
+    #sec-guide .formula_box .desc {
+      font-size: 1.5rem;
+      color: #c8cce0;
+      line-height: 1.7;
+    }
+
+    /* 가이드 카드 그리드 (7단계) */
+    #sec-guide .guide_grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.4rem;
+      margin-bottom: 5rem;
+    }
+    #sec-guide .guide_card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 3rem 2.6rem;
+      box-shadow: 0 4px 18px rgba(28,36,64,.06);
+      border: 1px solid #eef0f4;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    #sec-guide .guide_card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(28,36,64,.12);
+    }
+    #sec-guide .guide_card .icon_wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      margin-bottom: 1.6rem;
+    }
+    #sec-guide .guide_card .icon_box {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffb155 0%, #ff8b1f 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    #sec-guide .guide_card .icon_box svg { width: 30px; height: 30px; stroke: #fff; }
+    #sec-guide .guide_card .num {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ff8b1f;
+      letter-spacing: 1px;
+    }
+    #sec-guide .guide_card h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1c2440;
+      line-height: 1.4;
+      letter-spacing: -.8px;
+      margin-bottom: 1.2rem;
+    }
+    #sec-guide .guide_card p {
+      font-size: 1.5rem;
+      color: #555;
+      line-height: 1.7;
+      letter-spacing: -.3px;
+    }
+    #sec-guide .guide_card .highlight {
+      display: inline-block;
+      background: #fff3e0;
+      color: #ff7a00;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* 체크리스트 이미지 */
+    #sec-guide .guide_check_img { margin: 0 auto 4rem; }
+    #sec-guide .guide_check_img img {
+      width: 100%; height: auto; display: block;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 6px 24px rgba(28,36,64,.06);
+    }
+
+    /* 마무리 CTA 카드 */
+    #sec-guide .guide_finalcta {
+      background: #fff;
+      border: 2px solid #ffd9a8;
+      border-radius: 20px;
+      padding: 3.4rem 3rem;
+      text-align: center;
+      box-shadow: 0 4px 18px rgba(255,139,31,.08);
+    }
+    #sec-guide .guide_finalcta h3 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #1c2440;
+      margin-bottom: 1.2rem;
+      letter-spacing: -.8px;
+    }
+    #sec-guide .guide_finalcta p {
+      font-size: 1.5rem;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+    #sec-guide .guide_finalcta a {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #ff8b1f;
+      color: #fff;
+      font-size: 1.6rem;
+      font-weight: 700;
+      padding: 1.4rem 3rem;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background .25s ease, transform .25s ease;
+    }
+    #sec-guide .guide_finalcta a:hover {
+      background: #ff7300;
+      transform: translateY(-2px);
+    }
+
+    /* 반응형 */
+    @media (max-width: 900px) {
+      #sec-guide .guide_intro h2 { font-size: 2.4rem; }
+      #sec-guide .guide_intro p { font-size: 1.4rem; }
+      #sec-guide .guide_grid { grid-template-columns: 1fr; gap: 1.6rem; }
+      #sec-guide .guide_card { padding: 2.4rem 2rem; }
+      #sec-guide .guide_card h3 { font-size: 1.7rem; }
+      #sec-guide .formula_box { padding: 3rem 2rem; }
+      #sec-guide .formula_box .formula { font-size: 2.4rem; }
+      #sec-guide .guide_finalcta h3 { font-size: 1.9rem; }
+    }
+    @media (max-width: 500px) {
+      #sec-guide { padding: 4rem 0; }
+      #sec-guide .guide_intro h2 { font-size: 2rem; }
+      #sec-guide .formula_box .formula { font-size: 2rem; }
+    }
+
+    /* =========================================================
+       ▲ 여기까지 실제 사이트에 옮길 CSS ▲
+       ========================================================= */
+
+
+    /* ===== 미리보기 안내 헤더 (실제 사이트에는 불필요) ===== */
+    .preview_notice {
+      background: #fff8ec;
+      border-bottom: 2px solid #ffd9a8;
+      padding: 1.6rem 2rem;
+      text-align: center;
+      font-size: 1.4rem;
+      color: #8a5a00;
+    }
+    .preview_notice strong { color: #ff7300; }
+  </style>
+</head>
+<body>
+
+  <div class="preview_notice">
+    <strong>[미리보기]</strong> 신용카드 상품권 할부구매 페이지에 추가할 가이드 콘텐츠 섹션입니다.
+    이미지 경로는 실제 사이트 적용 시 <strong>img/installment/</strong> 폴더 기준으로 자동 작동합니다.
+  </div>
+
+  <!-- =========================================================
+       ▼▼▼ 실제 사이트에 복사해 넣을 HTML ▼▼▼
+       위치: FAQ 섹션(#sec-6) 뒤, 하단 CTA(.kv_work_btn) 앞
+       이미지 3장을 img/installment/ 폴더에 함께 업로드해주세요.
+       ========================================================= -->
+
+  <section id="sec-guide" class="row_c padding_LR">
+    <div class="guide_inner">
+
+      <!-- 히어로 이미지 -->
+      <div class="guide_hero">
+        <img src="guide-hero.png" alt="신용카드 할부 상품권 구입 안내 - 한국상품권협회 가이드">
+      </div>
+
+      <!-- 인트로 카피 -->
+      <div class="guide_intro">
+        <span class="label">한국상품권협회 가이드</span>
+        <h2>당신이 헷갈리는 그 절차,<br><span class="accent">처음부터 같이 봐드립니다</span></h2>
+        <p>
+          고정지출은 늘어나고 갑자기 자금이 필요해질 때,
+          은행 대출은 심사가 부담스럽고 카드론은 신용점수가 걱정됩니다.<br>
+          최근에는 <strong>신용카드 할부 상품권구입</strong>으로 자금 흐름을 보다 유연하게 만드는 방법을 찾는 분들이 늘고 있습니다.
+        </p>
+      </div>
+
+      <!-- 흐름 이미지 -->
+      <div class="guide_flow_img">
+        <img src="guide-flow.png" alt="상품권 구입 + 판매 = 흐름의 시작">
+      </div>
+
+      <!-- 핵심 공식 박스 -->
+      <div class="formula_box">
+        <p class="small">CORE FORMULA</p>
+        <p class="formula">상품권 구입<span class="plus">+</span>판매<span class="eq">=</span>현금 흐름</p>
+        <p class="desc">한국상품권협회는 구입부터 판매·정산 절차까지<br>고객 상황에 맞춰 1:1 채널톡으로 안내드립니다.</p>
+      </div>
+
+      <!-- 7단계 가이드 카드 -->
+      <div class="guide_grid">
+
+        <!-- 카드 1 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+                <line x1="6" y1="15" x2="10" y2="15"/>
+              </svg>
+            </div>
+            <span class="num">STEP 01</span>
+          </div>
+          <h3>신용카드 할부 상품권구입이란?</h3>
+          <p>
+            상품권을 신용카드로 결제하면서 <span class="highlight">할부 기능</span>을 함께 활용하는 방식입니다.
+            일시불이 부담스러운 상황에서도 카드사 할부로 결제 부담을 나눌 수 있고,
+            구입한 상품권은 사용하거나 판매 절차를 함께 진행할 수 있습니다.
+          </p>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2 L20 6 V12 C20 17 16 21 12 22 C8 21 4 17 4 12 V6 Z"/>
+                <path d="M9 12 L11 14 L15 10"/>
+              </svg>
+            </div>
+            <span class="num">STEP 02</span>
+          </div>
+          <h3>왜 한국상품권협회로 문의해야 할까?</h3>
+          <p>
+            상품권 거래는 <span class="highlight">안전한 절차·정확한 안내·매입 가능 여부</span>를 모두 확인해야 합니다.
+            컬쳐랜드, 모바일 상품권 등 다양한 거래 경험을 바탕으로 고객 상황에 맞는 방식을 안내해 드립니다.
+          </p>
+        </div>
+
+        <!-- 카드 3 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12 H17"/>
+                <path d="M13 8 L17 12 L13 16"/>
+                <path d="M21 12 V18 A2 2 0 0 1 19 20 H8"/>
+              </svg>
+            </div>
+            <span class="num">STEP 03</span>
+          </div>
+          <h3>상품권 구입 후 판매까지 가능한 구조</h3>
+          <p>
+            누군가는 선물용, 누군가는 결제 절약, 누군가는 자금 흐름을 위해 상품권 판매까지 함께 알아봅니다.
+            <strong>구입처·결제 방식·판매 신청·정산 절차</strong>를 한 번에 확인할 수 있도록 안내합니다.
+          </p>
+        </div>
+
+        <!-- 카드 4 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 4 14 11 14 10 22 19 10 13 10 13 2"/>
+              </svg>
+            </div>
+            <span class="num">STEP 04</span>
+          </div>
+          <h3>할부 구매가 필요한 분들이 확인하는 이유</h3>
+          <p>
+            대출은 심사·서류·승인·신용도 영향 등 부담 요소가 많습니다.
+            반면 본인 명의 카드와 정상적인 결제 절차 기준이라면, 절차만 이해해도 <span class="highlight">비교적 빠르게 확인</span>할 수 있습니다.
+            단, 카드 한도·정책에 따라 달라질 수 있어 상담을 권장드립니다.
+          </p>
+        </div>
+
+        <!-- 카드 5 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5 A8.38 8.38 0 0 1 12.5 20 A8.5 8.5 0 0 1 4 11.5 A8.38 8.38 0 0 1 12.5 3 A8.5 8.5 0 0 1 21 11.5 Z"/>
+                <path d="M8 11 H16"/>
+                <path d="M8 14 H13"/>
+              </svg>
+            </div>
+            <span class="num">STEP 05</span>
+          </div>
+          <h3>처음이라면 이렇게 진행하면 됩니다</h3>
+          <p>
+            한국상품권협회 <strong>채널톡</strong>으로 문의를 남기고, 어떤 상품권을 알아보는지·구입 후 판매까지 진행할지 알려주시면 됩니다.
+            이용 가능한 상품권 종류, 결제 방식, 판매 신청, 정산 방식까지 단계별로 안내받을 수 있어 검색 시간이 크게 줄어듭니다.
+          </p>
+        </div>
+
+        <!-- 카드 6 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 L22 20 H2 Z"/>
+                <line x1="12" y1="10" x2="12" y2="14"/>
+                <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="num">STEP 06</span>
+          </div>
+          <h3>구입+판매를 알아볼 때 주의할 점</h3>
+          <p>
+            높은 매입률·빠른 입금만 보고 선택하면 안 됩니다.
+            ① 실제 운영 업체 ② 본인 명의 결제 기준 ③ 절차 명확 ④ 과도하게 ‘무조건 가능’이라 말하는 곳 주의 — 이 4가지를 반드시 확인하세요.
+          </p>
+        </div>
+
+        <!-- 카드 7 -->
+        <div class="guide_card">
+          <div class="icon_wrap">
+            <div class="icon_box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.5 9 A2.5 2.5 0 0 1 14.5 9 C14.5 10.5 12 11 12 13"/>
+                <circle cx="12" cy="16.5" r="0.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="num">STEP 07</span>
+          </div>
+          <h3>상품권 할부 구매가 궁금하다면</h3>
+          <p>
+            정확한 <strong>상품권 종류·결제 가능 여부·판매 절차·정산 기준</strong>을 미리 확인하는 것이 중요합니다.
+            상품권 구입 후 판매까지 고려하고 있다면 혼자 판단하지 마시고 한국상품권협회 상담으로 먼저 확인해보세요.
+          </p>
+        </div>
+
+      </div><!-- guide_grid -->
+
+      <!-- 체크리스트 이미지 -->
+      <div class="guide_check_img">
+        <img src="guide-check.png" alt="안전한 상품권 거래 4가지 체크리스트">
+      </div>
+
+      <!-- 마무리 CTA 카드 -->
+      <div class="guide_finalcta">
+        <h3>혼자 판단하지 마세요, 절차부터 확인하세요</h3>
+        <p>
+          신용카드 할부 상품권구입이 궁금하다면 네이버에서 <strong>한국상품권협회</strong>를 검색해보세요.<br>
+          상품권 구입·판매·매입 상담은 채널톡으로 편하게 신청하실 수 있습니다.
+        </p>
+        <a href="https://koreagiftcard.channel.io/home?page=협회홈페이지" target="_blank">
+          1:1 채널톡 상담 바로가기
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 6 15 12 9 18"/>
+          </svg>
+        </a>
+      </div>
+
+    </div><!-- guide_inner -->
+  </section><!-- #sec-guide -->
+
+  <!-- =========================================================
+       ▲▲▲ 여기까지 복사해 넣으세요 ▲▲▲
+       실제 적용 시 이미지 src 경로만 "img/installment/guide-XXX.png" 로 바꾸세요.
+       예: <img src="img/installment/guide-hero.png" alt="...">
+       ========================================================= -->
+
+</body>
+</html>
