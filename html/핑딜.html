@@ -134,6 +134,34 @@
       transition: transform .2s, box-shadow .2s;
     }
     .btn-orange:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(255,107,53,0.55); }
+    .btn-consult {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #FF8C5A, #FF6B35);
+      color: #fff; font-size: 16px; font-weight: 800;
+      padding: 16px 36px; border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(255,107,53,0.4);
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      animation: consultPulse 2s ease-in-out infinite;
+    }
+    .btn-consult::after {
+      content: '';
+      position: absolute; inset: -4px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,107,53,0.6);
+      animation: consultRing 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .btn-consult:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(255,107,53,0.65); animation: none; }
+    .btn-consult:hover::after { display: none; }
+    @keyframes consultPulse {
+      0%, 100% { box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
+      50% { box-shadow: 0 8px 36px rgba(255,107,53,0.7), 0 0 0 6px rgba(255,107,53,0.15); }
+    }
+    @keyframes consultRing {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.18); opacity: 0; }
+    }
     .btn-outline-w {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
@@ -146,10 +174,14 @@
       display: flex; align-items: center; justify-content: center;
     }
     .pd-hero-img-wrap img {
-      width: 100%; max-width: 420px; height: auto;
+      width: 100%; max-width: 340px; height: auto;
       border-radius: 20px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.08);
       animation: pdFloat 5s ease-in-out infinite;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      filter: contrast(1.08) saturate(1.1);
+      transform: translateZ(0);
     }
     @keyframes pdFloat {
       0%, 100% { transform: translateY(0); }
@@ -356,8 +388,8 @@
         핑딜 하나로 다양한 상품을 합리적으로 이용할 수 있습니다.
       </p>
       <div class="pd-cta-group">
-        <a href="https://pingdeal.co.kr" target="_blank" class="btn-orange">핑딜 바로가기 →</a>
-        <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="btn-outline-w">💬 매니저 상담</a>
+        <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="btn-consult">💬 상품권할부구입 상담</a>
+        <a href="https://pingdeal.co.kr" target="_blank" class="btn-outline-w">핑딜 바로가기 →</a>
       </div>
     </div>
     <div class="pd-hero-img-wrap">
@@ -502,11 +534,11 @@
   <h2>지금 바로 <em>핑딜</em>을 이용해보세요</h2>
   <p>상품권부터 생활용품·생활가전까지 신용카드 할부로 편리하게<br>한국상품권협회 공식 쇼핑몰에서 안전하게 거래하세요.</p>
   <div class="pd-cta-group" style="justify-content:center;">
-    <a href="https://pingdeal.co.kr" target="_blank" class="btn-orange" style="font-size:17px; padding:18px 48px;">
-      핑딜 쇼핑몰 바로가기 →
+    <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="btn-consult" style="font-size:17px; padding:18px 48px;">
+      💬 상품권할부구입 상담
     </a>
-    <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="btn-outline-w">
-      💬 이용 전 상담하기
+    <a href="https://pingdeal.co.kr" target="_blank" class="btn-outline-w">
+      핑딜 바로가기 →
     </a>
   </div>
 </section>
