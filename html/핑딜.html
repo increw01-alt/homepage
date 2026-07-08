@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>핑딜 쇼핑몰 소개 | 상품권·생활용품 할부 구매 - 한국상품권협회</title>
+
+  <meta name="description" content="핑딜은 모바일 상품권부터 생활용품·생활가전까지 신용카드 할부로 구매할 수 있는 한국상품권협회 공식 운영 쇼핑몰입니다.">
+  <meta name="keywords" content="핑딜, 핑딜 쇼핑몰, 상품권 할부 구매, 모바일 상품권 구매, 컬쳐랜드 할부, 생활용품 쇼핑몰, pingdeal, 한국상품권협회">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="핑딜 쇼핑몰 소개 | 상품권·생활용품 할부 구매">
+  <meta property="og:description" content="핑딜은 모바일 상품권부터 생활용품·생활가전까지 신용카드 할부로 구매할 수 있는 한국상품권협회 공식 운영 쇼핑몰입니다.">
+  <meta property="og:url" content="https://koreagiftcard.co.kr/핑딜">
+  <meta property="og:image" content="https://koreagiftcard.co.kr/url_img.png">
+  <link rel="canonical" href="https://koreagiftcard.co.kr/핑딜">
+  <meta name="robots" content="index, follow">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "OnlineStore",
+    "name": "핑딜",
+    "description": "모바일 상품권, 생활용품, 생활가전 등을 신용카드 할부로 구매할 수 있는 쇼핑몰",
+    "url": "https://pingdeal.co.kr",
+    "logo": "https://koreagiftcard.co.kr/img/pingdeal-logo.png",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "한국상품권협회",
+      "url": "https://koreagiftcard.co.kr"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "핑딜 상품 카테고리",
+      "itemListElement": [
+        { "@type": "OfferCatalog", "name": "모바일 상품권" },
+        { "@type": "OfferCatalog", "name": "생활용품" },
+        { "@type": "OfferCatalog", "name": "생활가전" },
+        { "@type": "OfferCatalog", "name": "패션·스포츠" },
+        { "@type": "OfferCatalog", "name": "여행" }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/navi_footer.css">
+  <link rel="stylesheet" href="css/navi_footer_white.css">
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="js/navi.js"></script>
+  <script src="js/popup.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&">
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xi25t80w4n");
+  </script>
+
+  <style>
+    :root {
+      --primary: #0A1E3F;
+      --accent: #FF6B35;
+      --accent2: #FF8C5A;
+      --gold: #C8A96A;
+      --gold2: #E8D5A8;
+      --bg-light: #f8f9fb;
+      --text: #111;
+      --text-sub: #555;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Paperlogy', -apple-system, sans-serif; color: var(--text); }
+    a { text-decoration: none; }
+
+    /* ===== 공통 ===== */
+    .pd-section { padding: 80px 20px; }
+    .pd-inner { max-width: 1060px; margin: 0 auto; }
+    .pd-label { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+    .pd-title { font-size: clamp(24px, 3.5vw, 38px); font-weight: 800; line-height: 1.25; letter-spacing: -0.025em; margin-bottom: 14px; }
+    .pd-sub { font-size: 16px; color: var(--text-sub); line-height: 1.75; margin-bottom: 48px; }
+    .center { text-align: center; }
+
+    /* ===== HERO ===== */
+    .pd-hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 20px 80px;
+      position: relative; overflow: hidden;
+    }
+    .pd-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 50%, rgba(255,107,53,0.15), transparent 55%),
+        radial-gradient(ellipse at 10% 30%, rgba(200,169,106,0.12), transparent 50%);
+    }
+    .pd-hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1060px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .pd-hero-text {}
+    .pd-hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.4);
+      color: #FF8C5A; font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      padding: 6px 18px; border-radius: 999px; margin-bottom: 24px;
+    }
+    .pd-hero-logo {
+      height: 36px; width: auto;
+      filter: brightness(0) invert(1);
+      display: block; margin-bottom: 24px;
+    }
+    .pd-hero h1 {
+      font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #fff;
+      line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 20px;
+    }
+    .pd-hero h1 em { font-style: normal; color: #FF8C5A; }
+    .pd-hero-desc { font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 36px; }
+    .pd-cta-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-orange {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #FF8C5A, #FF6B35);
+      color: #fff; font-size: 16px; font-weight: 800;
+      padding: 16px 36px; border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(255,107,53,0.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-orange:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(255,107,53,0.55); }
+    .btn-outline-w {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; font-size: 15px; font-weight: 600;
+      padding: 16px 28px; border-radius: 999px;
+      transition: background .2s;
+    }
+    .btn-outline-w:hover { background: rgba(255,255,255,0.15); }
+    .pd-hero-img-wrap {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pd-hero-img-wrap img {
+      width: 100%; max-width: 420px; height: auto;
+      border-radius: 20px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+      animation: pdFloat 5s ease-in-out infinite;
+    }
+    @keyframes pdFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ===== 핵심 특징 ===== */
+    .pd-features { background: #fff; }
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-light); border-radius: var(--radius);
+      padding: 32px 24px; text-align: center;
+      border: 2px solid transparent;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent); transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(255,107,53,0.15);
+    }
+    .feature-icon {
+      width: 64px; height: 64px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin: 0 auto 18px;
+    }
+    .feature-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text-sub); line-height: 1.65; }
+
+    /* ===== 카테고리 ===== */
+    .pd-category { background: var(--bg-light); }
+    .category-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+    }
+    .cat-item {
+      background: #fff; border-radius: 14px;
+      padding: 28px 12px; text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cat-item:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .cat-emoji { font-size: 36px; margin-bottom: 12px; display: block; }
+    .cat-item h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+    .cat-item p { font-size: 12px; color: var(--text-sub); line-height: 1.5; }
+
+    /* ===== 상품권 할부 구매 섹션 ===== */
+    .pd-installment { background: #fff; }
+    .installment-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    .installment-text h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; line-height: 1.3; letter-spacing: -0.025em; margin-bottom: 16px; }
+    .installment-text h2 em { font-style: normal; color: var(--accent); }
+    .installment-text p { font-size: 16px; color: var(--text-sub); line-height: 1.8; margin-bottom: 14px; }
+    .install-list { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .install-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 15px; color: #333; line-height: 1.5;
+    }
+    .install-list li::before {
+      content: '✓'; color: var(--accent); font-weight: 900; font-size: 15px; flex-shrink: 0; margin-top: 1px;
+    }
+    .installment-steps {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .i-step {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--bg-light); border-radius: 14px; padding: 20px;
+    }
+    .i-step-num {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #FF8C5A, #FF6B35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900; color: #fff;
+    }
+    .i-step-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .i-step-text p { font-size: 13px; color: var(--text-sub); line-height: 1.5; }
+
+    /* ===== 안내 배너 ===== */
+    .pd-notice {
+      background: linear-gradient(135deg, #fff8f5, #fff3ee);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: var(--radius); padding: 28px 32px;
+      display: flex; align-items: flex-start; gap: 14px;
+      max-width: 760px; margin: 0 auto;
+    }
+    .pd-notice-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .pd-notice p { font-size: 14px; color: #555; line-height: 1.75; }
+    .pd-notice strong { color: var(--accent); }
+
+    /* ===== 최종 CTA ===== */
+    .pd-cta-final {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      padding: 90px 20px; text-align: center;
+    }
+    .pd-cta-final h2 {
+      font-size: clamp(26px, 4vw, 42px); font-weight: 900;
+      color: #fff; line-height: 1.25; letter-spacing: -0.025em; margin-bottom: 14px;
+    }
+    .pd-cta-final h2 em { font-style: normal; color: #FF8C5A; }
+    .pd-cta-final p { font-size: 16px; color: rgba(255,255,255,0.65); margin-bottom: 36px; }
+    .pd-cta-logo { height: 32px; filter: brightness(0) invert(1); opacity: 0.7; margin: 0 auto 32px; display: block; }
+
+    /* ===== 반응형 ===== */
+    @media (max-width: 900px) {
+      .pd-hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .pd-cta-group { justify-content: center; }
+      .pd-hero-logo { margin: 0 auto 24px; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-grid { grid-template-columns: repeat(3, 1fr); }
+      .installment-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      .pd-section { padding: 56px 20px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .pd-cta-group { flex-direction: column; align-items: center; }
+      .btn-orange, .btn-outline-w { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 네비게이션 -->
+<header>
+  <div id="gnb">
+    <div class="pc_navi_wrap row_c padding_LR">
+      <div class="logo" onclick="location.href='index.html'" style="cursor:pointer;">
+        <img class="pc_logo" src="img/logo/logo.png" alt="한국상품권협회 로고">
+        <img class="pc_logo_white" src="img/logo/logo_white.png" alt="한국상품권협회 로고">
+      </div>
+      <ul class="menu">
+        <li class="main-menu has-submenu">
+          <a href="/introduce">소개</a>
+          <div class="sub-wrap"><ul class="submenu">
+            <li><a href="/introduce">협회 소개</a></li>
+            <li><a href="/support">지원사업</a></li>
+          </ul></div>
+        </li>
+        <li class="main-menu has-submenu">
+          <a href="/shoppingmall">쇼핑몰 안내</a>
+          <div class="sub-wrap"><ul class="submenu">
+            <li><a href="/shoppingmall">제휴 쇼핑몰 안내</a></li>
+            <li><a target="_blank" href="https://plusmoon.co.kr/">플러스문</a></li>
+            <li><a target="_blank" href="https://plusyou.co.kr/">플러스유</a></li>
+            <li><a target="_blank" href="https://moapin.co.kr/">모아핀</a></li>
+            <li><a target="_blank" href="https://pinq.co.kr/">핀큐</a></li>
+            <li><a target="_blank" href="https://plus-zone.co.kr/">플러스존</a></li>
+            <li><a href="/핑딜">핑딜</a></li>
+          </ul></div>
+        </li>
+        <li class="main-menu has-submenu">
+          <a href="/컬쳐랜드-할부구매">할부 구매</a>
+          <div class="sub-wrap"><ul class="submenu">
+            <li><a href="/installment_shoppingmall">할부 구매 쇼핑몰</a></li>
+            <li><a href="/컬쳐랜드-할부구매">컬쳐랜드 할부 구매</a></li>
+            <li><a href="/백화점상품권-할부구매">백화점상품권 할부 구매</a></li>
+            <li><a href="/신용카드-상품권-할부구매">신용카드 상품권 할부 구매</a></li>
+            <li><a href="/소액결제-상품권-구매">소액결제 상품권 구매</a></li>
+            <li><a href="/소액결제-상품권-상담">소액결제 상품권 상담</a></li>
+          </ul></div>
+        </li>
+        <li><a href="/qna">Q&A</a></li>
+        <li><a href="/noti">공지사항</a></li>
+      </ul>
+      <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="navi_btn">
+        <img src="img/talk_icon.svg" alt="말풍선 아이콘"><p>채널톡 상담</p>
+      </a>
+    </div>
+
+    <div class="mob_navi_wrap padding_LR">
+      <div class="logo">
+        <a href="index.html" class="mob_logo"><img src="img/logo/logo.png" alt="한국상품권협회 로고"></a>
+        <a href="index.html" class="mob_logo_white"><img src="img/logo/logo_white.png" alt="한국상품권협회 로고"></a>
+      </div>
+      <div class="mob_nav_btn">
+        <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="navi_btn">
+          <img src="img/talk_icon.svg" alt="말풍선 아이콘">
+        </a>
+        <div class="menu-button"><div class="bar"></div><div class="bar"></div></div>
+      </div>
+      <div class="mob_menu_wrap"></div>
+    </div>
+  </div>
+  <script>
+    (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.");}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return;}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x);}}if(document.readyState==="complete"){l();}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l);}})();
+    ChannelIO('boot', { "pluginKey": "11aaed06-5686-491b-8e9b-5f8848a5b94d" });
+  </script>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="pd-hero">
+  <div class="pd-hero-inner">
+    <div class="pd-hero-text">
+      <div class="pd-hero-badge">✦ 한국상품권협회 공식 운영 쇼핑몰</div>
+      <img src="img/pingdeal-logo.png" alt="핑딜 로고" class="pd-hero-logo">
+      <h1>
+        상품권부터 생활용품까지<br>
+        <em>신용카드 할부</em>로<br>
+        한 번에 구매하세요
+      </h1>
+      <p class="pd-hero-desc">
+        모바일 상품권, 생활용품, 생활가전, 패션, 여행까지<br>
+        핑딜 하나로 다양한 상품을 합리적으로 이용할 수 있습니다.
+      </p>
+      <div class="pd-cta-group">
+        <a href="https://pingdeal.co.kr" target="_blank" class="btn-orange">핑딜 바로가기 →</a>
+        <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="btn-outline-w">💬 매니저 상담</a>
+      </div>
+    </div>
+    <div class="pd-hero-img-wrap">
+      <img src="img/pingdeal_mobile_web.png" alt="핑딜 쇼핑몰 화면">
+    </div>
+  </div>
+</section>
+
+<!-- ===== 핵심 특징 ===== -->
+<section class="pd-section pd-features">
+  <div class="pd-inner">
+    <div class="pd-label center">FEATURES</div>
+    <h2 class="pd-title center">핑딜이 특별한 이유</h2>
+    <p class="pd-sub center">한국상품권협회가 직접 운영하는 공식 쇼핑몰로 안전하고 편리합니다.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fff3ee;">🎁</div>
+        <h3>상품권 전문 구매</h3>
+        <p>모바일 컬쳐랜드, 해피머니 등 다양한 상품권을 신용카드 할부로 구매할 수 있습니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fff8e8;">💳</div>
+        <h3>신용카드 할부 지원</h3>
+        <p>원하는 개월 수로 할부 결제가 가능해 목돈 부담 없이 필요한 상품을 구매할 수 있습니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f0f8ff;">🛒</div>
+        <h3>다양한 상품 카테고리</h3>
+        <p>상품권 외에도 생활용품·생활가전·패션·스포츠·여행까지 원스톱 쇼핑이 가능합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f0fff4;">🔒</div>
+        <h3>협회 공식 인증</h3>
+        <p>한국상품권협회가 직접 운영하는 공식 쇼핑몰로 안전하고 신뢰할 수 있는 거래를 보장합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fff0f8;">📱</div>
+        <h3>모바일 최적화</h3>
+        <p>스마트폰에서도 편리하게 이용할 수 있도록 모바일 친화적인 쇼핑 환경을 제공합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f8f0ff;">⚡</div>
+        <h3>빠른 처리</h3>
+        <p>주문 후 빠른 처리로 상품권 핀번호를 신속하게 수령할 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 상품 카테고리 ===== -->
+<section class="pd-section pd-category">
+  <div class="pd-inner">
+    <div class="pd-label center">CATEGORIES</div>
+    <h2 class="pd-title center">핑딜에서 구매할 수 있는 상품</h2>
+    <p class="pd-sub center">다양한 카테고리의 상품을 한 곳에서 편리하게 구매하세요.</p>
+    <div class="category-grid">
+      <div class="cat-item">
+        <span class="cat-emoji">🎭</span>
+        <h3>모바일 상품권</h3>
+        <p>컬쳐랜드·해피머니<br>모바일 쿠폰</p>
+      </div>
+      <div class="cat-item">
+        <span class="cat-emoji">🏠</span>
+        <h3>생활용품</h3>
+        <p>일상에 필요한<br>다양한 생활용품</p>
+      </div>
+      <div class="cat-item">
+        <span class="cat-emoji">📺</span>
+        <h3>생활가전</h3>
+        <p>소형·대형 가전<br>합리적인 가격</p>
+      </div>
+      <div class="cat-item">
+        <span class="cat-emoji">👗</span>
+        <h3>패션·스포츠</h3>
+        <p>의류·신발·액세서리<br>스포츠 용품</p>
+      </div>
+      <div class="cat-item">
+        <span class="cat-emoji">✈️</span>
+        <h3>여행</h3>
+        <p>국내·해외 여행<br>숙박·투어 상품</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 상품권 할부 구매 안내 ===== -->
+<section class="pd-section pd-installment">
+  <div class="pd-inner">
+    <div class="installment-grid">
+      <div class="installment-text">
+        <div class="pd-label">INSTALLMENT</div>
+        <h2>신용카드 할부로<br><em>상품권을 더 스마트하게</em></h2>
+        <p>핑딜에서는 신용카드 할부를 이용해 상품권을 구매할 수 있습니다. 한 번에 큰 금액 부담 없이 원하는 상품권을 구매하고 매월 나눠 결제하세요.</p>
+        <ul class="install-list">
+          <li>모바일 컬쳐랜드 상품권 신용카드 할부 구매 가능</li>
+          <li>2~12개월 무이자 할부 (카드사별 상이)</li>
+          <li>할부 승인 즉시 상품권 핀번호 수령</li>
+          <li>카드 한도 내 원하는 금액만큼 자유롭게 구매</li>
+        </ul>
+      </div>
+      <div class="installment-steps">
+        <div class="i-step">
+          <div class="i-step-num">1</div>
+          <div class="i-step-text">
+            <h4>원하는 상품권 선택</h4>
+            <p>핑딜에서 구매할 상품권 종류와 금액을 선택합니다.</p>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-step-num">2</div>
+          <div class="i-step-text">
+            <h4>신용카드 할부 결제</h4>
+            <p>결제 방식에서 신용카드를 선택하고 원하는 할부 개월 수를 지정합니다.</p>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-step-num">3</div>
+          <div class="i-step-text">
+            <h4>상품권 즉시 수령</h4>
+            <p>할부 승인 완료 후 문자 또는 이메일로 핀번호를 받습니다.</p>
+          </div>
+        </div>
+        <div class="i-step">
+          <div class="i-step-num">4</div>
+          <div class="i-step-text">
+            <h4>매월 할부금 자동 결제</h4>
+            <p>지정한 날짜에 카드사를 통해 할부금이 자동 결제됩니다.</p>
+          </div>
+        </div>
+        <div class="pd-notice" style="margin-top:0;">
+          <span class="pd-notice-icon">💡</span>
+          <p>할부 가능 여부·개월 수·한도는 <strong>카드사 정책 및 개인 조건</strong>에 따라 다를 수 있습니다. 이용 전 매니저 상담을 통해 먼저 확인하시길 권장합니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 최종 CTA ===== -->
+<section class="pd-cta-final">
+  <img src="img/pingdeal-logo.png" alt="핑딜 로고" class="pd-cta-logo">
+  <h2>지금 바로 <em>핑딜</em>을 이용해보세요</h2>
+  <p>상품권부터 생활용품·생활가전까지 신용카드 할부로 편리하게<br>한국상품권협회 공식 쇼핑몰에서 안전하게 거래하세요.</p>
+  <div class="pd-cta-group" style="justify-content:center;">
+    <a href="https://pingdeal.co.kr" target="_blank" class="btn-orange" style="font-size:17px; padding:18px 48px;">
+      핑딜 쇼핑몰 바로가기 →
+    </a>
+    <a href="https://koreagiftcard.channel.io/home?page=핑딜소개" target="_blank" class="btn-outline-w">
+      💬 이용 전 상담하기
+    </a>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer>
+  <div class="wrap row_c">
+    <div class="top">
+      <img src="img/logo/foot_logo.png" alt="" style="width:180px">
+      <p>&#40;주&#41; 한국상품권협회</p>
+    </div>
+    <div class="bot">
+      <div class="left">
+        <a href="">사업자등록번호 : 625-88-02085</a>
+        <p>경기도 광명시 일직로 43, B동 27층 2707호 <span>&#40;일직동,GIDC&#41;</span></p>
+      </div>
+      <div class="right">
+        <a href="tel:1800-2434">TEL : 1800-2434</a>
+        <a href="mailto:www@koreagiftcard.co.kr">Mail : www@koreagiftcard.co.kr</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
