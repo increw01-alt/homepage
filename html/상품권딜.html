@@ -43,137 +43,156 @@
     <meta name="robots" content="index, follow">
 
     <style>
-        /* ===== 상품권 딜 페이지 전용 스타일 (프로토타입) ===== */
+        /* ===== 상품권 딜 페이지 전용 스타일 ===== */
         .deal_wrap {
-            max-width: 1000px;
+            --deal-radius: 14px;
+            --deal-line: #e9eaee;
+            --deal-shadow: 0 4px 20px rgba(17, 24, 39, .05);
+            --deal-navy: #17457f;
+            max-width: 1040px;
             margin: 0 auto;
         }
 
-        /* 업데이트 시각 / 안내 배너 */
-        .deal_meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
+        /* ---- 협회 공식 집계 안내 배너 ---- */
+        .assoc_banner {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 16px 24px;
+            background: linear-gradient(135deg, #f3f8ff, #eef4ff);
+            border: 1px solid #dbe8ff; border-left: 5px solid var(--po-color);
+            border-radius: 14px; padding: 20px 26px; margin-bottom: 2.4rem;
         }
-        .deal_meta .update_time {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: var(--po-color);
-            background: rgba(9, 124, 255, 0.08);
-            padding: 8px 14px;
-            border-radius: 999px;
+        .assoc_left { display: flex; align-items: center; gap: 15px; }
+        .assoc_logo { height: 40px; width: auto; flex-shrink: 0; }
+        .assoc_txt { display: flex; flex-direction: column; gap: 3px; }
+        .assoc_txt strong { font-size: 1.7rem; font-weight: 800; color: var(--deal-navy); letter-spacing: -.01em; }
+        .assoc_txt span { font-size: 1.38rem; color: #5f6b7d; line-height: 1.45; }
+        .assoc_meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .assoc_meta .live_badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: 1.3rem; font-weight: 800; color: #fff; letter-spacing: .04em;
+            background: #ff3b30; padding: 6px 12px; border-radius: 999px;
         }
-        .deal_meta .update_time .dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--po-color);
-            animation: pulse 1.6s infinite;
-        }
-        @keyframes pulse { 0%{opacity:1} 50%{opacity:.3} 100%{opacity:1} }
-        .deal_meta .live_badge {
-            font-size: 1.4rem; font-weight: 700; color: #fff;
-            background: #ff3b30; padding: 6px 12px; border-radius: 6px;
-        }
+        .assoc_meta .live_badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: pulse 1.4s infinite; }
+        @keyframes pulse { 0%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.7)} 100%{opacity:1;transform:scale(1)} }
+        .assoc_meta .update_time { font-size: 1.38rem; font-weight: 600; color: #45526a; white-space: nowrap; }
+        .assoc_meta .update_time b { color: var(--po-color); font-weight: 800; }
+
         .deal_note {
-            font-size: 1.4rem; line-height: 1.6; color: #888;
-            background: #f7f8fa; border: 1px solid #eee; border-radius: 10px;
-            padding: 14px 16px; margin-bottom: 3.5rem;
+            font-size: 1.35rem; line-height: 1.65; color: #8a8f98;
+            background: #fafafb; border: 1px solid #f0f0f2; border-radius: 12px;
+            padding: 13px 16px; margin-bottom: 4rem;
         }
 
-        /* 섹션 제목 */
-        .deal_section_title {
-            font-size: 2.4rem; font-weight: 800; margin: 0 0 1.6rem;
-            display: flex; align-items: center; gap: 8px;
+        /* ---- 블록 제목 (협회 톤: 제목 + 부제, 좌측 바) ---- */
+        .deal_block_title { margin: 0 0 1.8rem; padding-left: 14px; position: relative; }
+        .deal_block_title::before {
+            content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 5px;
+            border-radius: 3px; background: var(--po-color);
         }
-        .deal_section_title::before {
-            content: ""; width: 6px; height: 24px; border-radius: 3px;
-            background: var(--po-color);
-        }
+        .deal_block_title h2 { font-size: 2.2rem; font-weight: 800; margin: 0 0 4px; letter-spacing: -.01em; }
+        .deal_block_title span { font-size: 1.4rem; color: #97a0ad; font-weight: 500; }
 
-        /* 최고 할인율 요약표 */
-        .summary_scroll { overflow-x: auto; margin-bottom: 1rem; }
-        table.summary_table {
-            width: 100%; border-collapse: collapse; min-width: 560px;
-            font-size: 1.6rem; text-align: center;
+        /* ---- 오늘의 최고 할인 TOP 3 ---- */
+        .best_strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 5rem; }
+        .best_card {
+            position: relative; display: block; text-decoration: none;
+            background: #fff; border: 1px solid var(--deal-line); border-radius: var(--deal-radius);
+            padding: 20px; box-shadow: var(--deal-shadow); overflow: hidden;
+            transition: transform .18s, box-shadow .18s, border-color .18s;
         }
-        table.summary_table th, table.summary_table td {
-            border: 1px solid #ececec; padding: 14px 10px;
+        .best_card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(9,124,255,.14); border-color: var(--po-color); }
+        .best_card .rank_badge {
+            display: inline-block; font-size: 1.2rem; font-weight: 800; letter-spacing: .05em;
+            color: var(--po-color); background: rgba(9,124,255,.1); padding: 4px 11px;
+            border-radius: 999px; margin-bottom: 14px;
         }
+        .best_card.rank1 .rank_badge { color: #fff; background: var(--po-color); }
+        .best_card .b_rate { font-size: 3.4rem; font-weight: 900; line-height: 1; color: var(--po-color); letter-spacing: -.02em; margin-bottom: 10px; }
+        .best_card .b_rate small { font-size: 1.7rem; font-weight: 800; margin-left: 1px; }
+        .best_card .b_seller { display: inline-block; font-size: 1.3rem; font-weight: 700; color: #6a7180; margin-bottom: 8px; }
+        .best_card .b_title {
+            font-size: 1.4rem; line-height: 1.45; color: #333; word-break: keep-all;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .best_card.rank1 { border-color: #bcd7ff; background: linear-gradient(160deg, #f4f9ff, #fff); }
+
+        /* ---- 마켓별 최고 할인율 요약표 ---- */
+        .summary_scroll {
+            overflow-x: auto; margin-bottom: 1rem;
+            border: 1px solid var(--deal-line); border-radius: var(--deal-radius);
+            box-shadow: var(--deal-shadow); -webkit-overflow-scrolling: touch;
+        }
+        table.summary_table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 1.6rem; text-align: center; }
+        table.summary_table th, table.summary_table td { border-bottom: 1px solid var(--deal-line); padding: 15px 10px; }
         table.summary_table thead th {
-            background: #111; color: #fff; font-weight: 700;
+            background: var(--deal-navy); color: #fff; font-weight: 700; font-size: 1.5rem;
+            border-bottom: none; position: sticky; top: 0;
         }
-        table.summary_table thead th:first-child { background: #333; }
+        table.summary_table thead th:first-child { background: #123a6d; position: sticky; left: 0; z-index: 3; }
         table.summary_table tbody th {
-            background: #f5f6f8; font-weight: 700; white-space: nowrap;
+            background: #f6f8fb; font-weight: 700; white-space: nowrap; color: #333;
+            position: sticky; left: 0; z-index: 1;
         }
-        table.summary_table .rate {
-            font-weight: 800; color: var(--po-color);
-        }
+        table.summary_table tbody tr:last-child th,
+        table.summary_table tbody tr:last-child td { border-bottom: none; }
+        table.summary_table tbody tr:hover td,
+        table.summary_table tbody tr:hover th { background: #f0f6ff; }
+        table.summary_table .rate { font-weight: 700; color: #4a5160; }
         table.summary_table .rate.best {
-            background: var(--po-color); color: #fff; border-radius: 4px;
+            display: inline-block; background: var(--po-color); color: #fff;
+            border-radius: 999px; padding: 4px 14px; font-weight: 800;
         }
-        table.summary_table .none { color: #ccc; }
-        .summary_hint { font-size: 1.3rem; color: #aaa; margin: 0 0 5rem; }
+        table.summary_table .none { color: #d0d3d8; }
+        .summary_hint { font-size: 1.3rem; color: #aaa; margin: 1rem 0 5.5rem; }
 
-        /* 카테고리별 딜 목록 */
-        .deal_group { margin-bottom: 4.5rem; }
+        /* ---- 상품권 종류별 딜 목록 ---- */
+        .deal_group { margin-bottom: 4rem; }
+        .deal_cat_title {
+            font-size: 1.9rem; font-weight: 800; margin: 0 0 1.4rem; color: #222;
+            display: flex; align-items: center; gap: 9px;
+        }
+        .deal_cat_title::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--po-color); }
         .deal_list { display: flex; flex-direction: column; gap: 10px; }
         .deal_item {
             display: flex; align-items: center; gap: 14px;
-            padding: 16px 18px; border: 1px solid #eee; border-radius: 12px;
-            text-decoration: none; color: #222;
+            padding: 15px 18px; border: 1px solid var(--deal-line); border-radius: 12px;
+            background: #fff; text-decoration: none; color: #222;
             transition: box-shadow .15s, border-color .15s, transform .15s;
         }
-        .deal_item:hover {
-            border-color: var(--po-color);
-            box-shadow: 0 6px 18px rgba(9,124,255,.12);
-            transform: translateY(-1px);
-        }
+        .deal_item:hover { border-color: var(--po-color); box-shadow: 0 6px 18px rgba(9,124,255,.1); transform: translateY(-1px); }
+        .deal_item .rank { flex-shrink: 0; width: 24px; text-align: center; font-size: 1.45rem; font-weight: 800; color: #c2c6cd; }
+        .deal_item.top .rank { color: var(--po-color); }
         .deal_item .seller {
-            flex-shrink: 0; min-width: 72px; text-align: center;
-            font-size: 1.4rem; font-weight: 700; color: #444;
+            flex-shrink: 0; min-width: 74px; text-align: center;
+            font-size: 1.35rem; font-weight: 700; color: #555;
             background: #f2f3f5; padding: 6px 8px; border-radius: 6px;
         }
         .deal_item .rate_pill {
-            flex-shrink: 0; min-width: 78px; text-align: center;
-            font-size: 1.7rem; font-weight: 800; color: #fff;
-            background: var(--po-color); padding: 8px 10px; border-radius: 8px;
+            flex-shrink: 0; min-width: 74px; text-align: center;
+            font-size: 1.65rem; font-weight: 800; color: #fff;
+            background: var(--po-color); padding: 7px 10px; border-radius: 8px;
         }
         .deal_item .rate_pill.hot { background: #ff3b30; }
-        .deal_item .d_title {
-            flex: 1; font-size: 1.6rem; line-height: 1.4; word-break: keep-all;
+        .deal_item .d_title { flex: 1; font-size: 1.5rem; line-height: 1.4; word-break: keep-all; color: #2a2e35; }
+        .deal_item .best_tag {
+            flex-shrink: 0; font-size: 1.2rem; font-weight: 800; color: var(--po-color);
+            background: rgba(9,124,255,.1); padding: 3px 9px; border-radius: 6px;
         }
-        .deal_item .go {
-            flex-shrink: 0; color: #bbb;
-        }
+        .deal_item .go { flex-shrink: 0; color: #c8ccd2; }
 
-        /* CTA - 협회 서비스 전환 유도 */
-        .deal_cta {
-            margin-top: 2rem;
-            background: linear-gradient(135deg, var(--po-color), #0a5fd0);
-            border-radius: 16px; padding: 3.5rem 3rem; text-align: center; color: #fff;
-        }
-        .deal_cta h3 { font-size: 2.6rem; font-weight: 800; margin: 0 0 1rem; }
-        .deal_cta p { font-size: 1.6rem; opacity: .92; margin: 0 0 2.4rem; line-height: 1.6; }
-        .deal_cta .cta_btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
-        .deal_cta a {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 1.6rem; font-weight: 700; text-decoration: none;
-            padding: 14px 26px; border-radius: 999px;
-        }
-        .deal_cta a.primary { background: #fff; color: var(--po-color); }
-        .deal_cta a.ghost { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.5); }
+        /* ---- 협회 안내 문단 ---- */
+        .deal_guide { margin-top: 1rem; }
 
+        @media screen and (max-width: 760px) {
+            .best_strip { grid-template-columns: 1fr; gap: 12px; }
+        }
         @media screen and (max-width: 640px) {
-            .deal_section_title { font-size: 2rem; }
-            .deal_item { flex-wrap: wrap; gap: 8px 10px; }
+            .assoc_banner { padding: 18px; }
+            .assoc_meta { width: 100%; }
+            .deal_item { flex-wrap: wrap; gap: 8px 10px; padding: 14px 15px; }
             .deal_item .d_title { flex-basis: 100%; order: 3; }
+            .deal_item .best_tag { order: 2; }
             .deal_item .go { display: none; }
-            .deal_cta h3 { font-size: 2.1rem; }
         }
     </style>
 </head>
@@ -278,46 +297,84 @@
         </div><!-- gnb -->
     </header>
 
-    <section id="sec-1" class="row_c padding_LR">
+    <section id="sec-1" class="row_c mt10 padding_LR">
         <div class="deal_wrap">
 
             <div class="sec_title">
-                <span>상품권 딜 💳</span>
+                <span>상품권 시세 정보</span>
                 <h1>실시간 상품권 할인 딜</h1>
+                <p>한국상품권협회가 옥션·지마켓·11번가 등 주요 오픈마켓의 상품권 판매가를 집계해 제공하는 공식 시세 정보입니다. 매일 자동으로 업데이트됩니다.</p>
             </div><!-- sec title -->
 
-            <div class="deal_meta">
-                <span class="update_time"><span class="dot"></span>최종 업데이트 <b id="updatedAt">-</b></span>
-                <span class="live_badge">LIVE</span>
+            <!-- 협회 공식 집계 안내 배너 -->
+            <div class="assoc_banner">
+                <div class="assoc_left">
+                    <img src="img/logo/logo.png" alt="한국상품권협회 로고" class="assoc_logo">
+                    <div class="assoc_txt">
+                        <strong>한국상품권협회 공식 시세 집계</strong>
+                        <span>주요 오픈마켓의 상품권 판매가를 협회가 직접 수집·검증합니다.</span>
+                    </div>
+                </div>
+                <div class="assoc_meta">
+                    <span class="live_badge"><span class="dot"></span>LIVE</span>
+                    <span class="update_time">최종 업데이트 <b id="updatedAt">-</b></span>
+                </div>
             </div>
 
             <p class="deal_note" id="dealNote"></p>
 
-            <!-- 최고 할인율 요약표 -->
-            <h2 class="deal_section_title">상품권 최고 할인율 정리표</h2>
+            <!-- 오늘의 최고 할인 TOP 3 -->
+            <div class="deal_block_title">
+                <h2>오늘의 최고 할인 TOP 3</h2>
+                <span>전체 딜 중 할인율이 가장 높은 상품권</span>
+            </div>
+            <div class="best_strip" id="bestStrip"></div>
+
+            <!-- 마켓별 최고 할인율 -->
+            <div class="deal_block_title">
+                <h2>마켓별 최고 할인율</h2>
+                <span>상품권 종류별로 판매처의 최고 할인율을 비교하세요</span>
+            </div>
             <div class="summary_scroll">
                 <table class="summary_table">
                     <thead id="summaryHead"></thead>
                     <tbody id="summaryBody"></tbody>
                 </table>
             </div>
-            <p class="summary_hint">* 할인율은 각 마켓의 최고 금액권 기준이며, 파란색으로 강조된 칸이 종류별 최고 할인율입니다.</p>
+            <p class="summary_hint">* 할인율은 각 마켓의 최고 금액권 기준이며, 강조된 칸이 종류별 최고 할인율입니다.</p>
 
-            <!-- 카테고리별 딜 목록 -->
+            <!-- 상품권 종류별 딜 목록 -->
+            <div class="deal_block_title">
+                <h2>상품권 종류별 딜</h2>
+                <span>카테고리별 할인율 순으로 정렬된 실시간 딜</span>
+            </div>
             <div id="dealGroups"></div>
 
-            <!-- 협회 서비스 전환 CTA -->
-            <div class="deal_cta">
-                <h3>더 큰 금액, 신용카드 할부로 구매하세요</h3>
-                <p>대량 구매·무이자 할부·안전 거래가 필요하다면<br>한국상품권협회 공식 서비스를 이용하세요.</p>
-                <div class="cta_btns">
-                    <a class="primary" href="/컬쳐랜드-할부구매">할부 구매 알아보기</a>
-                    <a class="ghost" href="https://koreagiftcard.channel.io/home?page=https://www.koreagiftcard.co.kr/" target="_blank">채널톡 상담</a>
-                </div>
+            <!-- 협회 안내 문단 -->
+            <div class="sub_body deal_guide">
+                <p>본 시세 정보는 한국상품권협회가 옥션·지마켓·11번가 등 공개 오픈마켓의 상품권 판매가를 집계·검증하여 제공합니다. 상품권은 판매처·금액권·결제수단에 따라 할인율이 달라질 수 있으므로, 구매 전 판매처의 상세 조건을 반드시 확인하시기 바랍니다.</p>
+                <p>보다 큰 금액의 상품권을 안전하게 구매하고 싶으시다면, 협회 공식 서비스인 신용카드 할부 구매를 이용하실 수 있습니다. 대량 구매·무이자 할부·안전 거래가 필요하신 경우 아래에서 확인해보세요.</p>
             </div>
 
         </div><!-- deal wrap -->
     </section><!-- sec-1 -->
+
+    <!-- 협회 서비스 전환 배너 (사이트 고유 컴포넌트) -->
+    <section id="sec-2" class="row_c padding_LR">
+        <a class="kv_work_btn" href="/컬쳐랜드-할부구매">
+            <div class="left">
+                <span>더 큰 금액, 더 안전하게</span>
+                <p>신용카드 할부로 상품권 구매하기</p>
+            </div><!-- left -->
+
+            <div class="center line"></div>
+
+            <div class="right">
+                <p><span>협회 공식 할부 구매</span> <ruby>바로가기<rt>할부 구매</rt></ruby></p>
+                <span class="material-symbols-outlined arrow">chevron_right</span>
+            </div><!-- right -->
+        </a><!-- kv work btn -->
+    </section><!-- sec-2 -->
 
     <!-- footer include -->
     <footer>
@@ -389,7 +446,12 @@
             ]
         };
 
-        // ===== deals.json 을 불러와 페이지를 자동 렌더링 (프로토타입) =====
+        // ===== 유틸: HTML 이스케이프 (수집 데이터 안전 렌더링) =====
+        const esc = s => String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+        // ===== deals.json 을 불러와 페이지를 자동 렌더링 =====
         // 서버 환경에서는 deals.json 을 사용하고, 실패하면 위 내장 데이터로 렌더링합니다.
         fetch('deals.json')
             .then(res => { if (!res.ok) throw new Error('no server'); return res.json(); })
@@ -399,10 +461,21 @@
                 document.getElementById('updatedAt').textContent = data.updated_at || '-';
                 document.getElementById('dealNote').textContent = data.note || '';
 
-                // 2) 최고 할인율 요약표
+                // 2) 오늘의 최고 할인 TOP 3 — 전체 딜에서 할인율 상위 3개
+                const allItems = data.deals.flatMap(g => g.items.map(it => ({ ...it, category: g.category })));
+                const top3 = allItems.slice().sort((a, b) => b.rate - a.rate).slice(0, 3);
+                document.getElementById('bestStrip').innerHTML = top3.map((it, i) => `
+                    <a class="best_card rank${i + 1}" href="${esc(it.url)}" target="_blank" rel="nofollow sponsored noopener">
+                        <span class="rank_badge">TOP ${i + 1}</span>
+                        <div class="b_rate">${it.rate}<small>%</small></div>
+                        <span class="b_seller">${esc(it.seller)}</span>
+                        <div class="b_title">${esc(it.title)}</div>
+                    </a>`).join('');
+
+                // 3) 최고 할인율 요약표
                 const cols = data.summary.columns;
                 const head = document.getElementById('summaryHead');
-                head.innerHTML = '<tr><th>판매처</th>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr>';
+                head.innerHTML = '<tr><th>판매처</th>' + cols.map(c => `<th>${esc(c)}</th>`).join('') + '</tr>';
 
                 // 종류별 최고값 계산 (강조용)
                 const bestPerCol = cols.map((_, ci) => {
@@ -414,28 +487,34 @@
                 body.innerHTML = data.summary.rows.map(row => {
                     const tds = row.rates.map((v, ci) => {
                         if (v == null) return '<td class="none">-</td>';
-                        const best = (v === bestPerCol[ci]) ? ' best' : '';
-                        return `<td><span class="rate${best}">${v}%</span></td>`;
+                        const best = (v === bestPerCol[ci]);
+                        return `<td><span class="rate${best ? ' best' : ''}">${v}%</span></td>`;
                     }).join('');
-                    return `<tr><th>${row.seller}</th>${tds}</tr>`;
+                    return `<tr><th>${esc(row.seller)}</th>${tds}</tr>`;
                 }).join('');
 
-                // 3) 카테고리별 딜 목록
+                // 4) 카테고리별 딜 목록 (카테고리 내 할인율 내림차순, 랭크 표시)
                 const groups = document.getElementById('dealGroups');
                 groups.innerHTML = data.deals.map(group => {
-                    const items = group.items.map(it => {
+                    const sorted = group.items.slice().sort((a, b) => b.rate - a.rate);
+                    const best = sorted.length ? sorted[0].rate : null;
+                    const items = sorted.map((it, idx) => {
                         const hot = it.rate >= 6 ? ' hot' : '';
+                        const isTop = it.rate === best;
+                        const bestTag = isTop ? '<span class="best_tag">최고</span>' : '';
                         return `
-                        <a class="deal_item" href="${it.url}" target="_blank" rel="nofollow sponsored noopener">
-                            <span class="seller">${it.seller}</span>
+                        <a class="deal_item${isTop ? ' top' : ''}" href="${esc(it.url)}" target="_blank" rel="nofollow sponsored noopener">
+                            <span class="rank">${idx + 1}</span>
+                            <span class="seller">${esc(it.seller)}</span>
                             <span class="rate_pill${hot}">${it.rate}%</span>
-                            <span class="d_title">${it.title}</span>
+                            <span class="d_title">${esc(it.title)}</span>
+                            ${bestTag}
                             <span class="go material-symbols-outlined">chevron_right</span>
                         </a>`;
                     }).join('');
                     return `
                     <div class="deal_group">
-                        <h2 class="deal_section_title">${group.category}</h2>
+                        <h3 class="deal_cat_title">${esc(group.category)}</h3>
                         <div class="deal_list">${items}</div>
                     </div>`;
                 }).join('');

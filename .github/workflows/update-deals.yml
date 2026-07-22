@@ -1,0 +1,46 @@
+name: 상품권 딜 데이터 갱신
+
+on:
+  schedule:
+    # 3시간마다 (UTC) — 하루 8회
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['scripts/**', '.github/workflows/update-deals.yml']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-deals
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 상품권 딜 수집
+        run: node scripts/fetch-deals.mjs
+        env:
+          ST11_API_KEY: ${{ secrets.ST11_API_KEY }}
+          LINKPRICE_AFF_ID: ${{ secrets.LINKPRICE_AFF_ID }}
+
+      - name: 변경사항 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add html/deals.json
+          if git diff --staged --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "chore: 상품권 딜 데이터 자동 갱신 ($(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M KST'))"
+            git pull --rebase origin main
+            git push
+          fi
