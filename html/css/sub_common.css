@@ -23,6 +23,7 @@
     font-size: 2rem;
 }
 
+.sec_title h1,
 .sec_title h2 {
     font-size: 3.4rem;
     font-weight: 800;
@@ -150,7 +151,7 @@ ruby>rt {
         margin-top: 12rem;
     }
 
-    .sec_title h2,.sec_title span.gray {
+    .sec_title h1,.sec_title h2,.sec_title span.gray {
         font-size: 2.8rem;
     }
 

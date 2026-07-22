@@ -38,6 +38,7 @@ footer .wrap {
     border-bottom: none;
 }
 
+.sec_title h1,
 .sec_title h2 {
     color: #fff;
 }
@@ -253,6 +254,7 @@ footer {
 }
 
 @media screen and (max-width:410px) {
+    .sec_title h1,
     .sec_title h2 {
         font-size: 2.4rem;
     }
