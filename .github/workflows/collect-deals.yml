@@ -1,0 +1,44 @@
+name: 상품권 딜 자동 수집
+
+on:
+  schedule:
+    # UTC 기준 (KST = UTC+9) → 09:00, 12:00, 18:00 KST 하루 3회
+    - cron: "0 0,3,9 * * *"
+  workflow_dispatch: {}   # 수동 실행 버튼
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-deals
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 딜 수집 실행
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python collect_deals.py
+
+      - name: 변경 시 커밋 & 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add html/deals.json
+          if git diff --staged --quiet; then
+            echo "변경 없음 - 커밋 생략"
+          else
+            git commit -m "chore: 상품권 딜 자동 갱신 (deals.json)"
+            git push
+          fi
