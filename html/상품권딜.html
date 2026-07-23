@@ -151,6 +151,21 @@
             flex-shrink: 0; color: #bbb;
         }
 
+        /* 추천 특가(제휴) 섹션 */
+        .promo_disclosure {
+            font-size: 1.3rem; line-height: 1.6; color: #a06a00;
+            background: #fff8ec; border: 1px solid #ffe6b0; border-radius: 10px;
+            padding: 12px 14px; margin: 0 0 1.6rem;
+        }
+        .deal_item.promo { border-color: #ffe0a6; }
+        .deal_item.promo:hover { border-color: #ff9f1a; box-shadow: 0 6px 18px rgba(255,159,26,.15); }
+        .deal_item.promo .seller { background: #fff2d6; color: #7a5200; }
+        .deal_item.promo .promo_badge {
+            flex-shrink: 0; font-size: 1.3rem; font-weight: 700; color: #7a5200;
+            background: #ffd98a; padding: 6px 10px; border-radius: 8px;
+        }
+        .deal_item.promo .d_desc { flex-basis: 100%; order: 4; font-size: 1.35rem; color: #999; margin-top: 2px; }
+
         /* CTA - 협회 서비스 전환 유도 */
         .deal_cta {
             margin-top: 2rem;
@@ -229,15 +244,15 @@
                     </li>
 
                     <li>
-                        <a href="/상품권딜">상품권 딜</a>
-                    </li>
-
-                    <li>
                         <a href="/qna">Q&A</a>
                     </li>
 
                     <li>
                         <a href="/noti">공지사항</a>
+                    </li>
+
+                    <li class="deal-menu">
+                        <a href="/상품권딜">상품권 핫딜</a>
                     </li>
                 </ul><!-- nav menu -->
 
@@ -282,7 +297,7 @@
         <div class="deal_wrap">
 
             <div class="sec_title">
-                <span>상품권 딜 💳</span>
+                <span>상품권 핫딜 💳</span>
                 <h1>실시간 상품권 할인 딜</h1>
             </div><!-- sec title -->
 
@@ -305,6 +320,13 @@
 
             <!-- 카테고리별 딜 목록 -->
             <div id="dealGroups"></div>
+
+            <!-- 추천 특가(제휴) 섹션 -->
+            <div id="promoSection" style="display:none; margin-top:4rem;">
+                <h2 class="deal_section_title">함께 보는 추천 특가</h2>
+                <p class="promo_disclosure" id="promoDisclosure"></p>
+                <div class="deal_list" id="promoList"></div>
+            </div>
 
             <!-- 협회 서비스 전환 CTA -->
             <div class="deal_cta">
@@ -445,6 +467,27 @@
                 document.getElementById('dealGroups').innerHTML =
                     '<p style="color:#bbb; font-size:1.6rem;">딜 정보를 불러오지 못했습니다.</p>';
             });
+
+        // ===== 추천 특가(제휴) 렌더링 =====
+        // promos.json 은 수동 큐레이션 파일 (자동수집 대상 아님).
+        // 유효한 제휴 링크(url이 '#'가 아닌 것)만 노출합니다.
+        fetch('promos.json')
+            .then(res => { if (!res.ok) throw new Error('no promos'); return res.json(); })
+            .then(data => {
+                const valid = (data.items || []).filter(it => it.url && it.url !== '#');
+                if (!valid.length) return; // 실제 링크가 없으면 섹션 자체를 숨김
+                document.getElementById('promoDisclosure').textContent = data.disclosure || '';
+                document.getElementById('promoList').innerHTML = valid.map(it => `
+                    <a class="deal_item promo" href="${it.url}" target="_blank" rel="nofollow sponsored noopener">
+                        <span class="seller">${it.seller || ''}</span>
+                        <span class="promo_badge">특가</span>
+                        <span class="d_title">${it.title || ''}</span>
+                        ${it.desc ? `<span class="d_desc">${it.desc}</span>` : ''}
+                        <span class="go material-symbols-outlined">chevron_right</span>
+                    </a>`).join('');
+                document.getElementById('promoSection').style.display = 'block';
+            })
+            .catch(() => { /* promos.json 없거나 실패 시 조용히 무시 */ });
     </script>
 </body>
 

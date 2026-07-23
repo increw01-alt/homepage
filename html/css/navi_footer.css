@@ -111,6 +111,28 @@
     width: 50%;
 }
 
+/* 상품권 핫딜 강조 메뉴 */
+.pc_navi_wrap .menu li.deal-menu a {
+    background: var(--po-color);
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    animation: dealGlow 1.8s ease-in-out infinite;
+}
+.pc_navi_wrap .menu li.deal-menu a::before { display: none; }
+.pc_navi_wrap .menu>li.deal-menu:hover>a {
+    color: #fff !important;
+    background: #0a5fd0;
+    transform: translateY(-1px);
+}
+@keyframes dealGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(9, 124, 255, 0.45); }
+    50%      { box-shadow: 0 0 0 7px rgba(9, 124, 255, 0); }
+}
+/* 모바일 메뉴 강조 */
+.mob_menu li.deal-menu>a { color: var(--po-color) !important; font-weight: 800; }
+
 
 /* footer */
 footer {
