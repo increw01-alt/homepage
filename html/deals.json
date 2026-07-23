@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-07-23 10:50",
-  "note": "본 페이지의 딜 정보는 네이버 쇼핑 검색 결과의 최저가를 수집해 자동 계산됩니다. 실제 구매 조건은 판매처에서 확인해 주세요.",
+  "updated_at": "2026-07-23 18:39",
+  "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "summary": {
     "columns": [
       "컬처",
@@ -10,16 +10,6 @@
       "신세계"
     ],
     "rows": [
-      {
-        "seller": "세일티켓",
-        "rates": [
-          null,
-          null,
-          null,
-          2.5,
-          2.0
-        ]
-      },
       {
         "seller": "플랫포스",
         "rates": [
@@ -31,40 +21,50 @@
         ]
       },
       {
-        "seller": "네이버",
+        "seller": "컬쳐랜드 상품권",
         "rates": [
-          6.4,
+          4.7,
           null,
-          3.0,
-          2.5,
-          2.5
+          null,
+          null,
+          null
         ]
       },
       {
-        "seller": "가디언카드",
+        "seller": "조블핀",
         "rates": [
-          6.0,
-          6.0,
+          0.2,
+          0.4,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "seller": "롯데마트 e쿠폰 선물하기",
+        "rates": [
+          null,
+          null,
           1.0,
           null,
           null
         ]
       },
       {
-        "seller": "상품권판다",
+        "seller": "케이핀",
         "rates": [
-          6.4,
-          6.0,
+          0.2,
+          0.1,
           null,
           null,
           null
         ]
       },
       {
-        "seller": "기프트일번가",
+        "seller": "멀티페이",
         "rates": [
-          6.4,
-          6.0,
+          0.1,
+          null,
           null,
           null,
           null
@@ -77,40 +77,40 @@
       "category": "컬쳐랜드 문화상품권",
       "items": [
         {
-          "seller": "네이버",
-          "rate": 6.4,
-          "title": "컬쳐랜드 모바일문화상품권 5만원권",
-          "url": "https://search.shopping.naver.com/catalog/60464550945"
+          "seller": "컬쳐랜드 상품권",
+          "rate": 4.7,
+          "title": "컬쳐랜드상품권(모바일문화상품권) 5만원",
+          "url": "https://smartstore.naver.com/main/products/12115268861"
         },
         {
-          "seller": "상품권판다",
-          "rate": 6.4,
-          "title": "[신용카드/휴대폰소액결제] 컬쳐랜드 문화상품권 5만원",
-          "url": "https://www.ticketpanda.co.kr/SUB/C01/1/50000"
+          "seller": "컬쳐랜드 상품권",
+          "rate": 4.7,
+          "title": "컬쳐랜드상품권(모바일문화상품권) 3만원",
+          "url": "https://smartstore.naver.com/main/products/12115259439"
         },
         {
-          "seller": "기프트일번가",
-          "rate": 6.4,
-          "title": "[카드/휴대폰결제 가능] 컬쳐랜드 모바일상품권 5만원",
-          "url": "https://mgift1st.com/shop/item.php?it_id=1703665149"
+          "seller": "컬쳐랜드 상품권",
+          "rate": 4.7,
+          "title": "컬쳐랜드상품권(모바일문화상품권) 1만원",
+          "url": "https://smartstore.naver.com/main/products/12115255103"
         },
         {
-          "seller": "네이버",
-          "rate": 6.0,
-          "title": "컬쳐랜드 상품권 5만원권",
-          "url": "https://search.shopping.naver.com/catalog/60464850578"
+          "seller": "컬쳐랜드 상품권",
+          "rate": 4.5,
+          "title": "(EVENT)컬쳐랜드상품권(모바일문화상품권) 5만원",
+          "url": "https://smartstore.naver.com/main/products/13657117992"
         },
         {
-          "seller": "달인페이DalinPAY",
-          "rate": 6.0,
-          "title": "컬쳐랜드 모바일 문화상품권 5만원",
-          "url": "https://dalinpay.com/SUB/C01/9/50000"
+          "seller": "컬쳐랜드 상품권",
+          "rate": 4.5,
+          "title": "(EVENT)컬쳐랜드상품권(모바일문화상품권) 3만원",
+          "url": "https://smartstore.naver.com/main/products/13657118559"
         },
         {
-          "seller": "제로핀",
-          "rate": 6.0,
-          "title": "[신용카드/휴대폰결제 가능] 컬쳐랜드 모바일 문화상품권 5만원",
-          "url": "https://zeropin.co.kr/basic/product/detail/41"
+          "seller": "하늘공항상품권",
+          "rate": 1.2,
+          "title": "컬쳐랜드 5만원권(핀번호 16자리) 모바일 문화상품권",
+          "url": "https://smartstore.naver.com/main/products/11285984895"
         }
       ]
     },
@@ -118,157 +118,75 @@
       "category": "도서문화상품권 (북앤라이프)",
       "items": [
         {
-          "seller": "달인페이DalinPAY",
-          "rate": 6.0,
-          "title": "[신용카드/휴대폰결제] 북앤라이프 도서문화상품권 도서상품권 5만원",
-          "url": "https://dalinpay.com/SUB/C01/15/50000"
-        },
-        {
-          "seller": "상품권판다",
-          "rate": 6.0,
-          "title": "[카드/휴대폰결제] 북앤라이프 도서문화상품권 도서상품권 5만원",
-          "url": "https://www.ticketpanda.co.kr/SUB/C01/2/50000"
-        },
-        {
-          "seller": "기프트일번가",
-          "rate": 6.0,
-          "title": "[카드/휴대폰결제 가능] 북앤라이프 도서문화상품권 5만원",
-          "url": "https://mgift1st.com/shop/item.php?it_id=1745238249"
-        },
-        {
-          "seller": "가디언카드",
-          "rate": 6.0,
-          "title": "북앤라이프 도서문화상품권 5만원권 [비회원/신용카드/휴대폰결제]",
-          "url": "https://gdcard.kr/shop/item.php?it_id=1738556705"
-        },
-        {
-          "seller": "핀가게",
-          "rate": 6.0,
-          "title": "도서문상_북앤라이프/도서문상_북앤5만원권/할인6%",
-          "url": "https://pinshop.co.kr/shop/item.php?it_id=1683189474&mall_type=main&option=main1072"
-        },
-        {
-          "seller": "기프트일번가",
-          "rate": 6.0,
-          "title": "[카드/휴대폰결제 가능] 북앤라이프 도서문화상품권 3만원",
-          "url": "https://mgift1st.com/shop/item.php?it_id=1745238555"
-        }
-      ]
-    },
-    {
-      "category": "롯데백화점 상품권",
-      "items": [
-        {
-          "seller": "네이버",
-          "rate": 3.0,
-          "title": "롯데 백화점 10만원권",
-          "url": "https://search.shopping.naver.com/catalog/56573881438"
-        },
-        {
-          "seller": "맥스솔루션",
-          "rate": 3.0,
-          "title": "롯데백화점상품권 10만원권/지류",
-          "url": "https://www.ticketstore.co.kr:443/shop/item.php?it_id=2895"
-        },
-        {
-          "seller": "센드비",
-          "rate": 3.0,
-          "title": "롯데백화점 [롯데모바일교환권] 10만원권 기프트카드",
-          "url": "https://sendbee.co.kr/goods/goodsDetail/G00000220104?utm_source=naver&utm_medium=shopping&utm_campaign=lottegift"
-        },
-        {
-          "seller": "기프티쇼비즈",
+          "seller": "쿠프마케팅 선물하기",
           "rate": 2.0,
-          "title": "[롯데백화점] [법인 전용]롯데모바일교환권 10만원",
-          "url": "https://biz.giftishow.com/ggoods/detail?goodsNo=66322&utm_source=naver_shopping&utm_medium=pc&utm_campaign=lotte_voucher&utm_content=coupon&utm_term={query}"
+          "title": "[선물하기] 도서문화상품권 3만원권",
+          "url": "https://smartstore.naver.com/main/products/11928394395"
         },
         {
-          "seller": "가디언카드",
+          "seller": "플랫포스",
+          "rate": 0.6,
+          "title": "[북앤라이프] 도서문화상품권 5만원권 (실시간발송)",
+          "url": "https://smartstore.naver.com/main/products/11631575552"
+        },
+        {
+          "seller": "플랫포스",
+          "rate": 0.6,
+          "title": "[북앤라이프] ID즉시충전형 북앤라이프 5만원 (실시간발송)",
+          "url": "https://smartstore.naver.com/main/products/11631580642"
+        },
+        {
+          "seller": "조블핀",
+          "rate": 0.4,
+          "title": "북앤라이프 도서문화상품권 5만원권 [24시간 1초발송]",
+          "url": "https://smartstore.naver.com/main/products/10482037120"
+        },
+        {
+          "seller": "조블핀",
+          "rate": 0.4,
+          "title": "북앤라이프 도서문화상품권 3만원권 [24시간 1초발송]",
+          "url": "https://smartstore.naver.com/main/products/10482037141"
+        },
+        {
+          "seller": "케이핀",
+          "rate": 0.1,
+          "title": "북앤라이프 5만원 상품권 (24시간 실시간 즉시발송 / 네이버 간편결제 )",
+          "url": "https://smartstore.naver.com/main/products/11692999586"
+        }
+      ]
+    },
+    {
+      "category": "롯데 상품권",
+      "items": [
+        {
+          "seller": "롯데마트 e쿠폰 선물하기",
           "rate": 1.0,
-          "title": "롯데모바일교환권 10만원권 (롯데백화점 상품권)",
-          "url": "https://gdcard.kr/shop/item.php?it_id=1775751740"
-        }
-      ]
-    },
-    {
-      "category": "현대백화점 상품권",
-      "items": [
-        {
-          "seller": "네이버",
-          "rate": 2.5,
-          "title": "현대백화점상품권 10만원권",
-          "url": "https://search.shopping.naver.com/catalog/21970017441"
+          "title": "[롯데마트 MAXX] 모바일 금액권 5만원권(잔액관리형)",
+          "url": "https://smartstore.naver.com/main/products/12799860019"
         },
         {
-          "seller": "세일티켓",
-          "rate": 2.5,
-          "title": "현대백화점 상품권 10만원",
-          "url": "https://www.saleticket.net/goods/goods_view.php?goodsNo=131&inflow=naver"
+          "seller": "롯데마트 e쿠폰 선물하기",
+          "rate": 1.0,
+          "title": "[롯데마트]모바일 금액권 5만원권(잔액관리형)",
+          "url": "https://smartstore.naver.com/main/products/12417817856"
         },
         {
-          "seller": "세일티켓",
-          "rate": 2.5,
-          "title": "현대백화점상품권 10만원 현대상품권 추석선물 실물발송",
-          "url": "https://www.saleticket.net/goods/goods_view.php?goodsNo=115&inflow=naver"
+          "seller": "롯데마트 e쿠폰 선물하기",
+          "rate": 1.0,
+          "title": "[롯데마트 MAXX] 모바일 금액권 10만원권(잔액관리형)",
+          "url": "https://smartstore.naver.com/main/products/12799842726"
         },
         {
-          "seller": "세일티켓",
-          "rate": 2.5,
-          "title": "현대백화점 10만원 지류상품권",
-          "url": "https://www.saleticket.net/goods/goods_view.php?goodsNo=108&inflow=naver"
+          "seller": "롯데마트 e쿠폰 선물하기",
+          "rate": 1.0,
+          "title": "[롯데마트] 모바일 금액권 10만원권(잔액관리형)",
+          "url": "https://smartstore.naver.com/main/products/12417821440"
         },
         {
-          "seller": "세일티켓",
-          "rate": 2.5,
-          "title": "현대백화점 10만원 현대상품권 명절선물",
-          "url": "https://www.saleticket.net/goods/goods_view.php?goodsNo=111&inflow=naver"
-        },
-        {
-          "seller": "세일티켓",
-          "rate": 2.5,
-          "title": "현대백화점 10만원",
-          "url": "https://www.saleticket.net/goods/goods_view.php?goodsNo=96&inflow=naver"
-        }
-      ]
-    },
-    {
-      "category": "신세계 상품권",
-      "items": [
-        {
-          "seller": "기프티쇼비즈",
-          "rate": 5.0,
-          "title": "[신세계상품권] [법인 전용]신세계 상품권 10만원",
-          "url": "https://biz.giftishow.com/ggoods/detail?goodsNo=10044&utm_source=naver_shopping&utm_medium=pc&utm_campaign=ssg&utm_content=coupon&utm_term={query}"
-        },
-        {
-          "seller": "셰어라운드",
-          "rate": 5.0,
-          "title": "신세계 백화점 상품권 10만원 신세계 상품권",
-          "url": "https://www.shareround.co.kr/deal/shinsegae-100"
-        },
-        {
-          "seller": "황제페이",
-          "rate": 3.0,
-          "title": "신세계상품권 신세계 백화점 상품권 10만원권",
-          "url": "https://emperorpin.com/order/SHINSEGAE?opt=ce9e1668-4394-48fe-b9b0-7971002aed00"
-        },
-        {
-          "seller": "상품권뱅크",
-          "rate": 2.7,
-          "title": "신세계 상품권 10만원권( 핀번호 발송, SSGPAY, SSG MONEY, 쓱페이,쓱머니 충전용)",
-          "url": "https://www.gcbank.co.kr/goods/goods_view.php?goodsNo=1186785580&inflow=naver"
-        },
-        {
-          "seller": "네이버",
-          "rate": 2.5,
-          "title": "신세계상품권 신세계 백화점 상품권 10만원권",
-          "url": "https://search.shopping.naver.com/catalog/56286442488"
-        },
-        {
-          "seller": "상품권할인",
-          "rate": 2.5,
-          "title": "신세계상품권 10만원 쓱페이,SSG페이,SSG머니 충전",
-          "url": "https://giftzpay.com/shop/item.php?it_id=1636709994"
+          "seller": "기프티콘",
+          "rate": 0.4,
+          "title": "(EVENT) 롯데모바일교환권 100,000원",
+          "url": "https://smartstore.naver.com/main/products/13639942819"
         }
       ]
     }
