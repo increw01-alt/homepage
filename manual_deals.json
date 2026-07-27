@@ -1,12 +1,115 @@
 {
-  "_설명": "자동수집이 놓치는 좋은 딜을 수동 등록하는 파일. collect_deals.py 실행 시 자동 딜과 병합됩니다. 만료된 딜은 지우면 됩니다.",
+  "_설명": "자동수집(네이버)이 못 잡는 지마켓·옥션 등 마켓 딜을 수동 등록하는 파일. collect_deals.py 실행 시 자동 딜과 병합되고, 지마켓·옥션·롯데온 링크는 링크프라이스 딥링크로 자동 변환됩니다. 가격이 바뀌거나 품절되면 해당 항목의 rate를 수정하거나 항목을 삭제하세요. checked = 가격 확인일.",
   "deals": [
     {
       "category": "컬쳐랜드 문화상품권",
-      "seller": "11번가",
-      "rate": 5.0,
-      "title": "컬쳐랜드 상품권(모바일문화상품권) 5만원 - SK플래닛 공식",
-      "url": "여기에_11번가_상품_URL_붙여넣기"
+      "seller": "지마켓",
+      "rate": 3.2,
+      "face": 50000,
+      "price": 48400,
+      "checked": "2026-07-27",
+      "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /해피캐시 지원",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4339623390"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "지마켓",
+      "rate": 3.0,
+      "face": 30000,
+      "price": 29100,
+      "checked": "2026-07-27",
+      "title": "컬쳐랜드 모바일 문화상품권 3만원권",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4763896952"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "지마켓",
+      "rate": 3.0,
+      "face": 10000,
+      "price": 9700,
+      "checked": "2026-07-27",
+      "title": "컬쳐랜드 모바일 문화상품권 1만원권",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4763896326"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "옥션",
+      "rate": 3.2,
+      "face": 50000,
+      "price": 48400,
+      "checked": "2026-07-27",
+      "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917950563"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "옥션",
+      "rate": 3.0,
+      "face": 30000,
+      "price": 29100,
+      "checked": "2026-07-27",
+      "title": "(컬쳐랜드) 모바일문화상품권 3만원권 /컬쳐캐시 충전",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F572768739"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "옥션",
+      "rate": 3.0,
+      "face": 10000,
+      "price": 9700,
+      "checked": "2026-07-27",
+      "title": "(컬쳐랜드) 모바일문화상품권 1만원권 /컬쳐캐시 충전",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F572764252"
+    },
+    {
+      "category": "도서문화상품권 (북앤라이프)",
+      "seller": "지마켓",
+      "rate": 3.2,
+      "face": 50000,
+      "price": 48400,
+      "checked": "2026-07-27",
+      "title": "(특가) 북앤라이프 도서문화상품권 5만원권",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4339838361"
+    },
+    {
+      "category": "도서문화상품권 (북앤라이프)",
+      "seller": "지마켓",
+      "rate": 3.0,
+      "face": 30000,
+      "price": 29100,
+      "checked": "2026-07-27",
+      "title": "북앤라이프 도서문화상품권 3만원권",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4333465835"
+    },
+    {
+      "category": "도서문화상품권 (북앤라이프)",
+      "seller": "지마켓",
+      "rate": 3.0,
+      "face": 10000,
+      "price": 9700,
+      "checked": "2026-07-27",
+      "title": "북앤라이프 도서문화상품권 1만원권",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4333371120"
+    },
+    {
+      "category": "도서문화상품권 (북앤라이프)",
+      "seller": "옥션",
+      "rate": 3.3,
+      "face": 50000,
+      "price": 48350,
+      "checked": "2026-07-27",
+      "title": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917053342"
+    },
+    {
+      "category": "도서문화상품권 (북앤라이프)",
+      "seller": "옥션",
+      "rate": 3.0,
+      "face": 10000,
+      "price": 9700,
+      "checked": "2026-07-27",
+      "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917062436"
     }
   ]
 }

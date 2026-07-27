@@ -69,6 +69,26 @@
           null,
           null
         ]
+      },
+      {
+        "seller": "지마켓",
+        "rates": [
+          3.2,
+          3.2,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "seller": "옥션",
+        "rates": [
+          3.2,
+          3.3,
+          null,
+          null,
+          null
+        ]
       }
     ]
   },
@@ -107,16 +127,58 @@
           "url": "https://smartstore.naver.com/main/products/13657118559"
         },
         {
-          "seller": "하늘공항상품권",
-          "rate": 1.2,
-          "title": "컬쳐랜드 5만원권(핀번호 16자리) 모바일 문화상품권",
-          "url": "https://smartstore.naver.com/main/products/11285984895"
+          "seller": "지마켓",
+          "rate": 3.2,
+          "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /해피캐시 지원",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4339623390"
+        },
+        {
+          "seller": "옥션",
+          "rate": 3.2,
+          "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917950563"
+        },
+        {
+          "seller": "지마켓",
+          "rate": 3.0,
+          "title": "컬쳐랜드 모바일 문화상품권 3만원권",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4763896952"
         }
       ]
     },
     {
       "category": "도서문화상품권 (북앤라이프)",
       "items": [
+        {
+          "seller": "옥션",
+          "rate": 3.3,
+          "title": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917053342"
+        },
+        {
+          "seller": "지마켓",
+          "rate": 3.2,
+          "title": "(특가) 북앤라이프 도서문화상품권 5만원권",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4339838361"
+        },
+        {
+          "seller": "지마켓",
+          "rate": 3.0,
+          "title": "북앤라이프 도서문화상품권 3만원권",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4333465835"
+        },
+        {
+          "seller": "지마켓",
+          "rate": 3.0,
+          "title": "북앤라이프 도서문화상품권 1만원권",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4333371120"
+        },
+        {
+          "seller": "옥션",
+          "rate": 3.0,
+          "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917062436"
+        },
         {
           "seller": "쿠프마케팅 선물하기",
           "rate": 2.0,
@@ -134,24 +196,6 @@
           "rate": 0.6,
           "title": "[북앤라이프] ID즉시충전형 북앤라이프 5만원 (실시간발송)",
           "url": "https://smartstore.naver.com/main/products/11631580642"
-        },
-        {
-          "seller": "조블핀",
-          "rate": 0.4,
-          "title": "북앤라이프 도서문화상품권 5만원권 [24시간 1초발송]",
-          "url": "https://smartstore.naver.com/main/products/10482037120"
-        },
-        {
-          "seller": "조블핀",
-          "rate": 0.4,
-          "title": "북앤라이프 도서문화상품권 3만원권 [24시간 1초발송]",
-          "url": "https://smartstore.naver.com/main/products/10482037141"
-        },
-        {
-          "seller": "케이핀",
-          "rate": 0.1,
-          "title": "북앤라이프 5만원 상품권 (24시간 실시간 즉시발송 / 네이버 간편결제 )",
-          "url": "https://smartstore.naver.com/main/products/11692999586"
         }
       ]
     },

@@ -478,7 +478,7 @@
 
         // ===== deals.json 을 불러와 페이지를 자동 렌더링 =====
         // 서버 환경에서는 deals.json 을 사용하고, 실패하면 위 내장 데이터로 렌더링합니다.
-        fetch('deals.json')
+        fetch('deals.json', { cache: 'no-store' })
             .then(res => { if (!res.ok) throw new Error('no server'); return res.json(); })
             .catch(() => EMBEDDED_DEALS)
             .then(data => {
@@ -553,7 +553,7 @@
         // ===== 추천 특가(제휴) 렌더링 =====
         // promos.json 은 수동 큐레이션 파일 (자동수집 대상 아님).
         // 유효한 제휴 링크(url이 '#'가 아닌 것)만 노출하며, 없으면 섹션 자체를 숨깁니다.
-        fetch('promos.json')
+        fetch('promos.json', { cache: 'no-store' })
             .then(res => { if (!res.ok) throw new Error('no promos'); return res.json(); })
             .then(data => {
                 const valid = (data.items || []).filter(it => it.url && it.url !== '#');
