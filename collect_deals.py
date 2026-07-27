@@ -269,6 +269,23 @@ def best_deals_for(query, face, include, deny, must):
     return out
 
 
+# 수동 등록 딜의 유효 기간(일) — 가격 자동 갱신이 불가능한 판매처(지마켓·옥션)는
+# 등록일이 오래되면 시세가 틀어질 수 있으므로 자동으로 노출에서 제외한다.
+MANUAL_STALE_DAYS = 14
+
+
+def is_stale(checked):
+    """checked 날짜(YYYY-MM-DD)가 MANUAL_STALE_DAYS 보다 오래되었는지."""
+    if not checked:
+        return True  # 확인일이 없으면 신뢰할 수 없음
+    try:
+        d = datetime.strptime(checked, "%Y-%m-%d").date()
+    except ValueError:
+        return True
+    kst_today = datetime.now(timezone(timedelta(hours=9))).date()
+    return (kst_today - d).days > MANUAL_STALE_DAYS
+
+
 def load_manual_deals():
     """manual_deals.json 의 수동 등록 딜을 읽어 카테고리별로 반환."""
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "manual_deals.json")
@@ -309,6 +326,13 @@ def load_manual_deals():
                 if not rate or not title:
                     continue  # 등록 정보도 없으면 건너뜀
             time.sleep(0.3)
+
+        else:
+            # 11번가가 아닌 딜(지마켓·옥션 등)은 가격 자동 갱신이 안 되므로
+            # 확인일이 오래되면 잘못된 시세를 노출하지 않도록 자동 제외한다.
+            if is_stale(d.get("checked")):
+                print(f"[만료] {MANUAL_STALE_DAYS}일 경과로 제외: {title[:30] or url}")
+                continue
 
         if not rate or not title:
             print(f"[제외] 정보 부족(rate/title 없음): {url}")
