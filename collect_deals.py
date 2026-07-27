@@ -143,22 +143,63 @@ BROWSER_HDRS = {
 }
 
 
-def fetch_11st_live(url, face):
-    """11번가 상품 페이지에서 현재 판매가를 읽어 (price, rate) 반환. 실패 시 None."""
+def parse_face_from_name(name):
+    """상품명에서 액면가 추출: '5만원' → 50000, '100,000원' → 100000."""
+    m = re.search(r"(\d+)\s*만\s*원", name or "")
+    if m:
+        return int(m.group(1)) * 10000
+    m = re.search(r"([\d,]{4,9})\s*원", name or "")
+    if m:
+        v = int(m.group(1).replace(",", ""))
+        if v >= 1000:
+            return v
+    return None
+
+
+def fetch_11st_live(url, face=None):
+    """11번가 상품 페이지의 JSON-LD에서 상품명·판매가·정가·재고를 읽는다.
+
+    반환: {"title", "price", "face", "rate"} / 품절·파싱실패·비정상가면 None.
+    face 를 넘기지 않으면 정가(또는 상품명)에서 액면가를 자동 판별한다.
+    """
     req = urllib.request.Request(url, headers=BROWSER_HDRS)
     with urllib.request.urlopen(req, timeout=12) as r:
         html = r.read().decode("utf-8", errors="ignore")
-    m = re.search(r"가격\s*:\s*([\d,]+)원", html)
+
+    m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
     if not m:
         return None
-    price = int(m.group(1).replace(",", ""))
-    # 액면가 대비 상식적 범위(70~102%)만 인정 — 품절·페이지 변경 오탐 방지
+    try:
+        ld = json.loads(m.group(1))
+    except Exception:
+        return None
+
+    offers = ld.get("offers") or {}
+    price = offers.get("price")
+    if not isinstance(price, (int, float)) or price <= 0:
+        return None
+
+    # 품절/판매중단이면 제외
+    if "InStock" not in str(offers.get("availability", "")):
+        return None
+
+    name = (ld.get("name") or "").strip()
+    # 액면가: 인자 > 정가(취소선 가격) > 상품명
+    if not face:
+        spec = offers.get("priceSpecification") or {}
+        face = spec.get("price") or parse_face_from_name(name)
+    if not face:
+        return None
+
+    price = int(price)
+    face = int(face)
+    # 액면가 대비 상식적 범위(70~102%)만 인정 — 오탐 방지
     if not (face * 0.70 <= price <= face * 1.02):
         return None
     rate = round((face - price) / face * 100, 1)
     if rate <= 0:
         return None
-    return price, rate
+    return {"title": name, "price": price, "face": face, "rate": rate}
 
 
 def is_trusted(link, seller):
@@ -247,21 +288,36 @@ def load_manual_deals():
             continue
         rate = d.get("rate", 0)
         face = d.get("face")
-        # 11번가 딜은 실행 시마다 현재가로 할인율 자동 갱신 (실패하면 등록값 유지)
-        if face and "11st.co.kr" in url:
+        title = d.get("title", "")
+        seller = d.get("seller", "")
+
+        # 11번가 딜: 상품명·가격·할인율을 실행마다 자동 갱신 (URL만 등록해도 동작)
+        if "11st.co.kr" in url:
             try:
                 live = fetch_11st_live(url, face)
                 if live:
-                    rate = live[1]
+                    rate = live["rate"]
+                    title = live["title"] or title
+                    face = live["face"]
+                    seller = seller or "11번가"
                 else:
-                    print(f"[경고] 11번가 가격 확인 실패(등록값 사용): {d.get('title','')[:30]}")
+                    # 품절·판매중단·비정상가 → 노출 제외 (등록값으로 잘못 노출하지 않음)
+                    print(f"[제외] 11번가 딜 확인 불가(품절/변경): {title[:30] or url}")
+                    continue
             except Exception as e:
-                print(f"[경고] 11번가 조회 오류(등록값 사용): {e}")
+                print(f"[경고] 11번가 조회 오류({title[:20] or url}): {e}")
+                if not rate or not title:
+                    continue  # 등록 정보도 없으면 건너뜀
             time.sleep(0.3)
+
+        if not rate or not title:
+            print(f"[제외] 정보 부족(rate/title 없음): {url}")
+            continue
+
         by_cat.setdefault(d.get("category", "기타"), []).append({
-            "seller": d.get("seller", ""),
+            "seller": seller,
             "rate": rate,
-            "title": d.get("title", ""),
+            "title": title,
             "url": to_deeplink(url),
             "manual": True,
         })

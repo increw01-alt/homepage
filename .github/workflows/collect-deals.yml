@@ -2,8 +2,9 @@ name: 상품권 딜 자동 수집
 
 on:
   schedule:
-    # UTC 기준 (KST = UTC+9) → 09:00, 12:00, 18:00 KST 하루 3회
-    - cron: "0 0,3,9 * * *"
+    # 매시 정각 (UTC 기준이지만 매시간이므로 KST에서도 매시 정각)
+    # 네이버 API 하루 25,000회 한도 대비 실사용은 24회 × 약 20요청 = 480회 수준
+    - cron: "0 * * * *"
   workflow_dispatch: {}   # 수동 실행 버튼
 
 permissions:
