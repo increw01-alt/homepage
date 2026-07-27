@@ -130,6 +130,32 @@ def to_deeplink(url):
 
 TAG_RE = re.compile(r"<[^>]+>")
 
+# 11번가 상품 페이지는 일반 요청으로 접근 가능 → 등록 딜의 가격을 실행 시마다 자동 갱신.
+# (지마켓·옥션은 스크립트 접근을 차단하므로 수동 등록가를 그대로 사용)
+BROWSER_HDRS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8",
+}
+
+
+def fetch_11st_live(url, face):
+    """11번가 상품 페이지에서 현재 판매가를 읽어 (price, rate) 반환. 실패 시 None."""
+    req = urllib.request.Request(url, headers=BROWSER_HDRS)
+    with urllib.request.urlopen(req, timeout=12) as r:
+        html = r.read().decode("utf-8", errors="ignore")
+    m = re.search(r"가격\s*:\s*([\d,]+)원", html)
+    if not m:
+        return None
+    price = int(m.group(1).replace(",", ""))
+    # 액면가 대비 상식적 범위(70~102%)만 인정 — 품절·페이지 변경 오탐 방지
+    if not (face * 0.70 <= price <= face * 1.02):
+        return None
+    rate = round((face - price) / face * 100, 1)
+    if rate <= 0:
+        return None
+    return price, rate
+
 
 def is_trusted(link, seller):
     url = (link or "").lower()
@@ -212,9 +238,22 @@ def load_manual_deals():
         # URL 미입력(플레이스홀더) 항목은 건너뜀
         if not url or url.startswith("여기에") or url == "#":
             continue
+        rate = d.get("rate", 0)
+        face = d.get("face")
+        # 11번가 딜은 실행 시마다 현재가로 할인율 자동 갱신 (실패하면 등록값 유지)
+        if face and "11st.co.kr" in url:
+            try:
+                live = fetch_11st_live(url, face)
+                if live:
+                    rate = live[1]
+                else:
+                    print(f"[경고] 11번가 가격 확인 실패(등록값 사용): {d.get('title','')[:30]}")
+            except Exception as e:
+                print(f"[경고] 11번가 조회 오류(등록값 사용): {e}")
+            time.sleep(0.3)
         by_cat.setdefault(d.get("category", "기타"), []).append({
             "seller": d.get("seller", ""),
-            "rate": d.get("rate", 0),
+            "rate": rate,
             "title": d.get("title", ""),
             "url": to_deeplink(url),
             "manual": True,
