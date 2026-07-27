@@ -109,8 +109,8 @@ LP_MERCHANTS = {            # 도메인 → 머천트 코드 (승인완료만 �
     "gmarket.co.kr": "gmarket",
     "auction.co.kr": "auction",
     "lotteon.com": "lotteon",
-    "11st.co.kr": "11st",
-    "emart.ssg.com": "emart",
+    # "11st.co.kr": "11st",     # 협회 채널 승인대기 — 승인되면 주석 해제
+    # "emart.ssg.com": "emart", # 주의: 이마트몰은 제휴링크로 상품권 접속 시 구매 제한 → 변환 금지
     "gsshop.com": "gseshop",
     "hmall.com": "hmall",
     "lotteimall.com": "woori",
