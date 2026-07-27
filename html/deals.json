@@ -11,16 +11,6 @@
     ],
     "rows": [
       {
-        "seller": "플랫포스",
-        "rates": [
-          0.6,
-          0.6,
-          null,
-          null,
-          null
-        ]
-      },
-      {
         "seller": "11번가",
         "rates": [
           5.2,
@@ -31,10 +21,10 @@
         ]
       },
       {
-        "seller": "지마켓",
+        "seller": "컬쳐랜드 상품권",
         "rates": [
-          3.2,
-          3.2,
+          4.7,
+          null,
           null,
           null,
           null
@@ -43,7 +33,7 @@
       {
         "seller": "옥션",
         "rates": [
-          3.2,
+          null,
           3.3,
           null,
           null,
@@ -51,10 +41,10 @@
         ]
       },
       {
-        "seller": "조블핀",
+        "seller": "지마켓",
         "rates": [
-          0.2,
-          0.4,
+          null,
+          3.2,
           null,
           null,
           null
@@ -66,6 +56,16 @@
           null,
           null,
           1.0,
+          null,
+          null
+        ]
+      },
+      {
+        "seller": "기프티콘",
+        "rates": [
+          null,
+          null,
+          0.4,
           null,
           null
         ]
@@ -193,17 +193,6 @@
           "rate": 0.4,
           "title": "(EVENT) 롯데모바일교환권 100,000원",
           "url": "https://smartstore.naver.com/main/products/13639942819"
-        }
-      ]
-    },
-    {
-      "category": "현대백화점 상품권",
-      "items": [
-        {
-          "seller": "현대백화점",
-          "rate": 17.2,
-          "title": "[현대백화점][에스티로더] [1만원 상품권(지류)][7] NEW 더블 웨어 파운데이션 세트 (+디럭스 3종)",
-          "url": "https://smartstore.naver.com/main/products/13657159543"
         }
       ]
     },

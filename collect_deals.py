@@ -130,6 +130,10 @@ def to_deeplink(url):
 
 TAG_RE = re.compile(r"<[^>]+>")
 
+# 모든 카테고리 공통 차단어 — 상품권이 '증정/사은품'으로 딸린 일반 상품 오탐 방지
+GLOBAL_DENY = ["세트", "사은품", "증정", "파운데이션", "화장품", "크림", "에센스",
+               "향수", "쿠션", "립스틱", "선물세트", "기획"]
+
 # 11번가 상품 페이지는 일반 요청으로 접근 가능 → 등록 딜의 가격을 실행 시마다 자동 갱신.
 # (지마켓·옥션은 스크립트 접근을 차단하므로 수동 등록가를 그대로 사용)
 BROWSER_HDRS = {
@@ -197,6 +201,9 @@ def best_deals_for(query, face, include, deny, must):
         if must and not all(k in title for k in must):
             continue
         if deny and any(k in title for k in deny):
+            continue
+        # 상품권이 '사은품'으로 딸린 일반 상품(화장품 세트 등) 오탐 차단
+        if any(k in title for k in GLOBAL_DENY):
             continue
         try:
             price = int(it.get("lprice", 0))
