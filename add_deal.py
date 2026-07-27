@@ -15,6 +15,8 @@ import os
 import re
 import sys
 import json
+import urllib.parse
+import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from collect_deals import fetch_11st_live, parse_face_from_name  # noqa: E402
@@ -28,12 +30,55 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 MANUAL_PATH = os.path.join(ROOT, "manual_deals.json")
 
 # 허용 도메인만 처리 (외부 임의 URL 차단)
+# 쇼핑 앱에서 '링크 복사'로 나오는 단축링크(link.gmarket.co.kr 등)도 지원한다.
 URL_RE = re.compile(
-    r"https?://[^\s<>\"']*(?:11st\.co\.kr/products/\d+"
+    r"https?://[^\s<>\"']*(?:"
+    r"11st\.co\.kr/products/\d+"
     r"|item\.gmarket\.co\.kr/Item\?[^\s<>\"']*goodscode=\d+"
-    r"|itempage3\.auction\.co\.kr/DetailView\.aspx\?[^\s<>\"']*itemno=[A-Z0-9]+)[^\s<>\"']*",
+    r"|m\.gmarket\.co\.kr/(?:vi/product/\d+|n/item\?[^\s<>\"']*goodsCode=\d+)"
+    r"|itempage3\.auction\.co\.kr/DetailView\.aspx\?[^\s<>\"']*itemno=[A-Za-z0-9]+"
+    r"|m\.auction\.co\.kr/[^\s<>\"']*itemno=[A-Za-z0-9]+"
+    r"|link\.(?:gmarket|auction)\.co\.kr/[A-Za-z0-9]+"
+    r")[^\s<>\"']*",
     re.I,
 )
+
+MOBILE_HDRS = {
+    "User-Agent": ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
+                   "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"),
+    "Accept-Language": "ko-KR,ko;q=0.9",
+}
+
+
+def resolve_short(url):
+    """앱 공유용 단축링크(link.gmarket.co.kr/XXXX)를 실제 상품 URL로 바꾼다.
+
+    단축링크 페이지 본문에 최종 이동 주소가 담겨 있어 거기서 상품번호를 뽑는다.
+    실패하면 원래 URL을 그대로 돌려준다.
+    """
+    if not re.search(r"link\.(gmarket|auction)\.co\.kr", url, re.I):
+        return url
+    try:
+        req = urllib.request.Request(url, headers=MOBILE_HDRS)
+        with urllib.request.urlopen(req, timeout=15) as r:
+            body = r.read().decode("utf-8", errors="ignore")
+            final = r.geturl()
+    except Exception:
+        return url
+    # 단축링크 본문의 이동 주소는 여러 번 URL 인코딩되어 있어 반복 디코딩한다
+    blob = final + " " + body
+    for _ in range(3):
+        decoded = urllib.parse.unquote(blob)
+        if decoded == blob:
+            break
+        blob = decoded
+    m = re.search(r"(?:vi/product/|goods[Cc]ode=|goodscode=)(\d{6,})", blob, re.I)
+    if m:
+        return f"https://item.gmarket.co.kr/Item?goodscode={m.group(1)}"
+    m = re.search(r"itemno=([A-Za-z0-9]+)", blob)
+    if m:
+        return f"https://itempage3.auction.co.kr/DetailView.aspx?itemno={m.group(1).upper()}"
+    return url
 
 # 상품명·본문 키워드 → 카테고리 자동 판별
 CATEGORY_RULES = [
@@ -60,7 +105,7 @@ def normalize(url):
     m = re.search(r"11st\.co\.kr/products/(\d+)", low)
     if m:
         return f"11st:{m.group(1)}"
-    m = re.search(r"goodscode=(\d+)", low)
+    m = re.search(r"(?:goodscode=|vi/product/)(\d+)", low)
     if m:
         return f"gmarket:{m.group(1)}"
     m = re.search(r"itemno=([a-z0-9]+)", low)
@@ -74,13 +119,42 @@ def clean_url(url):
     m = re.search(r"11st\.co\.kr/products/(\d+)", url, re.I)
     if m:
         return f"https://www.11st.co.kr/products/{m.group(1)}"
-    m = re.search(r"goodscode=(\d+)", url, re.I)
+    m = re.search(r"(?:goodscode=|vi/product/)(\d+)", url, re.I)
     if m:
         return f"https://item.gmarket.co.kr/Item?goodscode={m.group(1)}"
     m = re.search(r"itemno=([A-Za-z0-9]+)", url, re.I)
     if m:
         return f"https://itempage3.auction.co.kr/DetailView.aspx?itemno={m.group(1).upper()}"
     return url
+
+
+def parse_hints(text):
+    """본문에서 액면가·판매가·할인율 힌트를 뽑는다.
+
+    허용 형태 예: '5만원 3.2%' / '5만원 48400' / '5만원권 48,400원'
+    반환: (face, price, rate) — 알 수 없는 값은 None.
+    """
+    face = parse_face_from_name(text)
+    rate = None
+    m = re.search(r"(\d+(?:\.\d+)?)\s*%", text)
+    if m:
+        rate = float(m.group(1))
+
+    # 판매가: 액면가로 인식된 숫자를 제외한 4자리 이상 금액 중 액면가보다 작은 값
+    price = None
+    if face:
+        for cand in re.findall(r"([\d,]{4,9})", text):
+            v = int(cand.replace(",", ""))
+            if v != face and face * 0.5 <= v < face:
+                price = v
+                break
+
+    # 둘 중 하나만 있으면 나머지를 계산
+    if face and price and rate is None:
+        rate = round((face - price) / face * 100, 1)
+    elif face and rate and price is None:
+        price = int(round(face * (1 - rate / 100)))
+    return face, price, rate
 
 
 def seller_of(url):
@@ -108,12 +182,8 @@ def main():
         print("지원: 11번가(11st.co.kr/products/...), 지마켓(goodscode=...), 옥션(itemno=...)")
         sys.exit(0)
 
-    # 본문에서 공통 할인율·액면가 힌트 추출 (지마켓·옥션용)
-    rate_hint = None
-    m = re.search(r"(\d+(?:\.\d+)?)\s*%", text)
-    if m:
-        rate_hint = float(m.group(1))
-    face_hint = parse_face_from_name(text)
+    # 본문에서 공통 액면가·판매가·할인율 힌트 추출 (지마켓·옥션용)
+    face_hint, price_hint, rate_hint = parse_hints(text)
 
     data = json.load(open(MANUAL_PATH, encoding="utf-8"))
     deals = data.setdefault("deals", [])
@@ -122,7 +192,7 @@ def main():
     added, skipped, failed = [], [], []
 
     for raw in urls:
-        url = clean_url(raw)
+        url = clean_url(resolve_short(raw))
         key = normalize(url)
         if key in existing:
             skipped.append(f"이미 등록됨: {url}")
@@ -154,9 +224,11 @@ def main():
             failed.append(f"{url} → 카테고리를 판별할 수 없습니다(본문에 '컬쳐랜드' 등 상품권 종류를 적어주세요)")
             continue
         if rate_hint is None or not face_hint:
-            failed.append(f"{url} → {seller}는 할인율과 액면가가 필요합니다 (예: '5만원 3.2%')")
+            failed.append(
+                f"{url} → {seller}는 가격을 자동으로 읽을 수 없습니다. "
+                f"액면가와 할인율(또는 판매가)을 함께 적어주세요 (예: '5만원 3.2%' 또는 '5만원 48400')")
             continue
-        price = int(round(face_hint * (1 - rate_hint / 100)))
+        price = price_hint or int(round(face_hint * (1 - rate_hint / 100)))
         deals.append({
             "category": cat, "seller": seller, "rate": rate_hint,
             "face": face_hint, "price": price,
