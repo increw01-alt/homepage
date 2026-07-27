@@ -2,61 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://koreagiftcard.co.kr/</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/introduce</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/introduce-2</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/support</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/shoppingmall</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/installment_shoppingmall</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/%EC%BB%AC%EC%B3%90%EB%9E%9C%EB%93%9C-%ED%95%A0%EB%B6%80%EA%B5%AC%EB%A7%A4</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/%EB%B0%B1%ED%99%94%EC%A0%90%EC%83%81%ED%92%88%EA%B6%8C-%ED%95%A0%EB%B6%80%EA%B5%AC%EB%A7%A4</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/%EC%8B%A0%EC%9A%A9%EC%B9%B4%EB%93%9C-%EC%83%81%ED%92%88%EA%B6%8C-%ED%95%A0%EB%B6%80%EA%B5%AC%EB%A7%A4</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/%EC%86%8C%EC%95%A1%EA%B2%B0%EC%A0%9C-%EC%83%81%ED%92%88%EA%B6%8C-%EA%B5%AC%EB%A7%A4</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -73,14 +73,20 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://koreagiftcard.co.kr/%EC%83%81%ED%92%88%EA%B6%8C%EB%94%9C</loc>
+    <lastmod>2026-07-27</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://koreagiftcard.co.kr/qna</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://koreagiftcard.co.kr/noti</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-07-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
