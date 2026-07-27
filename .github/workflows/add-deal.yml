@@ -1,0 +1,66 @@
+name: 딜 등록 (휴대폰)
+
+# 사용법: GitHub 앱/웹에서 새 Issue를 만들고 본문에 상품 URL을 붙여넣으면
+# 자동으로 manual_deals.json 에 등록되고, 수집까지 돌려 사이트에 즉시 반영합니다.
+# 11번가는 URL만 있으면 되고, 지마켓·옥션은 "5만원 3.2%" 처럼 액면가와 할인율을 함께 적어주세요.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: deals-write
+  cancel-in-progress: false
+
+jobs:
+  add:
+    # 저장소 소유자가 만든 Issue만 처리 (외부 입력으로 등록되는 것 방지)
+    if: github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 딜 등록
+        id: add
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          python add_deal.py > result.md 2>&1 || true
+          cat result.md
+
+      - name: 딜 수집 (즉시 반영)
+        if: success()
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python collect_deals.py || true
+
+      - name: 변경 시 커밋 & 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add manual_deals.json html/deals.json
+          if git diff --staged --quiet; then
+            echo "변경 없음 - 커밋 생략"
+          else
+            git commit -m "chore: 딜 등록 (Issue #${{ github.event.issue.number }})"
+            git push
+          fi
+
+      - name: 결과 댓글 남기고 Issue 닫기
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body-file result.md
+          gh issue close ${{ github.event.issue.number }}
