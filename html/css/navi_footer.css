@@ -11,6 +11,19 @@
     display: none;
 }
 
+/* 로고 표시 크기 고정
+   고해상도 원본(500~1061px)을 써도 헤더가 커지지 않도록 렌더링 폭을 못박는다.
+   원본이 클수록 축소 렌더링되어 고해상도 화면에서 선명해진다. */
+.pc_navi_wrap .logo img {
+    width: 167px;
+    height: auto;
+}
+
+.mob_navi_wrap .logo img {
+    width: 100%;
+    height: auto;
+}
+
 /* .black */
 
 #gnb {
