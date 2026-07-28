@@ -117,11 +117,11 @@
             border: 1px solid #dbe8ff; border-left: 5px solid var(--po-color);
             border-radius: 14px; padding: 20px 26px; margin-bottom: 2.4rem;
         }
-        .assoc_left { display: flex; align-items: center; gap: 15px; }
-        .assoc_logo { height: 40px; width: auto; flex-shrink: 0; }
-        .assoc_txt { display: flex; flex-direction: column; gap: 3px; }
-        .assoc_txt strong { font-size: 1.7rem; font-weight: 800; color: var(--deal-navy); letter-spacing: -.01em; }
-        .assoc_txt span { font-size: 1.38rem; color: #5f6b7d; line-height: 1.45; }
+        .assoc_left { display: flex; align-items: center; gap: 15px; min-width: 0; flex: 1 1 320px; }
+        .assoc_logo { height: 40px; width: auto; max-width: 40%; object-fit: contain; flex-shrink: 0; }
+        .assoc_txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .assoc_txt strong { font-size: 1.7rem; font-weight: 800; color: var(--deal-navy); letter-spacing: -.01em; word-break: keep-all; }
+        .assoc_txt span { font-size: 1.38rem; color: #5f6b7d; line-height: 1.45; word-break: keep-all; }
         .assoc_meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
         .assoc_meta .live_badge {
             display: inline-flex; align-items: center; gap: 7px;
@@ -258,7 +258,11 @@
             .best_strip { grid-template-columns: 1fr; gap: 12px; }
         }
         @media screen and (max-width: 640px) {
-            .assoc_banner { padding: 18px; }
+            /* 로고가 가로로 길어 텍스트를 밀어내므로 세로로 쌓는다 */
+            .assoc_banner { padding: 18px; flex-direction: column; align-items: flex-start; gap: 14px; }
+            .assoc_left { flex: 1 1 auto; width: 100%; flex-direction: column; align-items: flex-start; gap: 10px; }
+            .assoc_logo { height: 30px; max-width: 150px; }
+            .assoc_txt strong { font-size: 1.6rem; }
             .assoc_meta { width: 100%; }
             .deal_item { flex-wrap: wrap; gap: 8px 10px; padding: 14px 15px; }
             .deal_item .d_title { flex-basis: 100%; order: 3; }
