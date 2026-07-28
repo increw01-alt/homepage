@@ -223,6 +223,16 @@
             font-size: 1.35rem; font-weight: 700; color: #555;
             background: #f2f3f5; padding: 6px 8px; border-radius: 6px;
         }
+        /* 마켓 로고가 있는 판매처는 흰 배경 칩에 로고 표시 */
+        .deal_item .seller.has_logo,
+        .best_card .b_seller.has_logo {
+            background: #fff; border: 1px solid #e9eaee;
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 5px 10px;
+        }
+        /* 로고마다 가로세로 비율이 달라, 동일 크기 상자 안에 맞춰 넣어 시각적 균형을 맞춘다 */
+        .mall_logo { width: 62px; height: 16px; object-fit: contain; display: block; }
+        .summary_table .mall_logo { width: 74px; height: 20px; margin: 0 auto; }
         .deal_item .rate_pill {
             flex-shrink: 0; min-width: 74px; text-align: center;
             font-size: 1.65rem; font-weight: 800; color: #fff;
@@ -536,6 +546,25 @@
             .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+        // ===== 판매처 표기: 로고가 있는 마켓은 로고로, 나머지는 이름 그대로 =====
+        const MALL_LOGO = {
+            '11번가': 'img/mall/11st.png',
+            '지마켓': 'img/mall/gmarket.png',
+            '옥션': 'img/mall/auction.png',
+            '롯데온': 'img/mall/lotteon.png',
+            '롯데on': 'img/mall/lotteon.png',
+            '네이버': 'img/mall/naver.png',
+        };
+        // 로고 로드 실패 시 판매처 이름으로 되돌린다
+        const logoFallback = "this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;";
+        const sellerMark = name => {
+            const src = MALL_LOGO[name];
+            return src
+                ? `<img class="mall_logo" src="${src}" alt="${esc(name)}" onerror="${logoFallback}">`
+                : esc(name);
+        };
+        const sellerClass = name => (MALL_LOGO[name] ? ' has_logo' : '');
+
         // ===== deals.json 을 불러와 페이지를 자동 렌더링 =====
         // 서버 환경에서는 deals.json 을 사용하고, 실패하면 위 내장 데이터로 렌더링합니다.
         fetch('deals.json', { cache: 'no-store' })
@@ -553,7 +582,7 @@
                     <a class="best_card rank${i + 1}" href="${esc(it.url)}" target="_blank" rel="nofollow sponsored noopener">
                         <span class="rank_badge">TOP ${i + 1}</span>
                         <div class="b_rate">${it.rate}<small>%</small></div>
-                        <span class="b_seller">${esc(it.seller)}</span>
+                        <span class="b_seller${sellerClass(it.seller)}">${sellerMark(it.seller)}</span>
                         <div class="b_title">${esc(it.title)}</div>
                     </a>`).join('');
 
@@ -575,7 +604,7 @@
                         const best = (v === bestPerCol[ci]);
                         return `<td><span class="rate${best ? ' best' : ''}">${v}%</span></td>`;
                     }).join('');
-                    return `<tr><th>${esc(row.seller)}</th>${tds}</tr>`;
+                    return `<tr><th>${sellerMark(row.seller)}</th>${tds}</tr>`;
                 }).join('');
 
                 // 4) 카테고리별 딜 목록 (카테고리 내 할인율 내림차순, 랭크 표시)
@@ -590,7 +619,7 @@
                         return `
                         <a class="deal_item${isTop ? ' top' : ''}" href="${esc(it.url)}" target="_blank" rel="nofollow sponsored noopener">
                             <span class="rank">${idx + 1}</span>
-                            <span class="seller">${esc(it.seller)}</span>
+                            <span class="seller${sellerClass(it.seller)}">${sellerMark(it.seller)}</span>
                             <span class="rate_pill${hot}">${it.rate}%</span>
                             <span class="d_title">${esc(it.title)}</span>
                             ${bestTag}
