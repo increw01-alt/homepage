@@ -233,6 +233,22 @@
         /* 로고마다 가로세로 비율이 달라, 동일 크기 상자 안에 맞춰 넣어 시각적 균형을 맞춘다 */
         .mall_logo { width: 62px; height: 16px; object-fit: contain; display: block; }
         .summary_table .mall_logo { width: 74px; height: 20px; margin: 0 auto; }
+
+        /* 네이버 스마트스토어: 플랫폼 로고 + 스토어명을 함께 표기 */
+        .deal_item .seller.has_platform,
+        .best_card .b_seller.has_platform {
+            background: #fff; border: 1px solid #e9eaee;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 10px; max-width: 170px; box-sizing: border-box;
+        }
+        .platform_logo { height: 11px; width: auto; flex-shrink: 0; }
+        .store_name {
+            font-size: 1.2rem; font-weight: 600; color: #666; line-height: 16px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .summary_table .seller_cell { display: inline-flex; align-items: center; justify-content: center; gap: 6px; max-width: 150px; }
+        .summary_table .platform_logo { height: 12px; }
+        .summary_table .store_name { font-size: 1.3rem; color: #333; }
         .deal_item .rate_pill {
             flex-shrink: 0; min-width: 74px; text-align: center;
             font-size: 1.65rem; font-weight: 800; color: #fff;
@@ -557,13 +573,25 @@
         };
         // 로고 로드 실패 시 판매처 이름으로 되돌린다
         const logoFallback = "this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;";
+        // 네이버 스마트스토어 판매처 — 데이터의 링크를 보고 자동 판별해 채운다
+        const NAVER_RE = /(smartstore|brand|shopping)\.naver\.com/;
+        const naverSellers = new Set();
+
         const sellerMark = name => {
             const src = MALL_LOGO[name];
-            return src
-                ? `<img class="mall_logo" src="${src}" alt="${esc(name)}" onerror="${logoFallback}">`
-                : esc(name);
+            if (src) {
+                return `<img class="mall_logo" src="${src}" alt="${esc(name)}" onerror="${logoFallback}">`;
+            }
+            // 네이버 스토어는 '네이버 로고 + 스토어명'으로 어디서 사는지 함께 보여준다
+            if (naverSellers.has(name)) {
+                return `<img class="platform_logo" src="img/mall/naver.png" alt="네이버"` +
+                       ` onerror="this.remove();">` +
+                       `<span class="store_name" title="${esc(name)}">${esc(name)}</span>`;
+            }
+            return esc(name);
         };
-        const sellerClass = name => (MALL_LOGO[name] ? ' has_logo' : '');
+        const sellerClass = name =>
+            MALL_LOGO[name] ? ' has_logo' : (naverSellers.has(name) ? ' has_platform' : '');
 
         // ===== deals.json 을 불러와 페이지를 자동 렌더링 =====
         // 서버 환경에서는 deals.json 을 사용하고, 실패하면 위 내장 데이터로 렌더링합니다.
@@ -571,6 +599,11 @@
             .then(res => { if (!res.ok) throw new Error('no server'); return res.json(); })
             .catch(() => EMBEDDED_DEALS)
             .then(data => {
+                // 0) 판매처별 구매 플랫폼 판별 (네이버 스마트스토어 링크인지)
+                data.deals.forEach(g => g.items.forEach(it => {
+                    if (NAVER_RE.test(it.url || '')) naverSellers.add(it.seller);
+                }));
+
                 // 1) 업데이트 시각 & 안내문
                 document.getElementById('updatedAt').textContent = data.updated_at || '-';
                 document.getElementById('dealNote').textContent = data.note || '';
@@ -604,7 +637,7 @@
                         const best = (v === bestPerCol[ci]);
                         return `<td><span class="rate${best ? ' best' : ''}">${v}%</span></td>`;
                     }).join('');
-                    return `<tr><th>${sellerMark(row.seller)}</th>${tds}</tr>`;
+                    return `<tr><th><span class="seller_cell${sellerClass(row.seller)}">${sellerMark(row.seller)}</span></th>${tds}</tr>`;
                 }).join('');
 
                 // 4) 카테고리별 딜 목록 (카테고리 내 할인율 내림차순, 랭크 표시)
