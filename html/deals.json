@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-30 01:21",
+  "updated_at": "2026-07-30 03:06",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "summary": {
     "columns": [
@@ -18,16 +18,6 @@
           null,
           null,
           null
-        ]
-      },
-      {
-        "seller": "11번가",
-        "rates": [
-          5.2,
-          5.0,
-          0.7,
-          null,
-          0.7
         ]
       },
       {
@@ -69,6 +59,16 @@
           null,
           null
         ]
+      },
+      {
+        "seller": "컬쳐랜드 상품권",
+        "rates": [
+          4.7,
+          null,
+          null,
+          null,
+          null
+        ]
       }
     ]
   },
@@ -76,24 +76,6 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "items": [
-        {
-          "seller": "11번가",
-          "rate": 5.2,
-          "title": "컬쳐랜드 상품권(모바일문화상품권) 5만원",
-          "url": "https://www.11st.co.kr/products/9315309544"
-        },
-        {
-          "seller": "11번가",
-          "rate": 5.2,
-          "title": "컬쳐랜드 상품권(모바일문화상품권) 3만원",
-          "url": "https://www.11st.co.kr/products/9315307642"
-        },
-        {
-          "seller": "11번가",
-          "rate": 5.2,
-          "title": "컬쳐랜드 상품권(모바일문화상품권) 1만원",
-          "url": "https://www.11st.co.kr/products/9315303869"
-        },
         {
           "seller": "컬쳐랜드 상품권",
           "rate": 4.7,
@@ -111,18 +93,30 @@
           "rate": 4.7,
           "title": "컬쳐랜드상품권(모바일문화상품권) 1만원",
           "url": "https://smartstore.naver.com/main/products/12115255103"
+        },
+        {
+          "seller": "지마켓",
+          "rate": 3.2,
+          "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /해피캐시 지원",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4339623390"
+        },
+        {
+          "seller": "옥션",
+          "rate": 3.2,
+          "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917950563"
+        },
+        {
+          "seller": "지마켓",
+          "rate": 3.0,
+          "title": "컬쳐랜드 모바일 문화상품권 3만원권",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4763896952"
         }
       ]
     },
     {
       "category": "도서문화상품권 (북앤라이프)",
       "items": [
-        {
-          "seller": "11번가",
-          "rate": 5.0,
-          "title": "북앤라이프 도서문화상품권 5만원권 5%할인",
-          "url": "https://www.11st.co.kr/products/9203481517"
-        },
         {
           "seller": "옥션",
           "rate": 3.3,
@@ -152,6 +146,12 @@
           "rate": 3.0,
           "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
           "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917062436"
+        },
+        {
+          "seller": "쿠프마케팅 선물하기",
+          "rate": 2.0,
+          "title": "[선물하기] 도서문화상품권 3만원권",
+          "url": "https://smartstore.naver.com/main/products/11928394395"
         }
       ]
     },
@@ -183,27 +183,10 @@
           "url": "https://smartstore.naver.com/main/products/12417821440"
         },
         {
-          "seller": "11번가",
-          "rate": 0.7,
-          "title": "롯데모바일교환권 100,000원(롯데백화점)",
-          "url": "https://www.11st.co.kr/products/9436987138"
-        },
-        {
           "seller": "기프티콘",
           "rate": 0.4,
           "title": "(EVENT) 롯데모바일교환권 100,000원",
           "url": "https://smartstore.naver.com/main/products/13639942819"
-        }
-      ]
-    },
-    {
-      "category": "신세계 상품권",
-      "items": [
-        {
-          "seller": "11번가",
-          "rate": 0.7,
-          "title": "신세계상품권(100,000원)",
-          "url": "https://www.11st.co.kr/products/5917614041"
         }
       ]
     }
