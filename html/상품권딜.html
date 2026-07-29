@@ -35,9 +35,7 @@
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/navi.js"></script>
 
-    <!-- google icon -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&" />
+    <!-- 아이콘은 인라인 SVG를 사용하므로 외부 아이콘 폰트를 불러오지 않는다 -->
 
     <!-- robots -->
     <meta name="robots" content="index, follow">
@@ -260,7 +258,8 @@
             flex-shrink: 0; font-size: 1.2rem; font-weight: 800; color: var(--po-color);
             background: rgba(9,124,255,.1); padding: 3px 9px; border-radius: 6px;
         }
-        .deal_item .go { flex-shrink: 0; color: #c8ccd2; }
+        .deal_item .go { flex-shrink: 0; color: #c8ccd2; display: inline-flex; align-items: center; }
+        .deal_item .go svg { width: 20px; height: 20px; }
 
         /* ---- 협회 안내 문단 ---- */
         .deal_guide { margin-top: 1rem; }
@@ -482,7 +481,10 @@
 
             <div class="right">
                 <p><span>협회 공식 할부 구매</span> <ruby>바로가기<rt>할부 구매</rt></ruby></p>
-                <span class="material-symbols-outlined arrow">chevron_right</span>
+                <svg class="arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                    <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
             </div><!-- right -->
         </a><!-- kv work btn -->
     </section><!-- sec-2 -->
@@ -556,6 +558,11 @@
                 ]}
             ]
         };
+
+        // 화살표 아이콘 — 외부 아이콘 폰트가 늦거나 차단돼도 항상 보이도록 인라인 SVG 사용
+        const CHEVRON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+            '<path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"' +
+            ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
         // ===== 유틸: HTML 이스케이프 (수집 데이터 안전 렌더링) =====
         const esc = s => String(s == null ? '' : s)
@@ -656,7 +663,7 @@
                             <span class="rate_pill${hot}">${it.rate}%</span>
                             <span class="d_title">${esc(it.title)}</span>
                             ${bestTag}
-                            <span class="go material-symbols-outlined">chevron_right</span>
+                            <span class="go">${CHEVRON}</span>
                         </a>`;
                     }).join('');
                     return `
@@ -687,7 +694,7 @@
                         <span class="promo_badge">특가</span>
                         <span class="d_title">${esc(it.title)}</span>
                         ${it.desc ? `<span class="d_desc">${esc(it.desc)}</span>` : ''}
-                        <span class="go material-symbols-outlined">chevron_right</span>
+                        <span class="go">${CHEVRON}</span>
                     </a>`).join('');
                 document.getElementById('promoSection').style.display = 'block';
             })
