@@ -306,6 +306,7 @@ def load_manual_deals():
             continue
         rate = d.get("rate", 0)
         face = d.get("face")
+        price = d.get("price")
         title = d.get("title", "")
         seller = d.get("seller", "")
 
@@ -317,6 +318,7 @@ def load_manual_deals():
                     rate = live["rate"]
                     title = live["title"] or title
                     face = live["face"]
+                    price = live["price"]
                     seller = seller or "11번가"
                 else:
                     # 품절·판매중단·비정상가 → 노출 제외 (등록값으로 잘못 노출하지 않음)
@@ -342,6 +344,8 @@ def load_manual_deals():
         by_cat.setdefault(d.get("category", "기타"), []).append({
             "seller": seller,
             "rate": rate,
+            "price": price,
+            "face": face,
             "title": title,
             "url": to_deeplink(url),
             "manual": True,
@@ -414,6 +418,34 @@ def seller_class(name, naver_sellers):
     return " has_platform" if name in naver_sellers else ""
 
 
+def pill_class(rate):
+    """할인율 크기에 따른 pill 농도 차등 — JS 렌더러의 pillClass() 와 동일해야 함."""
+    if rate >= 6:
+        return " hot"
+    if rate >= 5:
+        return " r5"
+    if rate >= 3:
+        return ""
+    return " r1"
+
+
+def best_price_line(it):
+    """TOP3 카드의 실구매가·절약액 줄 (가격 정보가 있는 딜만)."""
+    price, face = it.get("price"), it.get("face")
+    if not price or not face:
+        return ""
+    return (f'<div class="b_price">{price:,}원'
+            f'<span class="save">{face - price:,}원 절약</span></div>')
+
+
+def item_price(it):
+    """딜 목록의 실구매가 표기 (가격 정보가 있는 딜만)."""
+    price = it.get("price")
+    if not price:
+        return ""
+    return f'<span class="d_price">{price:,}원</span>'
+
+
 def build_prerender(data):
     """deals 데이터 → 마커 이름별 정적 HTML 조각 dict."""
     naver_sellers = set()
@@ -427,16 +459,28 @@ def build_prerender(data):
     parts["updatedAt"] = esc(data.get("updated_at") or "-")
     parts["dealNote"] = esc(data.get("note") or "")
 
-    # 오늘의 최고 할인 TOP 3
+    # 오늘의 최고 할인 TOP 3 — 같은 딜 반복을 피하기 위해 "카테고리별 대표(최고) 딜"로 다양화
     all_items = [it for g in data.get("deals", []) for it in g.get("items", [])]
-    top3 = sorted(all_items, key=lambda d: d["rate"], reverse=True)[:3]
+    cat_best = []
+    for g in data.get("deals", []):
+        if g.get("items"):
+            best_it = max(g["items"], key=lambda d: d["rate"])  # 동률이면 앞선 항목 (JS reduce 와 동일)
+            cat_best.append((g["category"].split()[0], best_it))
+    cat_best.sort(key=lambda t: t[1]["rate"], reverse=True)
+    top3 = cat_best[:3]
     parts["bestStrip"] = "".join(
         f'<a class="best_card rank{i + 1}" href="{esc(it["url"])}" target="_blank" rel="nofollow sponsored noopener">'
-        f'<span class="rank_badge">TOP {i + 1}</span>'
+        f'<span class="rank_badge">{esc(cat)} 최고</span>'
         f'<div class="b_rate">{fmt_rate(it["rate"])}<small>%</small></div>'
         f'<span class="b_seller{seller_class(it["seller"], ns)}">{seller_mark(it["seller"], ns)}</span>'
-        f'<div class="b_title">{esc(it["title"])}</div></a>'
-        for i, it in enumerate(top3))
+        f'<div class="b_title">{esc(it["title"])}</div>'
+        f'{best_price_line(it)}</a>'
+        for i, (cat, it) in enumerate(top3))
+
+    # 카테고리 바로가기 칩 (sticky) — 딜 그룹 id 와 1:1 대응
+    parts["catChips"] = "".join(
+        f'<a class="chip" href="#dealcat-{i}">{esc(g["category"].split()[0])}</a>'
+        for i, g in enumerate(data.get("deals", [])))
 
     # 마켓별 최고 할인율 요약표
     cols = data.get("summary", {}).get("columns", [])
@@ -461,26 +505,26 @@ def build_prerender(data):
             f'{seller_mark(row["seller"], ns)}</span></th>{"".join(tds)}</tr>')
     parts["summaryBody"] = "".join(body_rows)
 
-    # 카테고리별 딜 목록
+    # 카테고리별 딜 목록 — "최고" 배지는 1위 한 건만, pill 은 할인율에 비례한 농도
     groups_html = []
-    for group in data.get("deals", []):
+    for gi, group in enumerate(data.get("deals", [])):
         sorted_items = sorted(group["items"], key=lambda d: d["rate"], reverse=True)
-        best = sorted_items[0]["rate"] if sorted_items else None
         items_html = []
         for idx, it in enumerate(sorted_items):
-            hot = " hot" if it["rate"] >= 6 else ""
-            is_top = it["rate"] == best
+            is_top = idx == 0
             best_tag = '<span class="best_tag">최고</span>' if is_top else ""
             items_html.append(
                 f'<a class="deal_item{" top" if is_top else ""}" href="{esc(it["url"])}"'
                 f' target="_blank" rel="nofollow sponsored noopener">'
                 f'<span class="rank">{idx + 1}</span>'
                 f'<span class="seller{seller_class(it["seller"], ns)}">{seller_mark(it["seller"], ns)}</span>'
-                f'<span class="rate_pill{hot}">{fmt_rate(it["rate"])}%</span>'
+                f'<span class="rate_pill{pill_class(it["rate"])}">{fmt_rate(it["rate"])}%</span>'
                 f'<span class="d_title">{esc(it["title"])}</span>'
+                f'{item_price(it)}'
                 f'{best_tag}<span class="go">{CHEVRON_SVG}</span></a>')
         groups_html.append(
-            f'<div class="deal_group"><h3 class="deal_cat_title">{esc(group["category"])}</h3>'
+            f'<div class="deal_group" id="dealcat-{gi}">'
+            f'<h3 class="deal_cat_title">{esc(group["category"])}</h3>'
             f'<div class="deal_list">{"".join(items_html)}</div></div>')
     parts["dealGroups"] = "".join(groups_html)
 
@@ -622,8 +666,12 @@ def main():
         collected = deduped
         top = collected[:6]
         if top:
+            # price·face 는 값이 있는 딜에만 포함 (실구매가·절약액 표시용)
             deals.append({"category": cat["name"], "items": [
-                {"seller": d["seller"], "rate": d["rate"], "title": d["title"], "url": d["url"]}
+                {k: v for k, v in {
+                    "seller": d["seller"], "rate": d["rate"], "title": d["title"],
+                    "url": d["url"], "price": d.get("price"), "face": d.get("face"),
+                }.items() if v is not None}
                 for d in top
             ]})
 
@@ -638,7 +686,10 @@ def main():
     for cat_name, items in manual_by_cat.items():
         items.sort(key=lambda d: d["rate"], reverse=True)
         deals.append({"category": cat_name, "items": [
-            {"seller": d["seller"], "rate": d["rate"], "title": d["title"], "url": d["url"]}
+            {k: v for k, v in {
+                "seller": d["seller"], "rate": d["rate"], "title": d["title"],
+                "url": d["url"], "price": d.get("price"), "face": d.get("face"),
+            }.items() if v is not None}
             for d in items
         ]})
 
