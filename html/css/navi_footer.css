@@ -95,6 +95,8 @@
     padding: 5px 10px;
     display: flex;
     align-items: center;
+    /* 폭이 좁아져도 '공지사 항'처럼 글자 중간에서 줄바꿈되지 않도록 */
+    white-space: nowrap;
 }
 
 .pc_navi_wrap .menu li a::before {
@@ -122,6 +124,38 @@
     opacity: 1;
     top: -5px;
     width: 50%;
+}
+
+/* 좁은 데스크톱 구간(971~1140px) — 모바일 메뉴로 바뀌기 전 구간에서
+   메뉴가 한 줄에 담기도록 간격과 여백을 줄인다. */
+@media screen and (min-width: 971px) and (max-width: 1140px) {
+    .pc_navi_wrap {
+        gap: 12px;
+    }
+
+    .menu {
+        gap: 1.5vw;
+    }
+
+    .pc_navi_wrap .menu li a {
+        padding: 5px 4px;
+        font-size: 1.5rem;
+    }
+
+    .pc_navi_wrap .menu li.deal-menu a {
+        padding: 7px 13px;
+    }
+
+    .navi_btn {
+        padding: 9px 18px 10px;
+        padding-right: 20px;
+        font-size: 1.45rem;
+        gap: 6px;
+    }
+
+    .navi_btn img {
+        width: 18px;
+    }
 }
 
 /* 상품권 핫딜 강조 메뉴 */
