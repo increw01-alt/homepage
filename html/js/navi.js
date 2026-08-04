@@ -20,24 +20,8 @@ $(function () {
 
     ///////////////////////////
 
-    var header = document.querySelector('#gnb');
-    var headerMoving = function (direction) {
-        if (direction === "up") {
-            header.className = '';
-        } else if (direction === "down") {
-            header.className = 'scrollDown';
-        }
-    };
-    var prevScrollTop = 0;
-    document.addEventListener("scroll", function () {
-        var nextScrollTop = window.pageYOffset || -500; // IE 8 이하 X.
-        if (nextScrollTop > prevScrollTop) {
-            headerMoving("down");
-        } else if (nextScrollTop < prevScrollTop) {
-            headerMoving("up");
-        }
-        prevScrollTop = nextScrollTop;
-    });
+    // 헤더는 항상 상단 고정 — 이전의 "아래로 스크롤하면 숨기기(scrollDown)" 동작은
+    // 2026-08-04 제거함 (스크롤 시 메뉴바가 움직이지 않도록)
 
 
     // PC 메뉴를 기준으로 모바일 메뉴 생성

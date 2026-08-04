@@ -1,9 +1,7 @@
 @charset "utf-8";
 
 
-#gnb.scrollDown {
-    transform: translate(0, -160px);
-}
+/* 헤더는 항상 상단 고정 — 스크롤 숨김(scrollDown) 규칙은 2026-08-04 제거 (navi.js 와 함께) */
 
 /* .black */
 
@@ -32,6 +30,8 @@
     background: transparent;
     width: 100%;
     position: fixed;
+    top: 0;   /* 상단 고정 명시 — top 미지정 시 정적 위치로 계산되어 어긋날 수 있음 */
+    left: 0;
     z-index: 9999;
     transition: .3s ease-in-out;
 }
