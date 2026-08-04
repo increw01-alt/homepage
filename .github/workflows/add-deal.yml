@@ -50,11 +50,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add manual_deals.json html/deals.json
+          # 수집이 프리렌더한 상품권딜.html·sitemap.xml 도 함께 커밋 (deals.json 과 어긋나지 않게)
+          git add manual_deals.json html/deals.json "html/상품권딜.html" html/sitemap.xml
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else
             git commit -m "chore: 딜 등록 (Issue #${{ github.event.issue.number }})"
+            git pull --rebase origin main
             git push
           fi
 

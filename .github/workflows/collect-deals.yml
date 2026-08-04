@@ -11,7 +11,9 @@ permissions:
   contents: write
 
 concurrency:
-  group: collect-deals
+  # add-deal.yml 과 같은 그룹 — 두 워크플로가 같은 파일(deals.json·상품권딜.html)을
+  # 커밋하므로 직렬화해 push 경합·리베이스 충돌을 방지한다
+  group: deals-write
   cancel-in-progress: false
 
 jobs:
@@ -36,10 +38,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add html/deals.json
+          # deals.json 과 함께 프리렌더된 상품권딜.html, lastmod 갱신된 sitemap.xml 도 커밋
+          git add html/deals.json "html/상품권딜.html" html/sitemap.xml
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else
-            git commit -m "chore: 상품권 딜 자동 갱신 (deals.json)"
+            git commit -m "chore: 상품권 딜 자동 갱신 (deals.json·프리렌더)"
+            # 사람이 그 사이에 푸시한 커밋과 충돌하지 않도록 리베이스 후 푸시
+            git pull --rebase origin main
             git push
           fi

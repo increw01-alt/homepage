@@ -16,6 +16,7 @@ import re
 import sys
 import json
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone, timedelta
@@ -348,6 +349,237 @@ def load_manual_deals():
     return by_cat
 
 
+# ─────────────────────────────────────────────────────────────
+# 프리렌더: 수집 결과를 상품권딜.html 의 마커 구간에 정적 HTML로 굽는다.
+# 네이버 크롤러(Yeti)는 JS를 렌더링하지 않으므로, 딜 데이터가 원본 HTML에
+# 있어야 검색에 노출된다. JS는 페이지를 열 때 deals.json 으로 다시 그리므로
+# 이중 렌더 문제는 없다 (성공 시 innerHTML 통째 교체).
+# ─────────────────────────────────────────────────────────────
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DEAL_PAGE = os.path.join(BASE_DIR, "html", "상품권딜.html")
+SITEMAP_PATH = os.path.join(BASE_DIR, "html", "sitemap.xml")
+PAGE_URL = "https://koreagiftcard.co.kr/상품권딜"
+# IndexNow 공개 키 — html/<키>.txt 파일과 반드시 일치해야 한다 (공개되어도 무방한 값)
+INDEXNOW_KEY = "d907cfe3732b7f0d4a64d7f84e3c9c28"
+
+# 아래 상수·마크업은 상품권딜.html 의 JS 렌더러와 1:1 동일해야 한다.
+# 마크업 구조를 바꿀 때는 반드시 양쪽을 함께 수정할 것.
+CHEVRON_SVG = ('<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+               '<path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"'
+               ' stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+MALL_LOGO = {
+    "11번가": "img/mall/11st.png",
+    "지마켓": "img/mall/gmarket.png",
+    "옥션": "img/mall/auction.png",
+    "롯데온": "img/mall/lotteon.png",
+    "롯데on": "img/mall/lotteon.png",
+    "네이버": "img/mall/naver.png",
+}
+LOGO_FALLBACK = "this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"
+NAVER_STORE_RE = re.compile(r"(smartstore|brand|shopping)\.naver\.com")
+
+
+def esc(s):
+    """JS 렌더러의 esc() 와 동일한 HTML 이스케이프."""
+    return (str("" if s is None else s)
+            .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;").replace("'", "&#39;"))
+
+
+def fmt_rate(v):
+    """5.0 → '5', 5.2 → '5.2' — JS 의 숫자 문자열 표기와 동일하게."""
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return str(v)
+    return str(int(f)) if f == int(f) else str(f)
+
+
+def seller_mark(name, naver_sellers):
+    """판매처 표기: 로고 마켓은 로고, 네이버 스토어는 네이버 로고+스토어명, 그 외 이름."""
+    src = MALL_LOGO.get(name)
+    if src:
+        return f'<img class="mall_logo" src="{src}" alt="{esc(name)}" onerror="{LOGO_FALLBACK}">'
+    if name in naver_sellers:
+        return ('<img class="platform_logo" src="img/mall/naver.png" alt="네이버" onerror="this.remove();">'
+                f'<span class="store_name" title="{esc(name)}">{esc(name)}</span>')
+    return esc(name)
+
+
+def seller_class(name, naver_sellers):
+    if name in MALL_LOGO:
+        return " has_logo"
+    return " has_platform" if name in naver_sellers else ""
+
+
+def build_prerender(data):
+    """deals 데이터 → 마커 이름별 정적 HTML 조각 dict."""
+    naver_sellers = set()
+    for g in data.get("deals", []):
+        for it in g.get("items", []):
+            if NAVER_STORE_RE.search(it.get("url") or ""):
+                naver_sellers.add(it.get("seller"))
+    ns = naver_sellers
+
+    parts = {}
+    parts["updatedAt"] = esc(data.get("updated_at") or "-")
+    parts["dealNote"] = esc(data.get("note") or "")
+
+    # 오늘의 최고 할인 TOP 3
+    all_items = [it for g in data.get("deals", []) for it in g.get("items", [])]
+    top3 = sorted(all_items, key=lambda d: d["rate"], reverse=True)[:3]
+    parts["bestStrip"] = "".join(
+        f'<a class="best_card rank{i + 1}" href="{esc(it["url"])}" target="_blank" rel="nofollow sponsored noopener">'
+        f'<span class="rank_badge">TOP {i + 1}</span>'
+        f'<div class="b_rate">{fmt_rate(it["rate"])}<small>%</small></div>'
+        f'<span class="b_seller{seller_class(it["seller"], ns)}">{seller_mark(it["seller"], ns)}</span>'
+        f'<div class="b_title">{esc(it["title"])}</div></a>'
+        for i, it in enumerate(top3))
+
+    # 마켓별 최고 할인율 요약표
+    cols = data.get("summary", {}).get("columns", [])
+    rows = data.get("summary", {}).get("rows", [])
+    parts["summaryHead"] = ("<tr><th>판매처</th>"
+                            + "".join(f"<th>{esc(c)}</th>" for c in cols) + "</tr>")
+    best_per_col = []
+    for ci in range(len(cols)):
+        vals = [r["rates"][ci] for r in rows if r["rates"][ci] is not None]
+        best_per_col.append(max(vals) if vals else None)
+    body_rows = []
+    for row in rows:
+        tds = []
+        for ci, v in enumerate(row["rates"]):
+            if v is None:
+                tds.append('<td class="none">-</td>')
+            else:
+                best = " best" if v == best_per_col[ci] else ""
+                tds.append(f'<td><span class="rate{best}">{fmt_rate(v)}%</span></td>')
+        body_rows.append(
+            f'<tr><th><span class="seller_cell{seller_class(row["seller"], ns)}">'
+            f'{seller_mark(row["seller"], ns)}</span></th>{"".join(tds)}</tr>')
+    parts["summaryBody"] = "".join(body_rows)
+
+    # 카테고리별 딜 목록
+    groups_html = []
+    for group in data.get("deals", []):
+        sorted_items = sorted(group["items"], key=lambda d: d["rate"], reverse=True)
+        best = sorted_items[0]["rate"] if sorted_items else None
+        items_html = []
+        for idx, it in enumerate(sorted_items):
+            hot = " hot" if it["rate"] >= 6 else ""
+            is_top = it["rate"] == best
+            best_tag = '<span class="best_tag">최고</span>' if is_top else ""
+            items_html.append(
+                f'<a class="deal_item{" top" if is_top else ""}" href="{esc(it["url"])}"'
+                f' target="_blank" rel="nofollow sponsored noopener">'
+                f'<span class="rank">{idx + 1}</span>'
+                f'<span class="seller{seller_class(it["seller"], ns)}">{seller_mark(it["seller"], ns)}</span>'
+                f'<span class="rate_pill{hot}">{fmt_rate(it["rate"])}%</span>'
+                f'<span class="d_title">{esc(it["title"])}</span>'
+                f'{best_tag}<span class="go">{CHEVRON_SVG}</span></a>')
+        groups_html.append(
+            f'<div class="deal_group"><h3 class="deal_cat_title">{esc(group["category"])}</h3>'
+            f'<div class="deal_list">{"".join(items_html)}</div></div>')
+    parts["dealGroups"] = "".join(groups_html)
+
+    # meta description — 카테고리별 최고 할인율을 담아 검색 스니펫 품질을 높인다
+    cat_best = []
+    for g in data.get("deals", []):
+        if g.get("items"):
+            top = max(g["items"], key=lambda d: d["rate"])
+            cat_best.append((g["category"].split()[0], top["rate"]))
+    cat_best.sort(key=lambda t: t[1], reverse=True)
+    if cat_best:
+        frag = "·".join(f"{name} {fmt_rate(rate)}%" for name, rate in cat_best[:3])
+        desc = (f"오늘 상품권 최고 할인율: {frag}. 11번가·지마켓·옥션 등 신뢰 판매처의 "
+                "컬쳐랜드·도서문화·백화점상품권 특가를 한국상품권협회가 매시간 자동 집계합니다.")
+    else:  # 수집 결과가 비어도 스니펫이 깨지지 않게 기본 문구 유지
+        desc = ("컬쳐랜드·도서문화·백화점상품권의 실시간 최고 할인율을 11번가·지마켓·옥션 등 "
+                "신뢰 판매처만 선별해 한국상품권협회가 매시간 자동 집계합니다.")
+    parts["metaDesc"] = f'<meta name="description" content="{esc(desc)}">'
+
+    # ItemList 구조화 데이터 — 상위 딜 10개 (제휴 URL 은 넣지 않는다)
+    top10 = sorted(all_items, key=lambda d: d["rate"], reverse=True)[:10]
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "오늘의 상품권 할인 딜 TOP 10",
+        "numberOfItems": len(top10),
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1,
+             "name": f"{it['title']} — {it['seller']} {fmt_rate(it['rate'])}% 할인"}
+            for i, it in enumerate(top10)
+        ],
+    }
+    # '<' 전체를 JSON 이스케이프(<)로 치환 — 상품명을 통한 </script> 탈출·
+    # 프리렌더 마커 주입·HTML 주석 상태 오염을 한 번에 차단 (외부 입력 방어)
+    ld_json = json.dumps(ld, ensure_ascii=False).replace("<", "\\u003c")
+    parts["jsonld"] = f'<script type="application/ld+json">{ld_json}</script>'
+
+    return parts
+
+
+def apply_prerender(data):
+    """상품권딜.html 의 <!--PR:이름--> ... <!--/PR:이름--> 구간을 실제 딜 HTML로 치환."""
+    with open(DEAL_PAGE, encoding="utf-8", newline="") as f:
+        html = f.read()
+    parts = build_prerender(data)
+    for name, content in parts.items():
+        pattern = re.compile(
+            r"(<!--PR:%s-->).*?(<!--/PR:%s-->)" % (re.escape(name), re.escape(name)), re.S)
+        html, n = pattern.subn(lambda m, c=content: m.group(1) + c + m.group(2), html)
+        if n != 1:
+            # 마커가 지워지면 프리렌더가 화석화되므로 조용히 넘어가지 않고 실패시킨다
+            print(f"[오류] 프리렌더 마커 'PR:{name}' 치환 실패(발견 {n}곳) — 상품권딜.html 의 마커를 확인하세요.")
+            sys.exit(1)
+    with open(DEAL_PAGE, "w", encoding="utf-8", newline="") as f:
+        f.write(html)
+    print(f"[완료] 상품권딜.html 프리렌더 갱신 ({len(parts)}개 구간)")
+
+
+def update_sitemap_lastmod():
+    """sitemap.xml 의 /상품권딜 lastmod 를 KST 오늘 날짜로. 날짜가 바뀐 첫 실행에서만
+    실제로 변경되므로 하루 1회만 커밋 diff 가 생긴다. 변경 시 True 반환."""
+    today = datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+    try:
+        with open(SITEMAP_PATH, encoding="utf-8", newline="") as f:
+            xml = f.read()
+    except OSError as e:
+        print(f"::warning::sitemap.xml 읽기 실패: {e}")
+        return False
+    pattern = re.compile(
+        r"(<loc>https://koreagiftcard\.co\.kr/%EC%83%81%ED%92%88%EA%B6%8C%EB%94%9C</loc>\s*"
+        r"<lastmod>)([^<]*)(</lastmod>)")
+    m = pattern.search(xml)
+    if not m:
+        # ::warning:: — GitHub Actions 실행 요약에 노란 경고로 표시되어 묻히지 않게
+        print("::warning::sitemap.xml 에서 상품권딜 항목을 찾지 못했습니다 — lastmod 갱신 생략")
+        return False
+    if m.group(2) == today:
+        return False
+    xml = pattern.sub(lambda mm: mm.group(1) + today + mm.group(3), xml, count=1)
+    with open(SITEMAP_PATH, "w", encoding="utf-8", newline="") as f:
+        f.write(xml)
+    print(f"[완료] sitemap.xml 상품권딜 lastmod → {today}")
+    return True
+
+
+def ping_indexnow():
+    """네이버·Bing 에 페이지 갱신을 통지 (IndexNow). GitHub Actions 에서만 실행되며
+    실패해도 수집을 막지 않는다. 로컬 테스트에서는 아무것도 하지 않음."""
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+    ping = ("https://api.indexnow.org/indexnow?url="
+            + urllib.parse.quote(PAGE_URL, safe="") + "&key=" + INDEXNOW_KEY)
+    try:
+        with urllib.request.urlopen(ping, timeout=10) as r:
+            print(f"[완료] IndexNow 핑 전송 (HTTP {r.status})")
+    except Exception as e:
+        print(f"[경고] IndexNow 핑 실패: {e}")
+
+
 def main():
     if not CLIENT_ID or not CLIENT_SECRET:
         print("[오류] 환경변수 NAVER_CLIENT_ID / NAVER_CLIENT_SECRET 가 설정되지 않았습니다.")
@@ -410,6 +642,13 @@ def main():
             for d in items
         ]})
 
+    # 수집이 통째로 실패(API 장애·쿼터 초과 등)한 경우 빈 페이지를 배포하지 않도록
+    # 실행 자체를 실패시켜 기존 deals.json·프리렌더를 보존한다 (조용한 실패 방지).
+    total_items = sum(len(g["items"]) for g in deals)
+    if total_items < 3:
+        print(f"::error::수집된 딜이 {total_items}건뿐입니다 — API 장애 가능성. 기존 데이터를 보존하고 종료합니다.")
+        sys.exit(1)
+
     columns = [c["key"] for c in CATEGORIES]
     # 매물이 많은 상위 6개 판매처만 요약표 행으로
     top_sellers = [s for s, _ in sorted(sellers_seen.items(), key=lambda x: x[1], reverse=True)[:6]]
@@ -429,8 +668,14 @@ def main():
     }
 
     out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "html", "deals.json")
-    with open(out_path, "w", encoding="utf-8") as f:
+    # newline="\n" — 윈도우 로컬 실행과 리눅스 Actions 실행이 교차해도 개행 차이 diff 가 없게
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
+
+    # 프리렌더(SEO) + 사이트맵 갱신 + 색인 통지
+    apply_prerender(result)
+    if update_sitemap_lastmod():
+        ping_indexnow()
 
     # 콘솔 요약 출력
     print(f"[완료] {out_path} 생성")
@@ -445,4 +690,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if "--render-only" in sys.argv:
+        # API 수집 없이 기존 html/deals.json 으로 프리렌더만 다시 실행 (로컬 점검용)
+        with open(os.path.join(BASE_DIR, "html", "deals.json"), encoding="utf-8") as f:
+            apply_prerender(json.load(f))
+        update_sitemap_lastmod()
+    else:
+        main()

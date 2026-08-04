@@ -11,7 +11,7 @@
     <meta name='subject' content='한국상품권협회'>
     <meta name='author' content='한국상품권협회'>
     <meta name='copyright' content='한국상품권협회'>
-    <meta name='description' content='문화·컬처·백화점·롯데·현대·신세계 상품권의 실시간 최고 할인율을 한눈에 비교하세요. 옥션·지마켓·11번가 등 주요 마켓의 상품권 특가 딜을 매일 자동 업데이트합니다.'>
+    <!--PR:metaDesc--><meta name="description" content="오늘 상품권 최고 할인율: 컬쳐랜드 5.2%·도서문화상품권 5%·롯데 0.7%. 11번가·지마켓·옥션 등 신뢰 판매처의 컬쳐랜드·도서문화·백화점상품권 특가를 한국상품권협회가 매시간 자동 집계합니다."><!--/PR:metaDesc-->
     <meta name='keywords' content='상품권할인, 상품권딜, 실시간상품권할인율, 문화상품권할인, 컬쳐랜드할인, 백화점상품권할인, 신세계상품권할인, 현대백화점상품권할인, 롯데상품권할인, 상품권특가, 상품권최저가, 한국상품권협회'>
 
     <!-- og:type -->
@@ -95,6 +95,9 @@
       ]
     }
     </script>
+
+    <!-- 수집 스크립트가 딜 데이터 기반 ItemList 구조화 데이터를 자동 생성하는 구간 -->
+    <!--PR:jsonld--><script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "오늘의 상품권 할인 딜 TOP 10", "numberOfItems": 10, "itemListElement": [{"@type": "ListItem", "position": 1, "name": "컬쳐랜드 상품권(모바일문화상품권) 5만원 — 11번가 5.2% 할인"}, {"@type": "ListItem", "position": 2, "name": "컬쳐랜드 상품권(모바일문화상품권) 3만원 — 11번가 5.2% 할인"}, {"@type": "ListItem", "position": 3, "name": "컬쳐랜드 상품권(모바일문화상품권) 1만원 — 11번가 5.2% 할인"}, {"@type": "ListItem", "position": 4, "name": "북앤라이프 도서문화상품권 5만원권 5%할인 — 11번가 5% 할인"}, {"@type": "ListItem", "position": 5, "name": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용 — 옥션 3.3% 할인"}, {"@type": "ListItem", "position": 6, "name": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /해피캐시 지원 — 지마켓 3.2% 할인"}, {"@type": "ListItem", "position": 7, "name": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전 — 옥션 3.2% 할인"}, {"@type": "ListItem", "position": 8, "name": "(특가) 북앤라이프 도서문화상품권 5만원권 — 지마켓 3.2% 할인"}, {"@type": "ListItem", "position": 9, "name": "컬쳐랜드 모바일 문화상품권 3만원권 — 지마켓 3% 할인"}, {"@type": "ListItem", "position": 10, "name": "북앤라이프 도서문화상품권 3만원권 — 지마켓 3% 할인"}]}</script><!--/PR:jsonld-->
 
     <style>
         /* ===== 상품권 딜 페이지 전용 스타일 ===== */
@@ -417,18 +420,18 @@
                 </div>
                 <div class="assoc_meta">
                     <span class="live_badge"><span class="dot"></span>LIVE</span>
-                    <span class="update_time">최종 업데이트 <b id="updatedAt">-</b></span>
+                    <span class="update_time">최종 업데이트 <b id="updatedAt"><!--PR:updatedAt-->2026-08-04 13:12<!--/PR:updatedAt--></b></span>
                 </div>
             </div>
 
-            <p class="deal_note" id="dealNote"></p>
+            <p class="deal_note" id="dealNote"><!--PR:dealNote-->본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.<!--/PR:dealNote--></p>
 
             <!-- 오늘의 최고 할인 TOP 3 -->
             <div class="deal_block_title">
                 <h2>오늘의 최고 할인 TOP 3</h2>
                 <span>전체 딜 중 할인율이 가장 높은 상품권</span>
             </div>
-            <div class="best_strip" id="bestStrip"></div>
+            <div class="best_strip" id="bestStrip"><!--PR:bestStrip--><a class="best_card rank1" href="https://www.11st.co.kr/products/9315309544" target="_blank" rel="nofollow sponsored noopener"><span class="rank_badge">TOP 1</span><div class="b_rate">5.2<small>%</small></div><span class="b_seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><div class="b_title">컬쳐랜드 상품권(모바일문화상품권) 5만원</div></a><a class="best_card rank2" href="https://www.11st.co.kr/products/9315307642" target="_blank" rel="nofollow sponsored noopener"><span class="rank_badge">TOP 2</span><div class="b_rate">5.2<small>%</small></div><span class="b_seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><div class="b_title">컬쳐랜드 상품권(모바일문화상품권) 3만원</div></a><a class="best_card rank3" href="https://www.11st.co.kr/products/9315303869" target="_blank" rel="nofollow sponsored noopener"><span class="rank_badge">TOP 3</span><div class="b_rate">5.2<small>%</small></div><span class="b_seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><div class="b_title">컬쳐랜드 상품권(모바일문화상품권) 1만원</div></a><!--/PR:bestStrip--></div>
 
             <!-- 마켓별 최고 할인율 -->
             <div class="deal_block_title">
@@ -437,8 +440,8 @@
             </div>
             <div class="summary_scroll">
                 <table class="summary_table">
-                    <thead id="summaryHead"></thead>
-                    <tbody id="summaryBody"></tbody>
+                    <thead id="summaryHead"><!--PR:summaryHead--><tr><th>판매처</th><th>컬처</th><th>문화</th><th>롯데</th><th>현대</th><th>신세계</th></tr><!--/PR:summaryHead--></thead>
+                    <tbody id="summaryBody"><!--PR:summaryBody--><tr><th><span class="seller_cell has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span></th><td><span class="rate best">5.2%</span></td><td><span class="rate best">5%</span></td><td><span class="rate best">0.7%</span></td><td class="none">-</td><td><span class="rate best">0.7%</span></td></tr><tr><th><span class="seller_cell has_logo"><img class="mall_logo" src="img/mall/gmarket.png" alt="지마켓" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span></th><td><span class="rate">3.2%</span></td><td><span class="rate">3.2%</span></td><td class="none">-</td><td class="none">-</td><td class="none">-</td></tr><tr><th><span class="seller_cell has_logo"><img class="mall_logo" src="img/mall/auction.png" alt="옥션" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span></th><td><span class="rate">3.2%</span></td><td><span class="rate">3.3%</span></td><td class="none">-</td><td class="none">-</td><td class="none">-</td></tr><!--/PR:summaryBody--></tbody>
                 </table>
             </div>
             <p class="summary_hint">* 할인율은 각 마켓의 최고 금액권 기준이며, 강조된 칸이 종류별 최고 할인율입니다.</p>
@@ -448,7 +451,7 @@
                 <h2>상품권 종류별 딜</h2>
                 <span>카테고리별 할인율 순으로 정렬된 실시간 딜</span>
             </div>
-            <div id="dealGroups"></div>
+            <div id="dealGroups"><!--PR:dealGroups--><div class="deal_group"><h3 class="deal_cat_title">컬쳐랜드 문화상품권</h3><div class="deal_list"><a class="deal_item top" href="https://www.11st.co.kr/products/9315309544" target="_blank" rel="nofollow sponsored noopener"><span class="rank">1</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">5.2%</span><span class="d_title">컬쳐랜드 상품권(모바일문화상품권) 5만원</span><span class="best_tag">최고</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item top" href="https://www.11st.co.kr/products/9315307642" target="_blank" rel="nofollow sponsored noopener"><span class="rank">2</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">5.2%</span><span class="d_title">컬쳐랜드 상품권(모바일문화상품권) 3만원</span><span class="best_tag">최고</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item top" href="https://www.11st.co.kr/products/9315303869" target="_blank" rel="nofollow sponsored noopener"><span class="rank">3</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">5.2%</span><span class="d_title">컬쳐랜드 상품권(모바일문화상품권) 1만원</span><span class="best_tag">최고</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=gmarket&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4339623390" target="_blank" rel="nofollow sponsored noopener"><span class="rank">4</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/gmarket.png" alt="지마켓" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3.2%</span><span class="d_title">(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /해피캐시 지원</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=auction&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917950563" target="_blank" rel="nofollow sponsored noopener"><span class="rank">5</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/auction.png" alt="옥션" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3.2%</span><span class="d_title">(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=gmarket&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4763896952" target="_blank" rel="nofollow sponsored noopener"><span class="rank">6</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/gmarket.png" alt="지마켓" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3%</span><span class="d_title">컬쳐랜드 모바일 문화상품권 3만원권</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div><div class="deal_group"><h3 class="deal_cat_title">도서문화상품권 (북앤라이프)</h3><div class="deal_list"><a class="deal_item top" href="https://www.11st.co.kr/products/9203481517" target="_blank" rel="nofollow sponsored noopener"><span class="rank">1</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">5%</span><span class="d_title">북앤라이프 도서문화상품권 5만원권 5%할인</span><span class="best_tag">최고</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=auction&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917053342" target="_blank" rel="nofollow sponsored noopener"><span class="rank">2</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/auction.png" alt="옥션" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3.3%</span><span class="d_title">(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=gmarket&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4339838361" target="_blank" rel="nofollow sponsored noopener"><span class="rank">3</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/gmarket.png" alt="지마켓" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3.2%</span><span class="d_title">(특가) 북앤라이프 도서문화상품권 5만원권</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=gmarket&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4333465835" target="_blank" rel="nofollow sponsored noopener"><span class="rank">4</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/gmarket.png" alt="지마켓" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3%</span><span class="d_title">북앤라이프 도서문화상품권 3만원권</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=gmarket&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4333371120" target="_blank" rel="nofollow sponsored noopener"><span class="rank">5</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/gmarket.png" alt="지마켓" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3%</span><span class="d_title">북앤라이프 도서문화상품권 1만원권</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><a class="deal_item" href="https://click.linkprice.com/click.php?m=auction&amp;a=A100706248&amp;l=9999&amp;tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917062436" target="_blank" rel="nofollow sponsored noopener"><span class="rank">6</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/auction.png" alt="옥션" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">3%</span><span class="d_title">(북앤라이프) 도서문화상품권 1만원권 / 온라인전용</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div><div class="deal_group"><h3 class="deal_cat_title">롯데 상품권</h3><div class="deal_list"><a class="deal_item top" href="https://www.11st.co.kr/products/9436987138" target="_blank" rel="nofollow sponsored noopener"><span class="rank">1</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">0.7%</span><span class="d_title">롯데모바일교환권 100,000원(롯데백화점)</span><span class="best_tag">최고</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div><div class="deal_group"><h3 class="deal_cat_title">신세계 상품권</h3><div class="deal_list"><a class="deal_item top" href="https://www.11st.co.kr/products/5917614041" target="_blank" rel="nofollow sponsored noopener"><span class="rank">1</span><span class="seller has_logo"><img class="mall_logo" src="img/mall/11st.png" alt="11번가" onerror="this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"></span><span class="rate_pill">0.7%</span><span class="d_title">신세계상품권(100,000원)</span><span class="best_tag">최고</span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></div></div><!--/PR:dealGroups--></div>
 
             <!-- 추천 특가(제휴) 섹션 -->
             <div id="promoSection" style="display:none; margin-top:4.5rem;">
@@ -512,52 +515,9 @@
     </footer>
 
     <script>
-        // ===== 미리보기용 내장 데이터 (파일 더블클릭으로 열 때 fetch가 막히므로 fallback) =====
-        // 실제 운영에서는 아래 EMBEDDED_DEALS 대신 deals.json 을 fetch 하며,
-        // deals.json 은 수집 스크립트가 하루 몇 회 자동 갱신합니다.
-        const EMBEDDED_DEALS = {
-            "updated_at": "2026-07-22 09:00",
-            "note": "본 페이지의 딜 정보는 옥션·지마켓·11번가 등 공개 마켓의 판매가를 수집해 자동 계산됩니다. 일부 링크는 제휴마케팅이 포함되어 수수료를 지급받을 수 있습니다.",
-            "summary": {
-                "columns": ["문화", "컬처", "롯데", "현대", "신세계"],
-                "rows": [
-                    { "seller": "지마켓", "rates": [7.0, 7.0, 2.6, 3.0, 2.5] },
-                    { "seller": "옥션", "rates": [7.0, 7.0, 2.6, 3.0, 2.5] },
-                    { "seller": "롯데on", "rates": [null, null, 1.0, null, null] },
-                    { "seller": "롯데카드", "rates": [null, null, 2.5, 3.1, 2.5] },
-                    { "seller": "삼성카드", "rates": [null, null, 1.0, 1.0, 1.0] }
-                ]
-            },
-            "deals": [
-                { "category": "컬쳐랜드 문화상품권", "items": [
-                    { "seller": "옥션", "rate": 7.0, "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권", "url": "#" },
-                    { "seller": "지마켓", "rate": 6.7, "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권", "url": "#" },
-                    { "seller": "옥션", "rate": 6.4, "title": "(컬쳐랜드) 모바일문화상품권 50만원권", "url": "#" },
-                    { "seller": "지마켓", "rate": 6.4, "title": "(컬쳐랜드) 모바일문화상품권 5만원권", "url": "#" }
-                ]},
-                { "category": "도서문화상품권 (북앤라이프)", "items": [
-                    { "seller": "옥션", "rate": 7.0, "title": "(특가) 북앤라이프 도서문화상품권 5만원권", "url": "#" },
-                    { "seller": "지마켓", "rate": 6.7, "title": "(특가) 북앤라이프 도서문화상품권 5만원권", "url": "#" },
-                    { "seller": "옥션", "rate": 6.4, "title": "(북앤라이프) 도서문화상품권 3만원권", "url": "#" }
-                ]},
-                { "category": "롯데 상품권", "items": [
-                    { "seller": "옥션", "rate": 2.6, "title": "(롯데) 롯데모바일교환권 50만원권 (온/오프라인 교환가능)", "url": "#" },
-                    { "seller": "지마켓", "rate": 2.5, "title": "(롯데) 롯데모바일교환권 10만원권 (지류교환 가능)", "url": "#" },
-                    { "seller": "롯데카드", "rate": 2.5, "title": "[체크전용] 2.5% 할인 롯데모바일상품권 50만원권", "url": "#" },
-                    { "seller": "롯데on", "rate": 1.0, "title": "(특가) 롯데상품권 50만원권 - 모든 신용카드 가능", "url": "#" }
-                ]},
-                { "category": "현대백화점 상품권", "items": [
-                    { "seller": "롯데카드", "rate": 3.1, "title": "[3.1% 결제일할인] 현대백화점상품권 30만원권", "url": "#" },
-                    { "seller": "옥션", "rate": 3.0, "title": "(현대백화점) 상품권 교환권 50만원", "url": "#" },
-                    { "seller": "지마켓", "rate": 3.0, "title": "(현대백화점) 상품권 교환권 10만원", "url": "#" }
-                ]},
-                { "category": "신세계 상품권", "items": [
-                    { "seller": "옥션", "rate": 2.5, "title": "(이마트교환전용) 신세계상품권 50만원", "url": "#" },
-                    { "seller": "지마켓", "rate": 2.5, "title": "(이마트교환전용) 신세계상품권 10만원", "url": "#" },
-                    { "seller": "롯데카드", "rate": 2.5, "title": "[2.5% 결제일할인] 신세계상품권 30만원권(백화점교환용)", "url": "#" }
-                ]}
-            ]
-        };
+        // ===== 딜 데이터는 수집 시점에 정적 HTML로 프리렌더되어 있음 (SEO·미리보기 겸용) =====
+        // collect_deals.py 가 매시간 deals.json 과 함께 이 페이지의 딜 영역(PR 주석 마커 구간)을
+        // 실제 데이터로 치환한다. 아래 스크립트는 페이지를 열 때 deals.json 의 최신 데이터로 다시 그린다.
 
         // 화살표 아이콘 — 외부 아이콘 폰트가 늦거나 차단돼도 항상 보이도록 인라인 SVG 사용
         const CHEVRON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
@@ -600,25 +560,28 @@
         const sellerClass = name =>
             MALL_LOGO[name] ? ' has_logo' : (naverSellers.has(name) ? ' has_platform' : '');
 
-        // ===== deals.json 을 불러와 페이지를 자동 렌더링 =====
-        // 서버 환경에서는 deals.json 을 사용하고, 실패하면 위 내장 데이터로 렌더링합니다.
+        // ===== deals.json 을 불러와 페이지를 최신 데이터로 다시 렌더링 =====
+        // fetch 실패 시(파일 더블클릭 등)에는 프리렌더된 정적 콘텐츠를 그대로 유지합니다.
         fetch('deals.json', { cache: 'no-store' })
             .then(res => { if (!res.ok) throw new Error('no server'); return res.json(); })
-            .catch(() => EMBEDDED_DEALS)
             .then(data => {
+                // 형태 검증 — 어긋난 데이터면 DOM 을 건드리기 전에 중단해
+                // 프리렌더가 부분만 덮이는 혼합 화면을 방지한다 (all-or-nothing 렌더)
+                if (!data || !Array.isArray(data.deals) || !data.summary ||
+                    !Array.isArray(data.summary.columns) || !Array.isArray(data.summary.rows)) {
+                    throw new Error('deals.json 형식 오류');
+                }
+
                 // 0) 판매처별 구매 플랫폼 판별 (네이버 스마트스토어 링크인지)
                 data.deals.forEach(g => g.items.forEach(it => {
                     if (NAVER_RE.test(it.url || '')) naverSellers.add(it.seller);
                 }));
 
-                // 1) 업데이트 시각 & 안내문
-                document.getElementById('updatedAt').textContent = data.updated_at || '-';
-                document.getElementById('dealNote').textContent = data.note || '';
-
+                // 1~4) 모든 HTML 조각을 먼저 만들고, 전부 성공하면 마지막에 한 번에 DOM 에 반영한다
                 // 2) 오늘의 최고 할인 TOP 3 — 전체 딜에서 할인율 상위 3개
                 const allItems = data.deals.flatMap(g => g.items.map(it => ({ ...it, category: g.category })));
                 const top3 = allItems.slice().sort((a, b) => b.rate - a.rate).slice(0, 3);
-                document.getElementById('bestStrip').innerHTML = top3.map((it, i) => `
+                const bestHTML = top3.map((it, i) => `
                     <a class="best_card rank${i + 1}" href="${esc(it.url)}" target="_blank" rel="nofollow sponsored noopener">
                         <span class="rank_badge">TOP ${i + 1}</span>
                         <div class="b_rate">${it.rate}<small>%</small></div>
@@ -628,8 +591,7 @@
 
                 // 3) 최고 할인율 요약표
                 const cols = data.summary.columns;
-                const head = document.getElementById('summaryHead');
-                head.innerHTML = '<tr><th>판매처</th>' + cols.map(c => `<th>${esc(c)}</th>`).join('') + '</tr>';
+                const headHTML = '<tr><th>판매처</th>' + cols.map(c => `<th>${esc(c)}</th>`).join('') + '</tr>';
 
                 // 종류별 최고값 계산 (강조용)
                 const bestPerCol = cols.map((_, ci) => {
@@ -637,8 +599,7 @@
                     return vals.length ? Math.max(...vals) : null;
                 });
 
-                const body = document.getElementById('summaryBody');
-                body.innerHTML = data.summary.rows.map(row => {
+                const bodyHTML = data.summary.rows.map(row => {
                     const tds = row.rates.map((v, ci) => {
                         if (v == null) return '<td class="none">-</td>';
                         const best = (v === bestPerCol[ci]);
@@ -648,8 +609,7 @@
                 }).join('');
 
                 // 4) 카테고리별 딜 목록 (카테고리 내 할인율 내림차순, 랭크 표시)
-                const groups = document.getElementById('dealGroups');
-                groups.innerHTML = data.deals.map(group => {
+                const groupsHTML = data.deals.map(group => {
                     const sorted = group.items.slice().sort((a, b) => b.rate - a.rate);
                     const best = sorted.length ? sorted[0].rate : null;
                     const items = sorted.map((it, idx) => {
@@ -672,11 +632,23 @@
                         <div class="deal_list">${items}</div>
                     </div>`;
                 }).join('');
+
+                // 모든 조각 생성 성공 — 여기서 한 번에 DOM 반영 (중간 예외 시 프리렌더 온전 유지)
+                document.getElementById('updatedAt').textContent = data.updated_at || '-';
+                document.getElementById('dealNote').textContent = data.note || '';
+                document.getElementById('bestStrip').innerHTML = bestHTML;
+                document.getElementById('summaryHead').innerHTML = headHTML;
+                document.getElementById('summaryBody').innerHTML = bodyHTML;
+                document.getElementById('dealGroups').innerHTML = groupsHTML;
             })
             .catch(err => {
                 console.error('딜 데이터 로드 실패:', err);
-                document.getElementById('dealGroups').innerHTML =
-                    '<p style="color:#bbb; font-size:1.6rem;">딜 정보를 불러오지 못했습니다.</p>';
+                // 프리렌더된 딜 목록이 이미 있으면 에러 문구로 지우지 않는다
+                const groupsEl = document.getElementById('dealGroups');
+                if (!groupsEl.childElementCount) {
+                    groupsEl.innerHTML =
+                        '<p style="color:#bbb; font-size:1.6rem;">딜 정보를 불러오지 못했습니다.</p>';
+                }
             });
 
         // ===== 추천 특가(제휴) 렌더링 =====
