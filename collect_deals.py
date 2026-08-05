@@ -537,10 +537,10 @@ def build_prerender(data):
     cat_best.sort(key=lambda t: t[1], reverse=True)
     if cat_best:
         frag = "·".join(f"{name} {fmt_rate(rate)}%" for name, rate in cat_best[:3])
-        desc = (f"오늘 상품권 최고 할인율: {frag}. 11번가·지마켓·옥션 등 신뢰 판매처의 "
+        desc = (f"오늘의 상품권 핫딜 최고 할인율: {frag}. 11번가·지마켓·옥션 등 신뢰 판매처의 "
                 "컬쳐랜드·도서문화·백화점상품권 특가를 한국상품권협회가 매시간 자동 집계합니다.")
     else:  # 수집 결과가 비어도 스니펫이 깨지지 않게 기본 문구 유지
-        desc = ("컬쳐랜드·도서문화·백화점상품권의 실시간 최고 할인율을 11번가·지마켓·옥션 등 "
+        desc = ("컬쳐랜드·도서문화·백화점상품권 핫딜의 실시간 할인율을 11번가·지마켓·옥션 등 "
                 "신뢰 판매처만 선별해 한국상품권협회가 매시간 자동 집계합니다.")
     parts["metaDesc"] = f'<meta name="description" content="{esc(desc)}">'
 
@@ -549,7 +549,7 @@ def build_prerender(data):
     ld = {
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": "오늘의 상품권 할인 딜 TOP 10",
+        "name": "오늘의 상품권 핫딜 TOP 10",
         "numberOfItems": len(top10),
         "itemListElement": [
             {"@type": "ListItem", "position": i + 1,
