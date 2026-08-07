@@ -388,10 +388,11 @@ NAVER_STORE_RE = re.compile(r"(smartstore|brand|shopping)\.naver\.com")
 # 라이브 시세 스트림 티커 — 카테고리(첫 단어) → 브랜드 로고 / 폴백 칩 색상
 # JS 렌더러의 TICKER_LOGO/TICKER_CHIP 과 동일해야 함.
 TICKER_LOGO = {
-    "컬쳐랜드": "img/1/컬쳐랜드.png",
-    "도서문화상품권": "img/1/도서문화상품권.png",
-    "롯데": "img/1/롯데상품권.png",
-    "신세계": "img/1/신세계상품권.png",
+    # 파일명은 ASCII 로 유지 — 한글 파일명은 URL 인코딩·캐시 키 문제를 일으킬 수 있음
+    "컬쳐랜드": "img/1/ticker-cultureland.png",
+    "도서문화상품권": "img/1/ticker-booknlife.png",
+    "롯데": "img/1/ticker-lotte.png",
+    "신세계": "img/1/ticker-shinsegae.png",
 }
 TICKER_CHIP = {
     "컬쳐랜드": "#7A5AF8",
