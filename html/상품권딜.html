@@ -155,6 +155,36 @@
         .h3_val small { font-size: 1.2rem; font-weight: 600; color: #6a7180; }
         .hot3_row .go { flex-shrink: 0; color: #c8ccd2; display: inline-flex; }
         .hot3_row .go svg { width: 17px; height: 17px; }
+        /* ---- 라이브 시세 스트림 티커 (2a) — 폰트는 사이트 기본 상속 ---- */
+        .kgt{position:relative;overflow:hidden;width:100%;height:180px;border-radius:16px;border:1px solid #E8EDF3;
+          background:linear-gradient(180deg,#FFFFFF,#F4F8FF);margin-bottom:1.4rem;}
+        .kgt *{box-sizing:border-box;margin:0;padding:0;}
+        @keyframes kgt-marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes kgt-blink{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+        @media (prefers-reduced-motion:reduce){.kgt *{animation:none !important}}
+        .kgt-head{position:absolute;left:16px;top:13px;display:flex;align-items:center;gap:9px;}
+        .kgt-live{display:inline-flex;align-items:center;gap:5px;background:#FF4D4F;color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:4px 9px;letter-spacing:.5px;}
+        .kgt-live i{width:5px;height:5px;border-radius:50%;background:#fff;animation:kgt-blink 1.6s ease-in-out infinite;font-style:normal;}
+        .kgt-title{font-size:13.5px;font-weight:800;color:#333D4B;letter-spacing:-.3px;}
+        .kgt-update{position:absolute;right:16px;top:17px;font-size:11.5px;font-weight:600;color:#8B95A1;}
+        .kgt-stream{position:absolute;left:0;right:0;top:46px;overflow:hidden;
+          -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+        .kgt-track{display:flex;gap:10px;width:max-content;padding:4px 0 8px;animation:kgt-marquee 26s linear infinite;}
+        .kgt-track:hover{animation-play-state:paused;}
+        .kgt-row{display:flex;gap:10px;padding-right:10px;}
+        .kgt-card{width:170px;border-radius:14px;background:#fff;border:1px solid #E5EAF2;box-shadow:0 4px 12px rgba(23,43,77,.06);padding:12px 13px;display:flex;flex-direction:column;gap:7px;}
+        .kgt-brand{display:flex;align-items:center;gap:7px;}
+        .kgt-logo{height:22px;width:auto;max-width:52px;border-radius:4px;object-fit:contain;flex-shrink:0;}
+        .kgt-brand .kgt-logo + i{display:none;}
+        .kgt-brand i{width:22px;height:22px;border-radius:6px;color:#fff;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;font-style:normal;flex-shrink:0;}
+        .kgt-brand span{font-size:12.5px;font-weight:700;color:#333D4B;white-space:nowrap;}
+        .kgt-rate{display:flex;align-items:baseline;gap:6px;}
+        .kgt-rate b{font-size:19px;font-weight:800;color:#1B64DA;letter-spacing:-.5px;}
+        .kgt-rate span{font-size:11px;font-weight:600;color:#8B95A1;}
+        .kgt-foot{position:absolute;left:16px;bottom:12px;display:flex;align-items:center;gap:6px;}
+        .kgt-foot span{font-size:11.5px;font-weight:600;color:#6B7684;}
+
         /* 하단 빈 공간을 채우는 마켓 로고 스트립 (히어로 좌측 바닥에 고정) */
         .mall_strip { margin-top: auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
             background: #fff; border: 1px solid var(--deal-line); border-radius: 12px; padding: 12px 16px; }
@@ -191,36 +221,97 @@
         .hero_stats .stat { background: #fff; border: 1px solid var(--deal-line); border-radius: 12px; padding: 13px 18px; }
         .hero_stats .stat b { display: block; font-size: 2rem; font-weight: 900; color: var(--deal-navy); }
         .hero_stats .stat span { font-size: 1.22rem; color: #7c8595; }
-        /* ---- 채널톡 상담 배너 (구입·매입 두 트랙) ---- */
-        .consult_banner { display: flex; align-items: center; gap: 28px;
-            background: linear-gradient(135deg, #f3f8ff, #eef4ff);
-            border: 1px solid #dbe8ff; border-radius: 14px; padding: 24px 28px; margin-bottom: 1.6rem; }
-        .cb_left { flex: 1 1 300px; min-width: 0; }
-        .cb_badge { display: inline-flex; align-items: center; gap: 6px; font-size: 1.25rem; font-weight: 700;
-            color: var(--deal-navy); background: #fff; border: 1px solid #dbe8ff; border-radius: 999px;
-            padding: 5px 12px; margin-bottom: 1.2rem; }
-        .cb_badge svg { width: 15px; height: 15px; color: var(--po-color); }
-        .cb_title { font-size: 2.7rem; font-weight: 900; letter-spacing: -.01em; color: #16181d; margin: 0 0 .7rem; }
-        .cb_title .accent { color: var(--po-color); }
-        .cb_sub { font-size: 1.5rem; font-weight: 600; color: #3c4656; margin: 0 0 .4rem; word-break: keep-all; }
-        .cb_tags { font-size: 1.3rem; color: #7c8595; margin: 0 0 1.7rem; }
-        .cb_cta { display: inline-flex; align-items: center; gap: 8px; background: var(--po-color); color: #fff;
-            font-size: 1.5rem; font-weight: 800; border-radius: 10px; padding: 12px 22px; text-decoration: none;
-            transition: filter .15s, transform .15s; }
-        .cb_cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
-        .cb_cta svg { width: 18px; height: 18px; }
-        .cb_right { flex: 0 1 380px; display: flex; flex-wrap: wrap; gap: 12px; }
-        .cb_track { flex: 1 1 150px; background: #fff; border: 1px solid var(--deal-line); border-radius: 12px;
-            padding: 14px 16px; text-align: center; }
-        .cb_track .cb_icon { width: 40px; height: 40px; margin: 0 auto 8px; border-radius: 50%;
-            background: #e8f1ff; display: flex; align-items: center; justify-content: center; }
-        .cb_track .cb_icon svg { width: 20px; height: 20px; color: var(--po-color); }
-        .cb_track b { display: block; font-size: 1.42rem; font-weight: 800; color: #222; }
-        .cb_track small { font-size: 1.2rem; color: #8a93a3; }
-        .cb_feats { flex-basis: 100%; display: flex; gap: 8px; flex-wrap: wrap; }
-        .cb_feats span { display: inline-flex; align-items: center; gap: 5px; font-size: 1.2rem; font-weight: 600;
-            color: #4a5160; background: #fff; border: 1px solid var(--deal-line); border-radius: 999px; padding: 5px 11px; }
-        .cb_feats svg { width: 13px; height: 13px; color: var(--po-color); }
+        /* ===== 채널톡 상담 배너 (1b 다이내믹 그라디언트) =====
+           폰트는 사이트 기본(Paperlogy)을 상속한다 — 외부 CDN 의존 없음. */
+        .kgb{--kgb-blue:#3182F6;--kgb-deep:#1B64DA;position:relative;overflow:hidden;border-radius:24px;color:#fff;
+          background:linear-gradient(115deg,#0B3FA6 0%,#1B64DA 45%,#2E7DF7 75%,#4B9BFF 100%);background-size:200% 200%;
+          animation:kgb-grad 9s ease-in-out infinite alternate;box-shadow:0 16px 40px rgba(11,63,166,.35);margin:0 0 1.6rem;}
+        .kgb *{box-sizing:border-box;margin:0;padding:0;}
+        .kgb a{text-decoration:none;}
+        @keyframes kgb-grad{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+        @keyframes kgb-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+        @keyframes kgb-step{0%,36%,100%{transform:translateY(0);background:rgba(255,255,255,.10)}8%,28%{transform:translateY(-6px);background:rgba(255,255,255,.22)}}
+        @keyframes kgb-arrow{0%,100%{opacity:.35;transform:translateX(0)}50%{opacity:1;transform:translateX(4px)}}
+        @keyframes kgb-sheen{0%{transform:translateX(-160%) skewX(-18deg)}55%,100%{transform:translateX(340%) skewX(-18deg)}}
+        @keyframes kgb-marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes kgb-twinkle{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.2)}}
+        @keyframes kgb-drift{0%,100%{transform:translateY(0) rotate(-12deg)}50%{transform:translateY(-12px) rotate(-6deg)}}
+        @keyframes kgb-drift2{0%,100%{transform:translateY(0) rotate(10deg)}50%{transform:translateY(-9px) rotate(16deg)}}
+        @media (prefers-reduced-motion:reduce){.kgb,.kgb *,.kgb a::after{animation:none !important}}
+        .kgb-glow1{position:absolute;right:-90px;top:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),rgba(255,255,255,0) 70%);}
+        .kgb-glow2{position:absolute;left:38%;bottom:-140px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(140,200,255,.35),rgba(140,200,255,0) 70%);}
+        .kgb-card1{position:absolute;right:120px;top:38px;width:56px;height:36px;border-radius:7px;background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.35);animation:kgb-drift 5.5s ease-in-out infinite;}
+        .kgb-card2{position:absolute;right:64px;top:78px;width:42px;height:27px;border-radius:6px;background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.3);animation:kgb-drift2 6.5s ease-in-out .7s infinite;}
+        .kgb-spark1{position:absolute;left:46%;top:34px;width:8px;height:8px;border-radius:50%;background:#fff;animation:kgb-twinkle 2.8s ease-in-out infinite;}
+        .kgb-spark2{position:absolute;right:250px;bottom:90px;width:6px;height:6px;border-radius:50%;background:#fff;animation:kgb-twinkle 3.4s ease-in-out 1.1s infinite;}
+        .kgb-inner{position:relative;display:flex;gap:44px;align-items:center;padding:44px 48px 30px;}
+        .kgb-left{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px;}
+        .kgb-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:7px 14px;backdrop-filter:blur(6px);font-size:13px;font-weight:700;color:#fff;}
+        .kgb-title{font-size:37px;font-weight:800;letter-spacing:-1px;line-height:1.25;color:#fff;}
+        .kgb-title b{color:#8BD3FF;font-weight:800;}
+        .kgb-sub{font-size:17px;font-weight:600;color:rgba(255,255,255,.94);letter-spacing:-.3px;}
+        .kgb-note{font-size:14px;color:rgba(255,255,255,.72);letter-spacing:-.2px;}
+        .kgb-cta{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;background:#fff;color:#1B64DA;border-radius:14px;padding:16px 30px;font-size:17px;font-weight:800;letter-spacing:-.3px;margin-top:12px;box-shadow:0 12px 26px rgba(6,35,90,.35);transition:transform .15s ease,box-shadow .15s ease;}
+        .kgb-cta:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(6,35,90,.45);}
+        .kgb-cta::after{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:45%;background:linear-gradient(105deg,transparent,rgba(49,130,246,.16),transparent);transform:translateX(-160%) skewX(-18deg);animation:kgb-sheen 3.4s ease-in-out infinite;}
+        .kgb-steps{width:530px;flex-shrink:0;display:flex;align-items:stretch;gap:12px;}
+        .kgb-step{flex:1;border-radius:18px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);padding:20px 14px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;animation:kgb-step 7.5s ease-in-out infinite;}
+        .kgb-step:nth-child(3){animation-delay:2.5s;}
+        .kgb-step:nth-child(5){animation-delay:5s;}
+        .kgb-step-name{font-size:16px;font-weight:800;color:#fff;text-align:center;}
+        .kgb-step-desc{font-size:12px;font-weight:500;color:rgba(255,255,255,.75);text-align:center;margin-top:3px;}
+        .kgb-arrow{align-self:center;flex-shrink:0;animation:kgb-arrow 1.8s ease-in-out infinite;}
+        .kgb-arrow.d2{animation-delay:.9s;}
+        .kgb-art{position:relative;width:72px;height:72px;animation:kgb-float 4s ease-in-out infinite;}
+        .kgb-step:nth-child(3) .kgb-art{animation-delay:.6s;}
+        .kgb-step:nth-child(5) .kgb-art{animation-delay:1.2s;}
+        .kgb-gc-back{position:absolute;left:11px;top:16px;width:52px;height:33px;border-radius:8px;background:linear-gradient(135deg,#CFE4FF,#9CC4FF);transform:rotate(-10deg);}
+        .kgb-gc-front{position:absolute;left:7px;top:24px;width:58px;height:36px;border-radius:8px;background:linear-gradient(135deg,#EAF3FF,#CFE4FF);transform:rotate(3deg);box-shadow:0 8px 16px rgba(5,30,80,.3);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        .kgb-gc-ribbon{position:absolute;left:12px;top:0;bottom:0;width:3px;background:rgba(27,100,218,.45);}
+        .kgb-gc-label{position:relative;font-size:10px;font-weight:800;color:#1B64DA;background:rgba(27,100,218,.12);padding:2px 6px;border-radius:6px;letter-spacing:.5px;}
+        .kgb-ph-body{position:absolute;left:19px;top:4px;width:34px;height:62px;border-radius:9px;background:#12233B;padding:3px;box-shadow:0 8px 16px rgba(5,25,60,.4);}
+        .kgb-ph-screen{position:relative;width:100%;height:100%;background:#fff;border-radius:6px;overflow:hidden;}
+        .kgb-ph-notch{position:absolute;left:50%;top:3px;transform:translateX(-50%);width:12px;height:3px;border-radius:2px;background:#12233B;}
+        .kgb-ph-ticket{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:24px;height:15px;border-radius:3px;background:linear-gradient(135deg,#3D8BFF,#1B64DA);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:800;color:#fff;}
+        .kgb-ph-barcode{position:absolute;left:50%;top:35px;transform:translateX(-50%);width:22px;height:9px;background:repeating-linear-gradient(90deg,#26313D 0 1.5px,transparent 1.5px 3.5px);}
+        .kgb-ph-check{position:absolute;right:6px;top:2px;width:21px;height:21px;border-radius:50%;background:#8BD3FF;border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;}
+        .kgb-bill1{position:absolute;left:9px;top:36px;width:52px;height:15px;border-radius:4px;background:linear-gradient(135deg,#2FA96F,#1F8A57);transform:rotate(2deg);}
+        .kgb-bill2{position:absolute;left:8px;top:28px;width:53px;height:15px;border-radius:4px;background:linear-gradient(135deg,#3FC98F,#2AA46F);transform:rotate(-3deg);}
+        .kgb-bill3{position:absolute;left:10px;top:19px;width:52px;height:16px;border-radius:4px;background:linear-gradient(135deg,#4BD79B,#31B47C);transform:rotate(1deg);box-shadow:0 6px 12px rgba(5,50,30,.35);overflow:hidden;}
+        .kgb-bill3 i{position:absolute;left:50%;top:0;bottom:0;transform:translateX(-50%);width:12px;background:rgba(255,255,255,.4);}
+        .kgb-coin{position:absolute;right:3px;bottom:6px;width:25px;height:25px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE082,#F6B93B);border:2px solid #E09E1A;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#8A5B00;box-shadow:0 4px 8px rgba(60,40,5,.4);font-style:normal;}
+        .kgb-ticker{position:relative;overflow:hidden;border-top:1px solid rgba(255,255,255,.18);padding:12px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
+        .kgb-ticker-track{display:flex;width:max-content;animation:kgb-marquee 22s linear infinite;}
+        .kgb-ticker-row{display:flex;align-items:center;gap:12px;padding-right:12px;}
+        .kgb-ticker-row span{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:rgba(255,255,255,.88);white-space:nowrap;}
+        .kgb-ticker-row i{color:rgba(255,255,255,.4);font-style:normal;}
+        @media (max-width: 860px){
+          .kgb{border-radius:20px;}
+          .kgb-inner{flex-direction:column;align-items:stretch;gap:14px;padding:24px 20px 0;}
+          .kgb-left{gap:13px;}
+          .kgb-badge{font-size:12px;padding:6px 12px;}
+          .kgb-title{font-size:25px;letter-spacing:-.8px;line-height:1.3;}
+          .kgb-sub{font-size:14px;font-weight:500;line-height:1.5;}
+          .kgb-note{font-size:12.5px;}
+          .kgb-steps{width:100%;gap:8px;}
+          .kgb-step{border-radius:14px;padding:12px 6px 10px;gap:6px;}
+          .kgb-arrow{display:none;}
+          .kgb-art{width:44px;height:44px;animation:none;}
+          .kgb-art > *{transform-origin:0 0;}
+          .kgb-artbox{position:absolute;left:50%;top:50%;width:72px;height:72px;transform:translate(-50%,-50%) scale(.55);}
+          .kgb-step-name{font-size:13px;}
+          .kgb-step-desc{display:none;}
+          .kgb-cta{width:100%;justify-content:center;height:52px;padding:0;font-size:16px;border-radius:13px;margin-top:2px;order:5;}
+          .kgb-card1{right:22px;top:20px;width:40px;height:26px;}
+          .kgb-card2,.kgb-spark2{display:none;}
+          .kgb-ticker{margin-top:16px;padding:10px 0;}
+          .kgb-ticker-track{animation-duration:16s;}
+          .kgb-ticker-row span{font-size:12px;}
+          /* 모바일 순서: 배지→제목→설명→스텝→CTA */
+          .kgb-left{display:contents;}
+          .kgb-inner{display:flex;}
+          .kgb-inner > .kgb-steps{order:4;}
+        }
 
         .deal_note {
             font-size: 1.35rem; line-height: 1.65; color: #8a8f98;
@@ -401,8 +492,6 @@
             .deal_hero h1 { font-size: 3rem; }
             .hero_sub { font-size: 1.6rem; }
             .hero_stats { grid-template-columns: 1fr; gap: 10px; }
-            .consult_banner { flex-direction: column; align-items: stretch; padding: 20px; gap: 18px; }
-            .cb_title { font-size: 2.2rem; }
             .hc_head { flex-wrap: wrap; gap: 4px 10px; }
             .deal_item { flex-wrap: wrap; gap: 8px 10px; padding: 14px 15px; }
             .deal_item .d_title { flex-basis: 100%; order: 3; }
@@ -543,6 +632,21 @@
                             <div><b>안전한 거래</b><small>협회 가이드 제공</small></div>
                         </div>
                     </div>
+                    <!-- 라이브 시세 스트림 (2a) — 카드는 프리렌더·JS 가 실데이터로 채움 (하드코딩 금지) -->
+                    <div class="kgt">
+                        <div class="kgt-head">
+                            <span class="kgt-live"><i></i>LIVE</span>
+                            <span class="kgt-title">실시간 상품권 핫딜 시세</span>
+                        </div>
+                        <div class="kgt-update">매시간 자동 업데이트</div>
+                        <div class="kgt-stream">
+                            <div class="kgt-track" id="tickerCards"><!--PR:tickerCards--><div class="kgt-row"><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/컬쳐랜드.png" alt="컬쳐랜드" onerror="this.remove()"><i style="background:#7A5AF8;">컬</i><span>컬쳐랜드</span></div><div class="kgt-rate"><b>5.2%↓</b><span>47,400원</span></div></div><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/도서문화상품권.png" alt="도서문화상품권" onerror="this.remove()"><i style="background:#0FA47F;">도</i><span>도서문화상품권</span></div><div class="kgt-rate"><b>5%↓</b><span>47,500원</span></div></div><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/롯데상품권.png" alt="롯데" onerror="this.remove()"><i style="background:#E60013;">롯</i><span>롯데</span></div><div class="kgt-rate"><b>0.7%↓</b><span>99,300원</span></div></div><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/신세계상품권.png" alt="신세계" onerror="this.remove()"><i style="background:#1F2937;">신</i><span>신세계</span></div><div class="kgt-rate"><b>0.7%↓</b><span>99,300원</span></div></div></div><div class="kgt-row"><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/컬쳐랜드.png" alt="컬쳐랜드" onerror="this.remove()"><i style="background:#7A5AF8;">컬</i><span>컬쳐랜드</span></div><div class="kgt-rate"><b>5.2%↓</b><span>47,400원</span></div></div><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/도서문화상품권.png" alt="도서문화상품권" onerror="this.remove()"><i style="background:#0FA47F;">도</i><span>도서문화상품권</span></div><div class="kgt-rate"><b>5%↓</b><span>47,500원</span></div></div><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/롯데상품권.png" alt="롯데" onerror="this.remove()"><i style="background:#E60013;">롯</i><span>롯데</span></div><div class="kgt-rate"><b>0.7%↓</b><span>99,300원</span></div></div><div class="kgt-card"><div class="kgt-brand"><img class="kgt-logo" src="img/1/신세계상품권.png" alt="신세계" onerror="this.remove()"><i style="background:#1F2937;">신</i><span>신세계</span></div><div class="kgt-rate"><b>0.7%↓</b><span>99,300원</span></div></div></div><!--/PR:tickerCards--></div>
+                        </div>
+                        <div class="kgt-foot">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3182F6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                            <span>한국상품권협회가 신뢰 판매처만 선별해 집계합니다</span>
+                        </div>
+                    </div>
                     <div class="mall_strip">
                         <span class="ms_label">집계 대상 주요 마켓</span>
                         <div class="ms_logos">
@@ -575,24 +679,74 @@
             <!-- 실측 통계 (실데이터만 표기 — 허수 금지) -->
             <div class="hero_stats" id="heroStats"><!--PR:heroStats--><div class="stat"><b>3곳</b><span>오늘 딜 노출 판매처 · 신뢰 필터 통과</span></div><div class="stat"><b>4종 · 14건</b><span>오늘의 상품권 종류 · 등록 딜</span></div><div class="stat"><b>24회</b><span>매일 자동 갱신 · 매시간 집계</span></div><!--/PR:heroStats--></div>
 
-            <!-- 채널톡 상담 배너 — 구입 상담과 매입 상담을 "별개의 두 서비스"로 안내한다.
-                 구입→판매→현금화 식 체인 구성은 광고 심사(T4)·협회 원칙상 금지. -->
-            <div class="consult_banner">
-                <div class="cb_left">
-                    <span class="cb_badge">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.2-7 10-4-1.8-7-5.4-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        한국상품권협회 상담안내
-                    </span>
-                    <p class="cb_title">상품권 <span class="accent">구입 · 매입</span> 상담</p>
-                    <p class="cb_sub">신용카드 할부 구매부터 보유 상품권 매입까지 한 번에 안내받으세요</p>
-                    <p class="cb_tags">신용카드 · 소액결제 · 상품권 상담 가능</p>
-                    <a class="cb_cta" href="https://koreagiftcard.channel.io/home?page=상품권핫딜"
-                        target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 015.5 4h13A1.5 1.5 0 0120 5.5v9a1.5 1.5 0 01-1.5 1.5H10l-4 3v-3H5.5A1.5 1.5 0 014 14.5v-9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-                        채널톡 상담하기
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>
+            <!-- 채널톡 상담 배너 (1b 다이내믹 그라디언트) — 디자인 원본: banner-1b-embed.html
+                 문구·스텝 수정 시 이 블록만 고치면 된다 (프리렌더 마커 밖이라 자동 갱신 영향 없음). -->
+            <div class="kgb">
+              <div class="kgb-glow1"></div><div class="kgb-glow2"></div>
+              <div class="kgb-card1"></div><div class="kgb-card2"></div>
+              <div class="kgb-spark1"></div><div class="kgb-spark2"></div>
+              <div class="kgb-inner">
+                <div class="kgb-left">
+                  <div class="kgb-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                    한국상품권협회 상담안내
+                  </div>
+                  <div class="kgb-title">상품권 <b>구입</b> + <b>판매</b> 상담</div>
+                  <div class="kgb-sub">구입부터 판매까지 한 번에 안내받고 빠르게 진행하세요</div>
+                  <div class="kgb-note">신용카드 · 소액결제 · 상품권 상담 가능</div>
+                  <a class="kgb-cta" href="https://koreagiftcard.channel.io/home?page=%EC%83%81%ED%92%88%EA%B6%8C%ED%95%AB%EB%94%9C" target="_blank" rel="noopener">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="#1B64DA" stroke="none"><path d="M20 4H4v12h4v4l5-4h7V4z"></path></svg>
+                    구입문의 상담하기
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B64DA" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+                  </a>
                 </div>
+                <div class="kgb-steps">
+                    <div class="kgb-step">
+                      <div class="kgb-art"><div class="kgb-artbox">
+                        <div class="kgb-gc-back"></div>
+                        <div class="kgb-gc-front"><div class="kgb-gc-ribbon"></div><span class="kgb-gc-label">상품권</span></div>
+                      </div></div>
+                      <div><div class="kgb-step-name">구입</div><div class="kgb-step-desc">신용카드·소액결제</div></div>
+                    </div>
+                    <svg class="kgb-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+                    <div class="kgb-step">
+                      <div class="kgb-art"><div class="kgb-artbox">
+                        <div class="kgb-ph-body"><div class="kgb-ph-screen">
+                          <div class="kgb-ph-notch"></div><div class="kgb-ph-ticket">상품권</div><div class="kgb-ph-barcode"></div>
+                        </div></div>
+                        <div class="kgb-ph-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0B3FA6" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></div>
+                      </div></div>
+                      <div><div class="kgb-step-name">판매</div><div class="kgb-step-desc">보유 상품권 접수</div></div>
+                    </div>
+                    <svg class="kgb-arrow d2" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+                    <div class="kgb-step">
+                      <div class="kgb-art"><div class="kgb-artbox">
+                        <div class="kgb-bill1"></div><div class="kgb-bill2"></div><div class="kgb-bill3"><i></i></div>
+                        <i class="kgb-coin">₩</i>
+                      </div></div>
+                      <div><div class="kgb-step-name">현금화</div><div class="kgb-step-desc">빠르고 안전하게</div></div>
+                    </div>
+                  </div>
+              </div>
+              <div class="kgb-ticker">
+                <div class="kgb-ticker-track">
+                  <div class="kgb-ticker-row">
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>안전하고 신뢰할 수 있는 상담</span><i>·</i>
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"></path><rect x="3" y="13" width="4.5" height="6.5" rx="2"></rect><rect x="16.5" y="13" width="4.5" height="6.5" rx="2"></rect></svg>실시간 상담</span><i>·</i>
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6M9 16h4"></path></svg>진행절차 안내</span><i>·</i>
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,.85)" stroke="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"></path></svg>빠른 문의</span><i>·</i>
+                    <span>전문 상담원이 친절하게 도와드립니다</span><i>·</i>
+                  </div>
+                  <div class="kgb-ticker-row">
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>안전하고 신뢰할 수 있는 상담</span><i>·</i>
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"></path><rect x="3" y="13" width="4.5" height="6.5" rx="2"></rect><rect x="16.5" y="13" width="4.5" height="6.5" rx="2"></rect></svg>실시간 상담</span><i>·</i>
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M9 8h6M9 12h6M9 16h4"></path></svg>진행절차 안내</span><i>·</i>
+                    <span><svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,.85)" stroke="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"></path></svg>빠른 문의</span><i>·</i>
+                    <span>전문 상담원이 친절하게 도와드립니다</span><i>·</i>
+                  </div>
+                </div>
+              </div>
+            </div>
                 <div class="cb_right">
                     <div class="cb_track">
                         <span class="cb_icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10.5h18" stroke="currentColor" stroke-width="1.8"/></svg></span>
@@ -767,6 +921,21 @@
         const fmtFace = f => !f ? '' : (f % 10000 === 0 ? `${f / 10000}만원권` : `${fmtWon(f)}권`);
         const itemPrice = it => it.price ? `<span class="d_price">${fmtWon(it.price)}</span>` : '';
 
+        // 라이브 시세 스트림 티커 — collect_deals.py 의 TICKER_LOGO/TICKER_CHIP 과 동일해야 함
+        const TICKER_LOGO = Object.assign(Object.create(null), {
+            '컬쳐랜드': 'img/1/컬쳐랜드.png',
+            '도서문화상품권': 'img/1/도서문화상품권.png',
+            '롯데': 'img/1/롯데상품권.png',
+            '신세계': 'img/1/신세계상품권.png',
+        });
+        const TICKER_CHIP = Object.assign(Object.create(null), {
+            '컬쳐랜드': '#7A5AF8',
+            '도서문화상품권': '#0FA47F',
+            '롯데': '#E60013',
+            '신세계': '#1F2937',
+            '현대백화점': '#0B4A32',
+        });
+
         // ===== deals.json 을 불러와 페이지를 최신 데이터로 다시 렌더링 =====
         // fetch 실패 시(파일 더블클릭 등)에는 프리렌더된 정적 콘텐츠를 그대로 유지합니다.
         fetch('deals.json', { cache: 'no-store' })
@@ -802,6 +971,17 @@
                 // 카테고리 바로가기 칩 — 딜 그룹 id 와 1:1 대응
                 const chipsHTML = data.deals.map((g, i) =>
                     `<a class="chip" href="#dealcat-${i}">${esc(g.category.split(' ')[0])}</a>`).join('');
+
+                // 라이브 시세 스트림 티커 (py 렌더러와 동일 로직, 마퀴용 2행 복제)
+                const tickerCards = catBest.map(([cat, it]) => {
+                    const logo = TICKER_LOGO[cat];
+                    const img = logo ? `<img class="kgt-logo" src="${logo}" alt="${esc(cat)}" onerror="this.remove()">` : '';
+                    const chip = `<i style="background:${TICKER_CHIP[cat] || '#6B7684'};">${esc(cat.slice(0, 1))}</i>`;
+                    const sub = it.price ? fmtWon(it.price) : (it.face ? fmtFace(it.face) : esc(it.seller));
+                    return `<div class="kgt-card"><div class="kgt-brand">${img}${chip}<span>${esc(cat)}</span></div>` +
+                        `<div class="kgt-rate"><b>${it.rate}%↓</b><span>${sub}</span></div></div>`;
+                }).join('');
+                const tickerHTML = `<div class="kgt-row">${tickerCards}</div>`.repeat(2);
 
                 // 3) 최고 할인율 요약표
                 const cols = data.summary.columns;
@@ -849,6 +1029,7 @@
                 document.getElementById('updatedAt').textContent = data.updated_at || '-';
                 document.getElementById('dealNote').textContent = data.note || '';
                 document.getElementById('catChips').innerHTML = chipsHTML;
+                document.getElementById('tickerCards').innerHTML = tickerHTML;
                 document.getElementById('bestStrip').innerHTML = bestHTML;
                 document.getElementById('summaryHead').innerHTML = headHTML;
                 document.getElementById('summaryBody').innerHTML = bodyHTML;

@@ -385,6 +385,22 @@ MALL_LOGO = {
 LOGO_FALLBACK = "this.parentNode.classList.remove('has_logo');this.outerHTML=this.alt;"
 NAVER_STORE_RE = re.compile(r"(smartstore|brand|shopping)\.naver\.com")
 
+# 라이브 시세 스트림 티커 — 카테고리(첫 단어) → 브랜드 로고 / 폴백 칩 색상
+# JS 렌더러의 TICKER_LOGO/TICKER_CHIP 과 동일해야 함.
+TICKER_LOGO = {
+    "컬쳐랜드": "img/1/컬쳐랜드.png",
+    "도서문화상품권": "img/1/도서문화상품권.png",
+    "롯데": "img/1/롯데상품권.png",
+    "신세계": "img/1/신세계상품권.png",
+}
+TICKER_CHIP = {
+    "컬쳐랜드": "#7A5AF8",
+    "도서문화상품권": "#0FA47F",
+    "롯데": "#E60013",
+    "신세계": "#1F2937",
+    "현대백화점": "#0B4A32",
+}
+
 
 def esc(s):
     """JS 렌더러의 esc() 와 동일한 HTML 이스케이프."""
@@ -673,6 +689,25 @@ def build_prerender(data):
             f'<div class="h3_val"><b>{fmt_rate(it["rate"])}%</b>{price_small}</div>'
             f'<span class="go">{CHEVRON_SVG}</span></a>')
     parts["bestStrip"] = "".join(rows)
+
+    # 라이브 시세 스트림 티커 — 카테고리별 대표 딜 카드 (마퀴 무한롤링용 2행 복제)
+    cards = []
+    for cat, it in cat_best:
+        logo = TICKER_LOGO.get(cat)
+        img = (f'<img class="kgt-logo" src="{logo}" alt="{esc(cat)}" onerror="this.remove()">'
+               if logo else "")
+        chip = f'<i style="background:{TICKER_CHIP.get(cat, "#6B7684")};">{esc(cat[:1])}</i>'
+        if it.get("price"):
+            sub = f'{it["price"]:,}원'
+        elif it.get("face"):
+            sub = fmt_face(it["face"])
+        else:
+            sub = esc(it["seller"])
+        cards.append(
+            f'<div class="kgt-card"><div class="kgt-brand">{img}{chip}<span>{esc(cat)}</span></div>'
+            f'<div class="kgt-rate"><b>{fmt_rate(it["rate"])}%↓</b><span>{sub}</span></div></div>')
+    row = f'<div class="kgt-row">{"".join(cards)}</div>'
+    parts["tickerCards"] = row + row
 
     # 시세 트렌드 · 통계 (프리렌더 전용 — JS 는 이 구간을 다시 그리지 않음)
     parts["trendChart"] = build_trend()
