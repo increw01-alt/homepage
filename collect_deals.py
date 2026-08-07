@@ -363,6 +363,7 @@ def load_manual_deals():
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEAL_PAGE = os.path.join(BASE_DIR, "html", "상품권딜.html")
 SITEMAP_PATH = os.path.join(BASE_DIR, "html", "sitemap.xml")
+HISTORY_PATH = os.path.join(BASE_DIR, "html", "rates_history.json")  # 시세 트렌드 이력 (14일)
 PAGE_URL = "https://koreagiftcard.co.kr/상품권딜"
 # IndexNow 공개 키 — html/<키>.txt 파일과 반드시 일치해야 한다 (공개되어도 무방한 값)
 INDEXNOW_KEY = "d907cfe3732b7f0d4a64d7f84e3c9c28"
@@ -429,21 +430,212 @@ def pill_class(rate):
     return " r1"
 
 
-def best_price_line(it):
-    """TOP3 카드의 실구매가·절약액 줄 (가격 정보가 있는 딜만)."""
-    price, face = it.get("price"), it.get("face")
-    if not price or not face:
-        return ""
-    return (f'<div class="b_price">{price:,}원'
-            f'<span class="save">{face - price:,}원 절약</span></div>')
-
-
 def item_price(it):
     """딜 목록의 실구매가 표기 (가격 정보가 있는 딜만)."""
     price = it.get("price")
     if not price:
         return ""
     return f'<span class="d_price">{price:,}원</span>'
+
+
+def fmt_face(face):
+    """액면가 표기: 50000 → '5만원권' — JS 렌더러의 fmtFace() 와 동일해야 함."""
+    if not face:
+        return ""
+    face = int(face)  # float 로 들어와도 JS 표기('5만원권')와 어긋나지 않게
+    if face % 10000 == 0:
+        return f"{face // 10000}만원권"
+    return f"{face:,}원권"
+
+
+def append_history(result):
+    """매시간 최고 할인율 1점을 rates_history.json 에 기록 (트렌드 차트용, 14일 보관).
+    이력 기록 실패가 수집 자체를 막지는 않는다."""
+    try:
+        rates = [it["rate"] for g in result.get("deals", []) for it in g.get("items", [])]
+        if not rates:
+            return
+        if os.path.exists(HISTORY_PATH):
+            try:
+                with open(HISTORY_PATH, encoding="utf-8") as f:
+                    hist = json.load(f).get("points", [])
+            except Exception as e:
+                # 파일이 있는데 못 읽으면 덮어쓰지 않는다 — 조용한 이력 소실 방지.
+                # 다음 정상 실행에서 파일이 복구되면 자연히 재개된다.
+                print(f"::warning::rates_history.json 파싱 실패({e}) — 이번 시간 기록 생략")
+                return
+        else:
+            hist = []
+        t = result["updated_at"]
+        if hist and hist[-1].get("t") == t:
+            return
+        hist.append({"t": t, "best": round(max(rates), 1),
+                     "avg": round(sum(rates) / len(rates), 2)})
+        cutoff = (datetime.now(timezone(timedelta(hours=9)))
+                  - timedelta(days=14)).strftime("%Y-%m-%d %H:%M")
+        hist = [p for p in hist if isinstance(p, dict) and p.get("t", "") >= cutoff]
+        # 임시 파일 + 원자적 교체 — 쓰기 도중 중단돼도 잘린 파일이 남지 않게
+        tmp = HISTORY_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"points": hist}, f, ensure_ascii=False, indent=1)
+        os.replace(tmp, HISTORY_PATH)
+    except Exception as e:
+        print(f"::warning::시세 이력 기록 실패: {e}")
+
+
+TREND_EMPTY = '<p class="trend_empty">시세 이력을 수집하는 중입니다. 잠시 후 다시 확인해 주세요.</p>'
+
+
+def build_trend():
+    """rates_history.json → 최근 7일 최고 할인율 스파크라인 SVG + 전일 대비 요약.
+    프리렌더 전용 구간 — JS 렌더러는 이 영역을 다시 그리지 않는다.
+    이력이 어떻게 오염돼 있어도 수집 잡을 죽이지 않는다 (실패 시 안내 문구)."""
+    try:
+        return _build_trend_inner()
+    except Exception as e:
+        print(f"::warning::트렌드 차트 생성 실패: {e}")
+        return TREND_EMPTY
+
+
+def _median3(vals):
+    """3점 중앙값 필터 — 단일 포인트 결측 스파이크 제거 (표시 전용, 원본 미변경)."""
+    if len(vals) < 3:
+        return list(vals)
+    out = [vals[0]]
+    for i in range(1, len(vals) - 1):
+        out.append(sorted(vals[i - 1:i + 2])[1])
+    out.append(vals[-1])
+    return out
+
+
+def _smooth_path(coords):
+    """Catmull-Rom → Bezier 변환으로 부드러운 곡선 경로 생성."""
+    if len(coords) < 3:
+        return "M" + " L".join(f"{x},{y}" for x, y in coords)
+    d = f"M{coords[0][0]},{coords[0][1]}"
+    for i in range(len(coords) - 1):
+        p0 = coords[i - 1] if i else coords[i]
+        p1, p2 = coords[i], coords[i + 1]
+        p3 = coords[i + 2] if i + 2 < len(coords) else p2
+        c1x = round(p1[0] + (p2[0] - p0[0]) / 6, 1)
+        c1y = round(p1[1] + (p2[1] - p0[1]) / 6, 1)
+        c2x = round(p2[0] - (p3[0] - p1[0]) / 6, 1)
+        c2y = round(p2[1] - (p3[1] - p1[1]) / 6, 1)
+        d += f" C{c1x},{c1y} {c2x},{c2y} {p2[0]},{p2[1]}"
+    return d
+
+
+def _build_trend_inner():
+    try:
+        with open(HISTORY_PATH, encoding="utf-8") as f:
+            pts = json.load(f).get("points", [])
+    except Exception:
+        pts = []
+    kst_now = datetime.now(timezone(timedelta(hours=9)))
+    cutoff = (kst_now - timedelta(days=7)).strftime("%Y-%m-%d %H:%M")
+    # 항목 형태를 엄격히 검증 — dict 아님·t 문자열 아님·best 숫자 아님(bool 포함)은 제외
+    pts = [p for p in pts
+           if isinstance(p, dict)
+           and isinstance(p.get("t"), str)
+           and isinstance(p.get("best"), (int, float))
+           and not isinstance(p.get("best"), bool)
+           and p["t"] >= cutoff]
+    if len(pts) < 2:
+        return TREND_EMPTY
+
+    # 표시용 보정: 단일 포인트 수집 결측 스파이크는 3점 중앙값으로 제거 (원본 이력은 그대로 보존)
+    best_raw = [p["best"] for p in pts]
+    best_vals = _median3(best_raw)
+    lo, hi = min(best_raw), max(best_raw)  # 문구 표기는 원본 기준
+    avg_raw = [p.get("avg") for p in pts]
+    has_avg = all(isinstance(a, (int, float)) and not isinstance(a, bool) for a in avg_raw)
+    avg_vals = _median3(avg_raw) if has_avg else None
+
+    series_all = best_vals + (avg_vals or [])
+    s_lo, s_hi = min(series_all), max(series_all)
+    pad = max(0.3, (s_hi - s_lo) * 0.15)
+    vmin, vmax = s_lo - pad, s_hi + pad
+
+    W, H = 280, 100
+    PL, PR, PT, PB = 30, 10, 8, 6
+    n = len(pts)
+
+    def xy(i, v):
+        x = round(PL + (W - PL - PR) * (i / (n - 1)), 1)
+        y = round(PT + (H - PT - PB) * (1 - (v - vmin) / (vmax - vmin)), 1)
+        return x, y
+
+    # 가로 그리드 + % 눈금 (상·중·하)
+    grid_parts = []
+    for gv in (s_hi, (s_hi + s_lo) / 2, s_lo):
+        gy = xy(0, gv)[1]
+        grid_parts.append(
+            f'<line x1="{PL}" y1="{gy}" x2="{W - PR}" y2="{gy}" stroke="#e7edf6"'
+            f' stroke-width="1" stroke-dasharray="3 3"/>'
+            f'<text x="{PL - 4}" y="{gy + 3}" font-size="8.5" fill="#a6adba"'
+            f' text-anchor="end">{round(gv, 1)}%</text>')
+
+    best_c = [xy(i, v) for i, v in enumerate(best_vals)]
+    line_best = _smooth_path(best_c)
+    area = line_best + f" L{best_c[-1][0]},{H - PB} L{best_c[0][0]},{H - PB} Z"
+    bx, by = best_c[-1]
+
+    avg_svg = ""
+    if avg_vals:
+        avg_c = [xy(i, v) for i, v in enumerate(avg_vals)]
+        ax, ay = avg_c[-1]
+        avg_svg = (f'<path class="t_avg" d="{_smooth_path(avg_c)}" fill="none" stroke="#9dc4f2"'
+                   f' stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>'
+                   f'<circle class="t_avg_dot" cx="{ax}" cy="{ay}" r="2.4" fill="#9dc4f2"/>')
+
+    svg = (f'<svg class="trend_svg" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg"'
+           f' role="img" aria-label="최근 7일 상품권 할인율 추이 (최고·평균)">'
+           f'<defs><linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1">'
+           f'<stop offset="0" stop-color="#097cff" stop-opacity="0.16"/>'
+           f'<stop offset="1" stop-color="#097cff" stop-opacity="0"/></linearGradient></defs>'
+           f'{"".join(grid_parts)}'
+           f'<path class="t_area" d="{area}" fill="url(#trendFill)"/>'
+           f'{avg_svg}'
+           f'<path class="t_line" d="{line_best}" pathLength="100" fill="none" stroke="#097cff"'
+           f' stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>'
+           f'<circle class="t_halo" cx="{bx}" cy="{by}" r="7" fill="#097cff" opacity="0"/>'
+           f'<circle class="t_dot" cx="{bx}" cy="{by}" r="3.4" fill="#097cff"/></svg>')
+    legend = ('<div class="trend_legend"><span class="lg b">최고 할인율</span>'
+              '<span class="lg a">평균 할인율</span></div>' if avg_vals else "")
+    svg = legend + svg
+    # 마지막 포인트가 오늘이 아닐 수도 있으므로 (이력 갱신 지연 등) 날짜를 정직하게 표기
+    today = kst_now.strftime("%Y-%m-%d")
+    last_t = pts[-1]["t"]
+    last_label = (f"오늘 {last_t[11:]}" if last_t[:10] == today
+                  else f'{last_t[5:10].replace("-", ".")} {last_t[11:]}')
+    axis = (f'<div class="trend_axis"><span>{pts[0]["t"][5:10].replace("-", ".")}</span>'
+            f'<span>{last_label}</span></div>')
+
+    yday = (kst_now - timedelta(days=1)).strftime("%Y-%m-%d")
+    t_vals = [p["best"] for p in pts if p["t"][:10] == today]
+    y_vals = [p["best"] for p in pts if p["t"][:10] == yday]
+    if t_vals and y_vals:
+        diff = round(sum(t_vals) / len(t_vals) - sum(y_vals) / len(y_vals), 2)
+        if diff >= 0.05:
+            delta = f'<div class="trend_delta up">▲ 할인율 전일 대비 평균 +{diff}%p</div>'
+        elif diff <= -0.05:
+            delta = f'<div class="trend_delta down">▼ 할인율 전일 대비 평균 {diff}%p</div>'
+        else:
+            delta = '<div class="trend_delta">전일과 비슷한 수준입니다</div>'
+    else:
+        delta = f'<div class="trend_delta">7일 최고 {fmt_rate(hi)}% · 최저 {fmt_rate(lo)}%</div>'
+    return svg + axis + delta
+
+
+def build_hero_stats(data):
+    """실측 가능한 숫자만 사용하는 통계 타일 3개 (허수 금지 — 협회 신뢰 원칙).
+    모든 수치는 지금 페이지에 실제 노출되는 데이터에서 계산한다 (설정 개수 하드코딩 금지)."""
+    deals = data.get("deals", [])
+    n_items = sum(len(g.get("items", [])) for g in deals)
+    sellers = {it.get("seller") for g in deals for it in g.get("items", []) if it.get("seller")}
+    return (f'<div class="stat"><b>{len(sellers)}곳</b><span>오늘 딜 노출 판매처 · 신뢰 필터 통과</span></div>'
+            f'<div class="stat"><b>{len(deals)}종 · {n_items}건</b><span>오늘의 상품권 종류 · 등록 딜</span></div>'
+            f'<div class="stat"><b>24회</b><span>매일 자동 갱신 · 매시간 집계</span></div>')
 
 
 def build_prerender(data):
@@ -465,21 +657,30 @@ def build_prerender(data):
     for g in data.get("deals", []):
         if g.get("items"):
             best_it = max(g["items"], key=lambda d: d["rate"])  # 동률이면 앞선 항목 (JS reduce 와 동일)
-            cat_best.append((g["category"].split()[0], best_it))
+            # split(" ") — JS 의 split(' ') 과 동일한 U+0020 단일 구분 (split() 은 탭·NBSP 도 갈라 어긋남)
+            cat_best.append((g["category"].split(" ")[0], best_it))
     cat_best.sort(key=lambda t: t[1]["rate"], reverse=True)
-    top3 = cat_best[:3]
-    parts["bestStrip"] = "".join(
-        f'<a class="best_card rank{i + 1}" href="{esc(it["url"])}" target="_blank" rel="nofollow sponsored noopener">'
-        f'<span class="rank_badge">{esc(cat)} 최고</span>'
-        f'<div class="b_rate">{fmt_rate(it["rate"])}<small>%</small></div>'
-        f'<span class="b_seller{seller_class(it["seller"], ns)}">{seller_mark(it["seller"], ns)}</span>'
-        f'<div class="b_title">{esc(it["title"])}</div>'
-        f'{best_price_line(it)}</a>'
-        for i, (cat, it) in enumerate(top3))
+    rows = []
+    for i, (cat, it) in enumerate(cat_best[:3]):
+        face_small = f'<small>{fmt_face(it["face"])}</small>' if it.get("face") else ""
+        price_small = f'<small>{it["price"]:,}원</small>' if it.get("price") else ""
+        rows.append(
+            f'<a class="hot3_row" href="{esc(it["url"])}" target="_blank"'
+            f' rel="nofollow sponsored noopener" title="{esc(it["title"])}">'
+            f'<span class="medal m{i + 1}">{i + 1}</span>'
+            f'<span class="h3_seller{seller_class(it["seller"], ns)}">{seller_mark(it["seller"], ns)}</span>'
+            f'<div class="h3_main"><b>{esc(cat)}</b>{face_small}</div>'
+            f'<div class="h3_val"><b>{fmt_rate(it["rate"])}%</b>{price_small}</div>'
+            f'<span class="go">{CHEVRON_SVG}</span></a>')
+    parts["bestStrip"] = "".join(rows)
+
+    # 시세 트렌드 · 통계 (프리렌더 전용 — JS 는 이 구간을 다시 그리지 않음)
+    parts["trendChart"] = build_trend()
+    parts["heroStats"] = build_hero_stats(data)
 
     # 카테고리 바로가기 칩 (sticky) — 딜 그룹 id 와 1:1 대응
     parts["catChips"] = "".join(
-        f'<a class="chip" href="#dealcat-{i}">{esc(g["category"].split()[0])}</a>'
+        f'<a class="chip" href="#dealcat-{i}">{esc(g["category"].split(" ")[0])}</a>'
         for i, g in enumerate(data.get("deals", [])))
 
     # 마켓별 최고 할인율 요약표
@@ -533,7 +734,7 @@ def build_prerender(data):
     for g in data.get("deals", []):
         if g.get("items"):
             top = max(g["items"], key=lambda d: d["rate"])
-            cat_best.append((g["category"].split()[0], top["rate"]))
+            cat_best.append((g["category"].split(" ")[0], top["rate"]))
     cat_best.sort(key=lambda t: t[1], reverse=True)
     if cat_best:
         frag = "·".join(f"{name} {fmt_rate(rate)}%" for name, rate in cat_best[:3])
@@ -723,7 +924,8 @@ def main():
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
-    # 프리렌더(SEO) + 사이트맵 갱신 + 색인 통지
+    # 시세 이력 기록 + 프리렌더(SEO) + 사이트맵 갱신 + 색인 통지
+    append_history(result)
     apply_prerender(result)
     if update_sitemap_lastmod():
         ping_indexnow()

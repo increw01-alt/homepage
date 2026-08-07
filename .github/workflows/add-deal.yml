@@ -40,18 +40,27 @@ jobs:
           cat result.md
 
       - name: 딜 수집 (즉시 반영)
+        id: collect
         if: success()
+        continue-on-error: true   # 수집 실패해도 딜 등록 자체는 커밋한다 (아래에서 부분 생성물은 폐기)
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
-        run: python collect_deals.py || true
+        run: python collect_deals.py
 
       - name: 변경 시 커밋 & 푸시
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # 수집이 프리렌더한 상품권딜.html·sitemap.xml 도 함께 커밋 (deals.json 과 어긋나지 않게)
-          git add manual_deals.json html/deals.json "html/상품권딜.html" html/sitemap.xml
+          # 수집이 중간에 실패했으면 반쪽 생성물(deals.json·프리렌더)이 섞여 배포되지 않도록
+          # html/ 변경을 전부 버리고 딜 등록(manual_deals.json)만 커밋한다.
+          # 다음 정시 수집이 등록된 딜을 포함해 전체를 일관되게 재생성한다.
+          if [ "${{ steps.collect.outcome }}" != "success" ]; then
+            echo "수집 실패 - html 부분 생성물 폐기, 등록만 커밋"
+            git checkout -- html/
+          fi
+          # 수집이 프리렌더한 상품권딜.html·sitemap.xml·시세 이력도 함께 커밋 (deals.json 과 어긋나지 않게)
+          git add manual_deals.json html/deals.json "html/상품권딜.html" html/sitemap.xml html/rates_history.json
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else

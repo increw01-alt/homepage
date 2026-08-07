@@ -38,8 +38,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # deals.json 과 함께 프리렌더된 상품권딜.html, lastmod 갱신된 sitemap.xml 도 커밋
-          git add html/deals.json "html/상품권딜.html" html/sitemap.xml
+          # deals.json 과 함께 프리렌더된 상품권딜.html, sitemap.xml, 시세 이력도 커밋
+          git add html/deals.json "html/상품권딜.html" html/sitemap.xml html/rates_history.json
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else
