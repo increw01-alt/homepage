@@ -19,6 +19,8 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
+    # 행(hang) 시 과금 폭주 방지 백스톱 — 정상 실행은 1분 미만
+    timeout-minutes: 10
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v4

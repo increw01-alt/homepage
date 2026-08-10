@@ -21,6 +21,8 @@ jobs:
     # 저장소 소유자가 만든 Issue만 처리 (외부 입력으로 등록되는 것 방지)
     if: github.event.issue.user.login == github.repository_owner
     runs-on: ubuntu-latest
+    # 행(hang) 시 과금 폭주 방지 백스톱
+    timeout-minutes: 10
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v4
