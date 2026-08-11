@@ -275,16 +275,16 @@ def best_deals_for(query, face, include, deny, must):
 MANUAL_STALE_DAYS = 14
 
 
-def is_stale(checked):
-    """checked 날짜(YYYY-MM-DD)가 MANUAL_STALE_DAYS 보다 오래되었는지."""
+def days_since_checked(checked):
+    """checked 날짜(YYYY-MM-DD)로부터 KST 오늘까지 경과 일수. 없거나 형식 오류면 None."""
     if not checked:
-        return True  # 확인일이 없으면 신뢰할 수 없음
+        return None  # 확인일이 없으면 신뢰할 수 없음
     try:
         d = datetime.strptime(checked, "%Y-%m-%d").date()
     except ValueError:
-        return True
+        return None
     kst_today = datetime.now(timezone(timedelta(hours=9))).date()
-    return (kst_today - d).days > MANUAL_STALE_DAYS
+    return (kst_today - d).days
 
 
 def load_manual_deals():
@@ -299,6 +299,8 @@ def load_manual_deals():
         print(f"[경고] manual_deals.json 읽기 실패: {e}")
         return {}
     by_cat = {}
+    expired = []   # 만료로 제외된 수동 딜 (요약 경고용)
+    expiring = []  # 만료 임박 수동 딜 (요약 경고용)
     for d in data.get("deals", []):
         url = d.get("url", "")
         # URL 미입력(플레이스홀더) 항목은 건너뜀
@@ -333,9 +335,16 @@ def load_manual_deals():
         else:
             # 11번가가 아닌 딜(지마켓·옥션 등)은 가격 자동 갱신이 안 되므로
             # 확인일이 오래되면 잘못된 시세를 노출하지 않도록 자동 제외한다.
-            if is_stale(d.get("checked")):
-                print(f"[만료] {MANUAL_STALE_DAYS}일 경과로 제외: {title[:30] or url}")
+            days = days_since_checked(d.get("checked"))
+            if days is None or days > MANUAL_STALE_DAYS:
+                print(f"[만료] 제외(checked={d.get('checked') or '없음'}): {seller} {title[:30] or url}")
+                expired.append(f"{seller} {title[:20] or url}")
                 continue
+            # 자정(KST) 경계에서 소리 없이 일괄 소멸하는 일을 막기 위한 사전 예고
+            days_left = MANUAL_STALE_DAYS - days + 1  # 노출 제외까지 남은 일수
+            if days_left <= 3:
+                print(f"[만료 임박] D-{days_left}: {seller} {title[:30] or url}")
+                expiring.append(f"D-{days_left} {seller} {title[:20] or url}")
 
         if not rate or not title:
             print(f"[제외] 정보 부족(rate/title 없음): {url}")
@@ -350,6 +359,16 @@ def load_manual_deals():
             "url": to_deeplink(url),
             "manual": True,
         })
+
+    # 경고는 건당이 아니라 요약 한 줄로 — GitHub Actions 애너테이션은 스텝당
+    # warning 10개까지만 표시되므로, 일괄 만료(11건 등)가 다른 중요 경고
+    # (자동수집 0건 등)를 애너테이션에서 밀어내지 않게 한다. 상세는 개별 로그 참조.
+    if expired:
+        print(f"::warning::[만료] 수동 딜 {len(expired)}건 노출 제외({MANUAL_STALE_DAYS}일 경과/checked 누락) — 시세 확인 후 manual_deals.json 의 checked 갱신 시 재노출: "
+              + "; ".join(expired[:5]) + (f" 외 {len(expired) - 5}건" if len(expired) > 5 else ""))
+    if expiring:
+        print(f"::warning::[만료 임박] 수동 딜 {len(expiring)}건 — manual_deals.json 의 checked 갱신 필요: "
+              + "; ".join(expiring[:5]) + (f" 외 {len(expiring) - 5}건" if len(expiring) > 5 else ""))
     return by_cat
 
 
@@ -872,6 +891,7 @@ def main():
     # (seller, category_key) -> 최고 할인율  (요약표용)
     matrix = {}
     sellers_seen = {}
+    auto_items = 0  # 네이버 API 자동수집으로 필터를 통과한 딜 수 (침묵 장애 감시용)
     manual_by_cat = load_manual_deals()
 
     for cat in CATEGORIES:
@@ -879,9 +899,11 @@ def main():
         collected = list(manual_by_cat.pop(cat["name"], []))
         for item in cat["items"]:
             try:
-                collected.extend(best_deals_for(
+                found = best_deals_for(
                     item["q"], item["face"], cat.get("include", []),
-                    cat.get("deny", []), cat.get("must", [])))
+                    cat.get("deny", []), cat.get("must", []))
+                auto_items += len(found)
+                collected.extend(found)
             except urllib.error.HTTPError as e:
                 if e.code == 401:
                     print("[오류] 인증 실패(401). Client ID/Secret 을 확인하세요.")
@@ -947,15 +969,31 @@ def main():
             "rates": [matrix.get((s, col)) for col in columns],
         })
 
+    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "html", "deals.json")
+
+    # 자동수집 전멸 감시 — 수동딜만으로 위 가드(3건)를 통과하면 네이버 수집이 죽어도
+    # 워크플로가 계속 성공해 장애가 묻힌다(2026-07-31~08-11 실제 사건). 연속 0건
+    # 횟수를 deals.json 에 기록하고, 워크플로의 후속 '건강 점검' 스텝이 임계치에서
+    # 실행을 실패시켜 GitHub 알림을 발생시킨다(데이터 커밋 뒤라 사이트 갱신은 계속됨).
+    prev_streak = 0
+    try:
+        with open(out_path, encoding="utf-8") as f:
+            prev_streak = int(json.load(f).get("collect_health", {}).get("auto_zero_streak", 0) or 0)
+    except Exception:
+        pass
+    auto_zero_streak = prev_streak + 1 if auto_items == 0 else 0
+    if auto_items == 0:
+        print(f"::warning::네이버 자동수집 0건 (연속 {auto_zero_streak}회) — API 오류·쿼터·신뢰필터 전량 탈락 여부 점검 필요")
+
     kst = timezone(timedelta(hours=9))
     result = {
         "updated_at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"),
         "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
+        "collect_health": {"auto_items": auto_items, "auto_zero_streak": auto_zero_streak},
         "summary": {"columns": columns, "rows": rows},
         "deals": deals,
     }
 
-    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "html", "deals.json")
     # newline="\n" — 윈도우 로컬 실행과 리눅스 Actions 실행이 교차해도 개행 차이 diff 가 없게
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
@@ -969,7 +1007,7 @@ def main():
     # 콘솔 요약 출력
     print(f"[완료] {out_path} 생성")
     print(f"       업데이트: {result['updated_at']}")
-    print(f"       카테고리 {len(deals)}개 / 요약표 판매처 {len(rows)}개")
+    print(f"       카테고리 {len(deals)}개 / 요약표 판매처 {len(rows)}개 / 네이버 자동수집 {auto_items}건")
     for g in deals:
         if g["items"]:
             b = g["items"][0]

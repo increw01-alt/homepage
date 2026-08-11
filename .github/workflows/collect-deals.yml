@@ -50,3 +50,18 @@ jobs:
             git pull --rebase origin main
             git push
           fi
+
+      - name: 자동수집 건강 점검 (0건 지속 시 실행 실패로 알림)
+        # 커밋·푸시 뒤에 두었으므로 이 스텝이 실패해도 사이트 갱신은 이미 반영된 상태.
+        # 네이버 자동수집이 하루(24회) 연속 0건이면 실행을 실패시켜 GitHub 알림을 띄우고,
+        # 장애가 이어지는 동안은 24회마다 하루 한 번씩만 다시 알린다 (매시간 스팸 방지).
+        # 배경: 2026-07-31~08-11 네이버 수집이 0건이어도 수동딜 덕에 워크플로가 계속
+        # 성공(green)이라 11일간 아무도 몰랐던 사건의 재발 방지.
+        run: |
+          streak=$(jq -r '.collect_health.auto_zero_streak // 0' html/deals.json)
+          auto=$(jq -r '.collect_health.auto_items // 0' html/deals.json)
+          echo "네이버 자동수집 ${auto}건 / 연속 0건 ${streak}회"
+          if [ "$streak" -ge 24 ] && [ $((streak % 24)) -eq 0 ]; then
+            echo "::error::네이버 자동수집이 ${streak}시간 연속 0건입니다 — API 키·쿼터·신뢰필터를 점검하세요."
+            exit 1
+          fi
