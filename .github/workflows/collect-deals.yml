@@ -36,12 +36,21 @@ jobs:
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         run: python collect_deals.py
 
+      - name: 시세 수집 실행
+        # 상품권 거래소 시세는 핫딜과 별개 파이프라인이다.
+        # 여기서 실패해도 핫딜 갱신·커밋은 그대로 진행돼야 하므로 continue-on-error.
+        # (수집기 자체도 업체별로 실패를 격리하지만, 전체가 죽는 경우까지 대비한다)
+        continue-on-error: true
+        run: python collect_rates.py
+
       - name: 변경 시 커밋 & 푸시
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # deals.json 과 함께 프리렌더된 상품권딜.html, sitemap.xml, 시세 이력도 커밋
           git add html/deals.json "html/상품권딜.html" html/sitemap.xml html/rates_history.json
+          # 상품권 거래소 시세(별개 파이프라인)
+          git add html/rates.json "html/상품권시세.html" || true
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else
@@ -65,5 +74,16 @@ jobs:
           echo "11번가 실시간 조회 ${live}건 / 연속 0건 ${streak}회"
           if [ "$streak" -ge 24 ] && [ $((streak % 24)) -eq 0 ]; then
             echo "::error::11번가 실시간 조회가 ${streak}시간 연속 0건입니다 — 자동 검증되는 딜이 없습니다. 11번가 페이지 구조 변경·전량 품절 여부를 점검하세요."
+            exit 1
+          fi
+
+          # 시세 수집 감시 — 업체 절반 미만이 3회 연속이면 파서가 깨진 것으로 본다.
+          # (한 곳이 사이트를 개편하는 것은 흔하지만, 절반이 동시에 깨지는 일은 드물다)
+          rlow=$(jq -r '.collect_health.shop_low_streak // 0' html/rates.json 2>/dev/null || echo 0)
+          rok=$(jq -r '.collect_health.shops_ok // 0' html/rates.json 2>/dev/null || echo 0)
+          rtot=$(jq -r '.collect_health.shops_total // 0' html/rates.json 2>/dev/null || echo 0)
+          echo "시세 수집 업체 ${rok}/${rtot}곳 / 절반 미만 연속 ${rlow}회"
+          if [ "$rlow" -ge 3 ]; then
+            echo "::error::시세 수집 업체가 ${rlow}회 연속 절반 미만입니다(${rok}/${rtot}) — tests/fixtures 를 갱신하고 파서를 점검하세요."
             exit 1
           fi
