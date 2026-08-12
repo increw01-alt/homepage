@@ -138,15 +138,26 @@ class TestTrendChart(unittest.TestCase):
         cr.HISTORY_PATH = os.path.join(os.path.dirname(self._tmp), "_no_such_file.json")
         self.assertEqual(cr.build_hero_chart(), "")
 
-    def test_chart_html_has_polyline(self):
+    def test_chart_html_has_area_line_points(self):
         self._write([
             {"t": "2026-08-12 10:00", "신세계": 96800},
             {"t": "2026-08-12 11:00", "신세계": 96700},
             {"t": "2026-08-12 12:00", "신세계": 96600},
         ])
         html = cr.build_hero_chart()
-        self.assertIn("<polyline", html)
-        self.assertIn("hero_chart", html)
+        self.assertIn("kgc-chart-area", html)
+        self.assertIn("kgc-chart-line", html)
+        self.assertEqual(html.count("kgc-chart-point"), 3)
+        # 면적은 반드시 닫혀야 한다(Z) — 안 닫히면 그라디언트가 이상하게 채워진다
+        self.assertIn("Z", html)
+
+    def test_chart_time_labels(self):
+        self._write([{"t": f"2026-08-12 1{i}:00", "신세계": 96800 - i * 10}
+                     for i in range(9)])
+        labels = cr.build_hero_chart_time()
+        # 점이 많아도 라벨은 6개까지만
+        self.assertEqual(labels.count("<span>"), 6)
+        self.assertIn("10:00", labels)
 
 
 class TestHeroBoard(unittest.TestCase):
@@ -161,9 +172,20 @@ class TestHeroBoard(unittest.TestCase):
              "bestSell": None},
         ]}
         html = cr.build_hero_table(data)
-        self.assertIn("hb_arw down", html)
-        self.assertIn("hb_arw up", html)
-        self.assertEqual(html.count("hb_arw"), 2, "dir 없는 행엔 화살표를 넣지 않는다")
+        self.assertIn("kgc-trend--down", html)
+        self.assertIn("kgc-trend--up", html)
+        # dir 이 없는 행은 빈 자리만 둔다(그리드 열이 밀리지 않게)
+        self.assertEqual(html.count("kgc-trend--"), 2)
+        self.assertIn('<span class="kgc-trend"></span>', html)
+
+    def test_row_has_aria_labels(self):
+        """헤더 없는 role="table" 대신 aria-label 로 열 의미를 준다."""
+        data = {"summary": [
+            {"brand": "신세계", "bestBuy": {"price": 96680, "shop": "A"},
+             "bestSell": {"price": 96650, "shop": "B"}, "dir": "down"}]}
+        html = cr.build_hero_table(data)
+        self.assertIn('aria-label="살 때 최저 96,680원"', html)
+        self.assertIn('aria-label="팔 때 최고 96,650원"', html)
 
     def test_skips_brand_without_data(self):
         data = {"summary": [{"brand": "AK", "bestBuy": None, "bestSell": None}]}

@@ -200,11 +200,13 @@ def build_trend(max_points=24):
     lo = min(s["v"] for s in series)
     hi = max(s["v"] for s in series)
     span = (hi - lo) or 1
-    W, H, PAD = 300.0, 90.0, 10.0
+    # 좌표계는 배너 SVG 의 viewBox(0 0 360 180) 및 그리드선 위치에 맞춘다.
+    # 그리드가 x=20~340, y=25~139 에 그려져 있으므로 그 안쪽에 선을 둔다.
+    X0, X1, Y0, Y1 = 20.0, 340.0, 22.0, 145.0
     coords = []
     for i, s in enumerate(series):
-        x = PAD + (W - PAD * 2) * (i / max(len(series) - 1, 1))
-        y = PAD + (H - PAD * 2) * (1 - (s["v"] - lo) / span)
+        x = X0 + (X1 - X0) * (i / max(len(series) - 1, 1))
+        y = Y0 + (Y1 - Y0) * (1 - (s["v"] - lo) / span)
         coords.append((round(x, 1), round(y, 1)))
     return {"coords": coords, "series": series, "lo": lo, "hi": hi,
             "first": series[0]["t"][-5:], "last": series[-1]["t"][-5:]}
@@ -282,49 +284,62 @@ def build_hero_table(data):
     종류별 최저 살때 / 최고 팔때를 한 줄에 담고, 직전 기록 대비 방향을
     화살표로 표시한다(이력이 없으면 화살표를 생략한다 — 추측하지 않는다).
     """
-    ARROWS = {"down": '<span class="hb_arw down" aria-label="하락">↓</span>',
-              "up": '<span class="hb_arw up" aria-label="상승">↑</span>',
-              "flat": '<span class="hb_arw flat" aria-label="보합">–</span>'}
+    ARROWS = {"down": '<span class="kgc-trend kgc-trend--down" aria-label="하락">↓</span>',
+              "up": '<span class="kgc-trend kgc-trend--up" aria-label="상승">↑</span>',
+              "flat": '<span class="kgc-trend kgc-trend--flat" aria-label="보합">–</span>'}
     rows = []
     for s in data.get("summary", []):
         buy, sell = s.get("bestBuy"), s.get("bestSell")
         if not buy and not sell:
             continue
         # 방향은 rates.json 의 summary[].dir 에 담겨 있다(JS 렌더러도 같은 값을 쓴다).
-        arrow = ARROWS.get(s.get("dir") or "", "")
+        arrow = ARROWS.get(s.get("dir") or "", '<span class="kgc-trend"></span>')
+        b, sl = won((buy or {}).get("price")), won((sell or {}).get("price"))
+        # role="table" 흉내 대신 aria-label 로 열 의미를 준다 — 헤더 행이 없는
+        # 표 role 은 스크린리더가 열을 읽지 못한다.
         rows.append(
-            f'<tr><th scope="row">{esc(s["brand"])}</th>'
-            f'<td class="hb_buy">{won((buy or {}).get("price"))}</td>'
-            f'<td class="hb_sell">{won((sell or {}).get("price"))}</td>'
-            f'<td class="hb_dir">{arrow}</td></tr>')
-    return f'<table class="hero_board"><tbody>{"".join(rows)}</tbody></table>'
+            f'<div class="kgc-market-row">'
+            f'<strong>{esc(s["brand"])}</strong>'
+            f'<span class="kgc-row-buy" aria-label="살 때 최저 {b}">{b}</span>'
+            f'<span class="kgc-row-sell" aria-label="팔 때 최고 {sl}">{sl}</span>'
+            f'{arrow}</div>')
+    return "".join(rows)
 
 
 def build_hero_chart():
-    """히어로 좌측 '시장 가격 동향' 미니 차트. 이력이 부족하면 빈 문자열."""
+    """배너 차트의 면적·선·점. 이력이 3점 미만이면 빈 문자열(그리드만 남는다)."""
     t = build_trend()
     if not t:
         return ""
-    pts = " ".join(f"{x},{y}" for x, y in t["coords"])
-    dots = "".join(f'<circle cx="{x}" cy="{y}" r="2.4"/>' for x, y in t["coords"])
-    return (
-        '<div class="hero_chart">'
-        '<div class="hc_head"><span>시장 가격 동향</span>'
-        '<em class="hc_live">실시간 업데이트</em></div>'
-        '<svg viewBox="0 0 300 90" preserveAspectRatio="none" role="img" '
-        f'aria-label="최근 {len(t["coords"])}회 최저 살때 추이">'
-        f'<polyline points="{pts}" fill="none" stroke="currentColor" '
-        'stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
-        f'<g class="hc_dots" fill="currentColor">{dots}</g></svg>'
-        f'<div class="hc_axis"><span>{esc(t["first"])}</span>'
-        f'<span>{esc(t["last"])}</span></div></div>')
+    pts = t["coords"]
+    line = "M" + " L".join(f"{x} {y}" for x, y in pts)
+    area = line + f" L{pts[-1][0]} 150 L{pts[0][0]} 150 Z"
+    dots = "".join(f'<circle class="kgc-chart-point" cx="{x}" cy="{y}" r="3.5"/>'
+                   for x, y in pts)
+    return (f'<path class="kgc-chart-area" d="{area}" />'
+            f'<path class="kgc-chart-line" d="{line}" />'
+            f'<g>{dots}</g>')
+
+
+def build_hero_chart_time():
+    """차트 아래 시간 축 라벨. 점이 많으면 균등 간격으로 6개만 고른다."""
+    t = build_trend()
+    if not t:
+        return ""
+    series = t["series"]
+    n = min(6, len(series))
+    idx = [round(i * (len(series) - 1) / max(n - 1, 1)) for i in range(n)]
+    return "".join(f"<span>{esc(series[i]['t'][-5:])}</span>" for i in idx)
 
 
 def build_prerender(data):
     parts = {}
-    parts["ratesUpdatedAt"] = esc(data.get("updated_at", "-"))
+    # "기준"까지 한 노드에 담는다 — 텍스트를 <time> 밖에 두면 inline-flex 가
+    # 공백을 줄바꿈으로 렌더해 두 줄이 된다(JS 렌더러도 같은 형태로 넣는다).
+    parts["ratesUpdatedAt"] = esc(data.get("updated_at", "-")) + " 기준"
     parts["heroBoard"] = build_hero_table(data)
     parts["heroChart"] = build_hero_chart()
+    parts["heroChartTime"] = build_hero_chart_time()
 
     cards = []
     for s in data.get("summary", []):
