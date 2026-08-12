@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
-.claude/
+.claude/*
+# 미리보기 서버 설정은 다른 PC 에서도 그대로 쓰도록 공유한다(민감 정보 없음)
+!.claude/launch.json
