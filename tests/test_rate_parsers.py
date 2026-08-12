@@ -100,7 +100,7 @@ FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 
 # 픽스처는 각 업체 시세표 구간만 잘라 저장한 것이다(페이지 전체가 아니다).
 # 갱신하려면 실제 페이지를 받아 같은 방식으로 잘라 넣고 이 테스트를 돌린다.
-SHOP_KEYS = ["worldticket", "xegift", "choigo", "mingren", "centralgift",
+SHOP_KEYS = ["worldticket", "xegift", "choigo", "meee", "mingren", "centralgift",
              "citypay", "wooticket", "woorist", "sgbaekhwajeom", "gogo"]
 
 BRANDS = ["신세계", "롯데", "현대", "갤러리아", "AK"]
@@ -204,6 +204,26 @@ class TestEncodingSensitiveShops(unittest.TestCase):
             with self.subTest(shop=key):
                 rows = rp.PARSERS[key](load_fixture(key))
                 self.assertGreater(len(rows), 0, f"{key}: 한글 종류명 매칭 실패")
+
+
+class TestPromotionalRowsExcluded(unittest.TestCase):
+    def test_meee_skips_gift_promo_rows(self):
+        """미래상품권의 '[사은증정]' 행은 일반 시세와 조건이 다르다.
+
+        같은 브랜드가 일반/증정 두 줄로 나오는데, 증정 행이 채택되면
+        실제로 살 수 없는 가격이 노출된다.
+        """
+        html = (
+            '<tbody class="giftcard_list">'
+            '<tr><td>롯데상품권</td><td>95,400원(4.6%)</td>'
+            '<td>95,700원(4.3%)</td><td></td></tr>'
+            '<tr><td>[사은증정]롯데상품권</td><td>95,000원(5%)</td>'
+            '<td>95,800원(4.2%)</td><td></td></tr>'
+            '</tbody>')
+        rows = rp.parse_meee(html)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["buy"], 95700)
+        self.assertEqual(rows[0]["sell"], 95400)
 
 
 class TestFaceValueTrap(unittest.TestCase):

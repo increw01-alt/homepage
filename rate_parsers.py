@@ -204,6 +204,19 @@ def parse_choigo(html):
     return _dedupe(out)
 
 
+def parse_meee(html):
+    """미래상품권 — tbody.giftcard_list 안 표.
+
+    thead 가 '상품권명 / 매입가(손님 파실때) / 판매가(손님 구매시) / 수량' 이라
+    컬럼 의미가 명확하다. '[사은증정]' 항목은 시세 체계가 다른데,
+    normalize_brand 의 제외 목록('사은', '증정')이 걸러 준다.
+    """
+    m = re.search(r'<tbody[^>]*class="[^"]*giftcard_list[^"]*"[^>]*>(.*?)</tbody>',
+                  html, re.S | re.I)
+    scope = m.group(1) if m else html
+    return _dedupe(_rows_from_table(scope, {"name": 0, "sell": 1, "buy": 2}))
+
+
 def parse_mingren(html):
     """명인상품권 — div.sise_box.box0.active 로 스코프를 좁힌 뒤 표를 읽는다.
 
@@ -318,6 +331,7 @@ PARSERS = {
     "worldticket": parse_worldticket,
     "xegift": parse_xegift,
     "choigo": parse_choigo,
+    "meee": parse_meee,
     "mingren": parse_mingren,
     "centralgift": parse_centralgift,
     "citypay": parse_citypay,

@@ -51,6 +51,10 @@ SHOPS = [
      "url": "http://xegift.co.kr/html/sub0101.php", "encoding": "utf-8"},
     {"key": "choigo", "name": "최고상품권", "area": "명동",
      "url": "https://www.choigoticket.com/html/sub0101.php", "encoding": "utf-8"},
+    # https 는 인증서가 만료돼 검증에 실패한다. 인증서 검증을 끄는 대신 http 로 읽는다
+    # (읽는 값이 공개 시세뿐이고, 4중 검증을 통과해야 채택되므로 위험이 제한적이다).
+    {"key": "meee", "name": "미래상품권", "area": "명동",
+     "url": "http://meee.co.kr/", "encoding": "utf-8"},
     {"key": "centralgift", "name": "중앙상품권", "area": "명동",
      "url": "https://centralgift.imweb.me/", "encoding": "utf-8"},
     {"key": "citypay", "name": "시티페이", "area": "명동",
