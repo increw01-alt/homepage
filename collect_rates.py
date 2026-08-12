@@ -105,8 +105,15 @@ def collect():
                 print(f"[수집] {s['name']}: {len(rows)}건 "
                       f"({', '.join(r['brand'] for r in rows)})")
             else:
+                # 0건일 때 "구조가 바뀐 것"과 "차단 페이지를 받은 것"을 구분해야
+                # 대응이 갈린다. 응답의 지문을 함께 남긴다.
+                # (로컬에서는 되는데 Actions 에서만 0건이면 IP·지역 기반 차단을 의심)
+                title = re.search(r"<title[^>]*>(.*?)</title>", html, re.S | re.I)
+                title = re.sub(r"\s+", " ", title.group(1)).strip()[:40] if title else "(없음)"
+                hits = sum(html.count(b) for b in BRANDS)
                 print(f"::warning::[시세] {s['name']}: 유효한 행 0건 — "
-                      "페이지 구조 변경 의심(tests/fixtures 갱신 후 파서 점검)")
+                      f"응답 {len(html):,}자 / title \"{title}\" / 브랜드 언급 {hits}회. "
+                      "브랜드 언급이 0회면 차단·리다이렉트, 있으면 구조 변경이다.")
         except Exception as e:
             print(f"::warning::[시세] {s['name']} 수집 실패: {type(e).__name__}: {e}")
         time.sleep(1.0)  # 상대 서버 예의
