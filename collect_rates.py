@@ -130,6 +130,109 @@ def collect():
     return shops, {"shops_ok": ok, "shops_total": len(SHOPS)}
 
 
+HISTORY_PATH = os.path.join(BASE_DIR, "html", "rates_market_history.json")
+HISTORY_DAYS = 14
+
+
+def append_history(result):
+    """브랜드별 최저 살때를 시각별로 기록한다(히어로 트렌드 차트용, 14일 보관).
+
+    이력 기록이 실패해도 수집 자체를 막지 않는다.
+    파일이 있는데 못 읽으면 덮어쓰지 않는다 — 조용한 이력 소실 방지.
+    """
+    try:
+        point = {"t": result["updated_at"]}
+        for s in result.get("summary", []):
+            if s.get("bestBuy"):
+                point[s["brand"]] = s["bestBuy"]["price"]
+        if len(point) <= 1:
+            return
+
+        if os.path.exists(HISTORY_PATH):
+            try:
+                with open(HISTORY_PATH, encoding="utf-8") as f:
+                    hist = json.load(f).get("points", [])
+            except Exception as e:
+                print(f"::warning::rates_market_history.json 파싱 실패({e}) — 이번 기록 생략")
+                return
+        else:
+            hist = []
+
+        if hist and hist[-1].get("t") == point["t"]:
+            return
+        hist.append(point)
+
+        cutoff = (datetime.now(timezone(timedelta(hours=9)))
+                  - timedelta(days=HISTORY_DAYS)).strftime("%Y-%m-%d %H:%M")
+        hist = [p for p in hist if isinstance(p, dict) and p.get("t", "") >= cutoff]
+
+        with open(HISTORY_PATH, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"points": hist}, f, ensure_ascii=False, indent=1)
+        print(f"[완료] 시세 이력 {len(hist)}점 기록")
+    except Exception as e:
+        print(f"::warning::시세 이력 기록 실패: {e}")
+
+
+def build_trend(max_points=24):
+    """이력에서 최근 N점을 뽑아 히어로 차트용 폴리라인 좌표를 만든다.
+
+    점이 3개 미만이면 None 을 반환한다 — 선 하나로는 '동향'이 되지 않으므로
+    화면에서 차트 영역을 통째로 숨긴다(빈 차트를 그리지 않는다).
+    """
+    try:
+        with open(HISTORY_PATH, encoding="utf-8") as f:
+            pts = json.load(f).get("points", [])
+    except Exception:
+        return None
+    if len(pts) < 3:
+        return None
+
+    pts = pts[-max_points:]
+    # 브랜드별로 있으나 없으나, '전체 최저 살때'의 흐름을 한 선으로 보여준다
+    series = []
+    for p in pts:
+        vals = [v for k, v in p.items() if k != "t" and isinstance(v, (int, float))]
+        if vals:
+            series.append({"t": p["t"], "v": min(vals)})
+    if len(series) < 3:
+        return None
+
+    lo = min(s["v"] for s in series)
+    hi = max(s["v"] for s in series)
+    span = (hi - lo) or 1
+    W, H, PAD = 300.0, 90.0, 10.0
+    coords = []
+    for i, s in enumerate(series):
+        x = PAD + (W - PAD * 2) * (i / max(len(series) - 1, 1))
+        y = PAD + (H - PAD * 2) * (1 - (s["v"] - lo) / span)
+        coords.append((round(x, 1), round(y, 1)))
+    return {"coords": coords, "series": series, "lo": lo, "hi": hi,
+            "first": series[0]["t"][-5:], "last": series[-1]["t"][-5:]}
+
+
+def annotate_direction(result):
+    """직전 기록 대비 최저 살때의 방향을 summary[].dir 에 넣는다.
+
+    프리렌더와 JS 렌더러가 같은 값을 쓰게 하려고 데이터에 담는다
+    (JS 는 이력 파일을 읽지 않으므로, 여기서 넣지 않으면 양쪽 화살표가 달라진다).
+    이력이 없으면 dir 을 넣지 않는다 — 방향을 추측하지 않는다.
+    """
+    try:
+        with open(HISTORY_PATH, encoding="utf-8") as f:
+            pts = json.load(f).get("points", [])
+    except Exception:
+        return
+    if len(pts) < 2:
+        return
+    prev = pts[-2]
+    for s in result.get("summary", []):
+        p = prev.get(s["brand"])
+        buy = s.get("bestBuy")
+        if not buy or not isinstance(p, (int, float)):
+            continue
+        s["dir"] = "down" if buy["price"] < p else ("up" if buy["price"] > p else "flat")
+
+
 def build_summary(shops):
     """종류별 최저 살때 / 최고 팔때."""
     out = []
@@ -173,9 +276,55 @@ def rate_txt(v):
     return f"{s}%"
 
 
+def build_hero_table(data):
+    """히어로 우측 '주요 백화점 시세 비교' 표.
+
+    종류별 최저 살때 / 최고 팔때를 한 줄에 담고, 직전 기록 대비 방향을
+    화살표로 표시한다(이력이 없으면 화살표를 생략한다 — 추측하지 않는다).
+    """
+    ARROWS = {"down": '<span class="hb_arw down" aria-label="하락">↓</span>',
+              "up": '<span class="hb_arw up" aria-label="상승">↑</span>',
+              "flat": '<span class="hb_arw flat" aria-label="보합">–</span>'}
+    rows = []
+    for s in data.get("summary", []):
+        buy, sell = s.get("bestBuy"), s.get("bestSell")
+        if not buy and not sell:
+            continue
+        # 방향은 rates.json 의 summary[].dir 에 담겨 있다(JS 렌더러도 같은 값을 쓴다).
+        arrow = ARROWS.get(s.get("dir") or "", "")
+        rows.append(
+            f'<tr><th scope="row">{esc(s["brand"])}</th>'
+            f'<td class="hb_buy">{won((buy or {}).get("price"))}</td>'
+            f'<td class="hb_sell">{won((sell or {}).get("price"))}</td>'
+            f'<td class="hb_dir">{arrow}</td></tr>')
+    return f'<table class="hero_board"><tbody>{"".join(rows)}</tbody></table>'
+
+
+def build_hero_chart():
+    """히어로 좌측 '시장 가격 동향' 미니 차트. 이력이 부족하면 빈 문자열."""
+    t = build_trend()
+    if not t:
+        return ""
+    pts = " ".join(f"{x},{y}" for x, y in t["coords"])
+    dots = "".join(f'<circle cx="{x}" cy="{y}" r="2.4"/>' for x, y in t["coords"])
+    return (
+        '<div class="hero_chart">'
+        '<div class="hc_head"><span>시장 가격 동향</span>'
+        '<em class="hc_live">실시간 업데이트</em></div>'
+        '<svg viewBox="0 0 300 90" preserveAspectRatio="none" role="img" '
+        f'aria-label="최근 {len(t["coords"])}회 최저 살때 추이">'
+        f'<polyline points="{pts}" fill="none" stroke="currentColor" '
+        'stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+        f'<g class="hc_dots" fill="currentColor">{dots}</g></svg>'
+        f'<div class="hc_axis"><span>{esc(t["first"])}</span>'
+        f'<span>{esc(t["last"])}</span></div></div>')
+
+
 def build_prerender(data):
     parts = {}
     parts["ratesUpdatedAt"] = esc(data.get("updated_at", "-"))
+    parts["heroBoard"] = build_hero_table(data)
+    parts["heroChart"] = build_hero_chart()
 
     cards = []
     for s in data.get("summary", []):
@@ -294,6 +443,11 @@ def main():
         "summary": build_summary(shops),
         "shops": shops,
     }
+
+    # 순서 주의: 이력 기록 → 방향 주입 → rates.json 저장 → 프리렌더.
+    # 방향(dir)을 저장 뒤에 넣으면 rates.json 에 빠져 JS 렌더러만 화살표를 못 그린다.
+    append_history(result)      # 히어로 트렌드 차트용 이력
+    annotate_direction(result)  # 직전 대비 방향 — 프리렌더와 JS 가 같은 값을 쓰도록 데이터에 담는다
 
     # newline="\n" — 윈도우 로컬과 리눅스 Actions 가 교차 실행돼도 개행 diff 가 없게
     with open(OUT_PATH, "w", encoding="utf-8", newline="\n") as f:

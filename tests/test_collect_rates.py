@@ -85,6 +85,91 @@ class TestSummary(unittest.TestCase):
         self.assertEqual([x["brand"] for x in summary], cr.BRANDS)
 
 
+class TestTrendChart(unittest.TestCase):
+    """히어로 미니 차트 — 이력 파일을 임시로 바꿔치기해 검증한다."""
+
+    def setUp(self):
+        self._orig = cr.HISTORY_PATH
+        self._tmp = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 "_tmp_history.json")
+
+    def tearDown(self):
+        cr.HISTORY_PATH = self._orig
+        if os.path.exists(self._tmp):
+            os.remove(self._tmp)
+
+    def _write(self, points):
+        import json
+        with open(self._tmp, "w", encoding="utf-8") as f:
+            json.dump({"points": points}, f, ensure_ascii=False)
+        cr.HISTORY_PATH = self._tmp
+
+    def test_returns_none_when_too_few_points(self):
+        """점 2개로는 '동향'이 되지 않으므로 차트를 그리지 않는다."""
+        self._write([{"t": "2026-08-12 10:00", "신세계": 96800},
+                     {"t": "2026-08-12 11:00", "신세계": 96700}])
+        self.assertIsNone(cr.build_trend())
+
+    def test_returns_none_when_history_missing(self):
+        cr.HISTORY_PATH = os.path.join(os.path.dirname(self._tmp), "_no_such_file.json")
+        self.assertIsNone(cr.build_trend())
+
+    def test_builds_coords_from_min_buy(self):
+        self._write([
+            {"t": "2026-08-12 10:00", "신세계": 96800, "롯데": 95700},
+            {"t": "2026-08-12 11:00", "신세계": 96700, "롯데": 95500},
+            {"t": "2026-08-12 12:00", "신세계": 96600, "롯데": 95900},
+        ])
+        t = cr.build_trend()
+        self.assertIsNotNone(t)
+        self.assertEqual(len(t["coords"]), 3)
+        # 각 시점의 '전체 최저 살때'가 계열이 된다
+        self.assertEqual([s["v"] for s in t["series"]], [95700, 95500, 95900])
+        self.assertEqual(t["lo"], 95500)
+        self.assertEqual(t["hi"], 95900)
+        # 값이 낮을수록 y 가 커진다(SVG 좌표계는 위가 0)
+        ys = [y for _, y in t["coords"]]
+        self.assertGreater(ys[1], ys[2], "최저값 지점이 가장 아래여야 한다")
+        # x 는 왼쪽에서 오른쪽으로 증가
+        xs = [x for x, _ in t["coords"]]
+        self.assertEqual(xs, sorted(xs))
+
+    def test_chart_html_empty_without_history(self):
+        cr.HISTORY_PATH = os.path.join(os.path.dirname(self._tmp), "_no_such_file.json")
+        self.assertEqual(cr.build_hero_chart(), "")
+
+    def test_chart_html_has_polyline(self):
+        self._write([
+            {"t": "2026-08-12 10:00", "신세계": 96800},
+            {"t": "2026-08-12 11:00", "신세계": 96700},
+            {"t": "2026-08-12 12:00", "신세계": 96600},
+        ])
+        html = cr.build_hero_chart()
+        self.assertIn("<polyline", html)
+        self.assertIn("hero_chart", html)
+
+
+class TestHeroBoard(unittest.TestCase):
+    def test_arrow_reflects_dir_field(self):
+        """화살표는 summary[].dir 로만 결정된다(프리렌더·JS 가 같은 값을 쓰도록)."""
+        data = {"summary": [
+            {"brand": "신세계", "bestBuy": {"price": 96680, "shop": "A"},
+             "bestSell": {"price": 96650, "shop": "B"}, "dir": "down"},
+            {"brand": "롯데", "bestBuy": {"price": 95700, "shop": "A"},
+             "bestSell": None, "dir": "up"},
+            {"brand": "현대", "bestBuy": {"price": 96700, "shop": "A"},
+             "bestSell": None},
+        ]}
+        html = cr.build_hero_table(data)
+        self.assertIn("hb_arw down", html)
+        self.assertIn("hb_arw up", html)
+        self.assertEqual(html.count("hb_arw"), 2, "dir 없는 행엔 화살표를 넣지 않는다")
+
+    def test_skips_brand_without_data(self):
+        data = {"summary": [{"brand": "AK", "bestBuy": None, "bestSell": None}]}
+        self.assertNotIn("AK", cr.build_hero_table(data))
+
+
 class TestPrerenderHelpers(unittest.TestCase):
     def test_won_formats_and_handles_none(self):
         self.assertEqual(cr.won(96700), "96,700원")

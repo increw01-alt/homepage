@@ -11,7 +11,7 @@
     <meta name='subject' content='한국상품권협회'>
     <meta name='author' content='한국상품권협회'>
     <meta name='copyright' content='한국상품권협회'>
-    <!--PR:ratesMetaDesc--><meta name="description" content="백화점 상품권 시세 신세계 96,700원·롯데 95,700원·현대 96,700원. 신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 상품권 거래소별로 비교해 한국상품권협회가 매시간 자동 집계합니다."><!--/PR:ratesMetaDesc-->
+    <!--PR:ratesMetaDesc--><meta name="description" content="백화점 상품권 시세 신세계 96,680원·롯데 95,700원·현대 96,680원. 신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 상품권 거래소별로 비교해 한국상품권협회가 매시간 자동 집계합니다."><!--/PR:ratesMetaDesc-->
     <meta name='keywords' content='상품권핫딜, 상품권할인, 상품권딜, 실시간상품권할인율, 문화상품권할인, 컬쳐랜드할인, 백화점상품권할인, 신세계상품권할인, 현대백화점상품권할인, 롯데상품권할인, 상품권특가, 상품권최저가, 한국상품권협회'>
 
     <!-- og:type -->
@@ -151,7 +151,7 @@
     
 
     <!-- 수집 스크립트가 딜 데이터 기반 ItemList 구조화 데이터를 자동 생성하는 구간 -->
-    <!--PR:ratesJsonld--><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "백화점 상품권 시세", "description": "백화점 상품권 시세 신세계 96,700원·롯데 95,700원·현대 96,700원. 신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 상품권 거래소별로 비교해 한국상품권협회가 매시간 자동 집계합니다.", "dateModified": "2026-08-12 16:10", "creator": {"@type": "Organization", "name": "한국상품권협회"}, "isAccessibleForFree": true}</script><!--/PR:ratesJsonld-->
+    <!--PR:ratesJsonld--><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "백화점 상품권 시세", "description": "백화점 상품권 시세 신세계 96,680원·롯데 95,700원·현대 96,680원. 신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 상품권 거래소별로 비교해 한국상품권협회가 매시간 자동 집계합니다.", "dateModified": "2026-08-12 16:33", "creator": {"@type": "Organization", "name": "한국상품권협회"}, "isAccessibleForFree": true}</script><!--/PR:ratesJsonld-->
 
     <style>
         /* ===== 상품권 딜 페이지 전용 스타일 ===== */
@@ -643,6 +643,129 @@
             .rate_table th, .rate_table td { padding: 11px 9px; font-size: 1.28rem; }
             .rate_notice { font-size: 1.25rem; }
         }
+    
+        /* ================= 시세 히어로 ================= */
+        .hero_rate {
+            display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+            gap: 30px; align-items: center; margin: 0 0 2.2rem; padding: 34px 34px 30px;
+            border-radius: 26px; position: relative; overflow: hidden;
+            background:
+                radial-gradient(680px 320px at 88% 8%, #e8efff 0%, rgba(232,239,255,0) 62%),
+                linear-gradient(135deg, #fbfcff 0%, #f2f6ff 100%);
+            border: 1px solid #e6ecfa;
+        }
+        /* 배경 점 패턴 — 원본 배너의 도트 장식 */
+        .hero_rate::after {
+            content: ""; position: absolute; right: 26px; top: 24px; width: 96px; height: 58px;
+            background-image: radial-gradient(#c9d8f8 1.6px, transparent 1.6px);
+            background-size: 13px 13px; opacity: .85; pointer-events: none;
+        }
+        .hr_left { position: relative; z-index: 1; }
+        .hr_badge {
+            display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px;
+            border: 1px solid #b9cdf6; border-radius: 999px; background: #fff;
+            font-size: 1.32rem; font-weight: 700; color: var(--po-color);
+        }
+        .hr_badge i {
+            width: 7px; height: 7px; border-radius: 50%; background: var(--po-color);
+            animation: hr_blink 1.8s ease-in-out infinite;
+        }
+        @keyframes hr_blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+        .hero_rate h1 {
+            margin: 1.6rem 0 1.9rem; font-size: 4.6rem; font-weight: 900;
+            line-height: 1.16; letter-spacing: -.03em; color: #17181b;
+        }
+        .hero_rate h1 .accent { color: var(--po-color); }
+        .hr_points { list-style: none; margin: 0; padding: 0;
+            display: flex; flex-direction: column; gap: 13px; }
+        .hr_points li {
+            display: flex; align-items: center; gap: 11px;
+            font-size: 1.62rem; font-weight: 700; color: #2f3540;
+        }
+        .hr_points .c_b { color: var(--po-color); }
+        .hr_points .c_s { color: #e8590c; }
+        .hr_ico {
+            flex: none; width: 38px; height: 38px; border-radius: 12px;
+            background: #e8efff; color: var(--po-color);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .hr_right { position: relative; z-index: 1; }
+        /* 상품권 카드 목업 — 이미지 없이 CSS 로만 */
+        .hr_cards { position: relative; height: 108px; margin: 0 0 -22px 0; }
+        .hr_cards .gc {
+            position: absolute; width: 210px; height: 96px; border-radius: 12px;
+            padding: 13px 15px; display: flex; flex-direction: column;
+            justify-content: space-between; box-shadow: 0 10px 24px rgba(23,69,127,.14);
+            font-weight: 800; letter-spacing: .02em;
+        }
+        .hr_cards .gc_nm { font-size: 1.18rem; opacity: .85; }
+        .hr_cards .gc_amt { font-size: 1.72rem; text-align: right; }
+        .hr_cards .gc1 { right: 6px; top: 12px; background: linear-gradient(135deg, #dbe6fb, #b9cdf6);
+            color: #1c3f7a; transform: rotate(-3deg); }
+        .hr_cards .gc2 { right: 74px; top: 2px; background: linear-gradient(135deg, #f7f3e6, #e8dcbe);
+            color: #6b5a2e; transform: rotate(2deg); z-index: -1; }
+        .hr_cards .gc3 { right: 142px; top: 16px; background: linear-gradient(135deg, #e4e7ef, #cdd3e0);
+            color: #3c4351; transform: rotate(-6deg); z-index: -2; }
+        /* 차트는 이력이 3점 이상 쌓여야 그려진다. 없을 때 빈 칸이 남지 않도록
+           grid 가 아니라 flex 로 두고, 비어 있으면 통째로 숨긴다. */
+        .hr_panel {
+            position: relative; display: flex; flex-wrap: wrap; align-items: flex-start;
+            gap: 22px; padding: 20px; border-radius: 20px; background: #fff;
+            box-shadow: 0 14px 40px rgba(23, 69, 127, .10); border: 1px solid #eef2f9;
+        }
+        .hp_chart { flex: 1 1 38%; min-width: 0; }
+        .hp_chart:empty { display: none; }
+        .hp_board { flex: 1 1 52%; min-width: 0; }
+        .hero_chart { color: var(--po-color); }
+        .hc_head { display: flex; align-items: center; justify-content: space-between;
+            gap: 8px; margin-bottom: 10px; }
+        .hc_head span { font-size: 1.36rem; font-weight: 800; color: #2f3540; }
+        .hc_live { font-style: normal; font-size: 1.1rem; font-weight: 700; color: #fff;
+            background: var(--po-color); border-radius: 999px; padding: 3px 9px; }
+        .hero_chart svg { width: 100%; height: 88px; display: block; }
+        .hc_dots { opacity: .55; }
+        .hc_axis { display: flex; justify-content: space-between; margin-top: 6px;
+            font-size: 1.08rem; color: #9aa3b2; }
+        .hb_head { display: flex; align-items: baseline; justify-content: space-between;
+            gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+        .hb_head > span { font-size: 1.36rem; font-weight: 800; color: #2f3540; }
+        .hb_head em { font-style: normal; font-size: 1.06rem; color: #98a0ac; white-space: nowrap; }
+        .hb_head i { display: inline-block; width: 7px; height: 7px; border-radius: 2px;
+            margin: 0 4px 0 8px; }
+        .hb_head .d_b { background: var(--po-color); }
+        .hb_head .d_s { background: #e8590c; }
+        .hero_board { width: 100%; border-collapse: collapse; }
+        .hero_board th, .hero_board td { padding: 8px 4px; font-size: 1.34rem;
+            border-bottom: 1px solid #f2f4f8; white-space: nowrap; }
+        .hero_board tr:last-child th, .hero_board tr:last-child td { border-bottom: 0; }
+        .hero_board th { text-align: left; font-weight: 700; color: #2f3540; }
+        .hero_board .hb_buy { text-align: right; font-weight: 800; color: var(--po-color); }
+        .hero_board .hb_sell { text-align: right; font-weight: 800; color: #e8590c; }
+        .hero_board .hb_dir { text-align: right; width: 22px; }
+        .hb_arw { font-weight: 800; font-size: 1.3rem; }
+        .hb_arw.down { color: #1f9d5b; }
+        .hb_arw.up { color: #e03131; }
+        .hb_arw.flat { color: #b6bdc8; }
+        .hb_time { margin-top: 9px; font-size: 1.1rem; color: #9aa3b2; }
+        .hb_time b { color: #6b7482; font-weight: 700; }
+        .hero_lead { max-width: 74ch; margin: 0 0 3rem; font-size: 1.6rem;
+            line-height: 1.75; color: #4a5158; }
+
+        @media (max-width: 1100px) {
+            .hero_rate { grid-template-columns: 1fr; gap: 22px; padding: 26px 22px 24px; }
+            .hero_rate h1 { font-size: 3.8rem; }
+            .hr_cards { display: none; }
+        }
+        @media (max-width: 767px) {
+            .hero_rate { padding: 22px 16px 20px; border-radius: 20px; }
+            .hero_rate::after { display: none; }
+            .hero_rate h1 { font-size: 3.1rem; margin: 1.3rem 0 1.6rem; }
+            .hr_points li { font-size: 1.42rem; }
+            .hr_ico { width: 33px; height: 33px; }
+            .hr_panel { flex-direction: column; gap: 18px; padding: 16px; }
+            .hero_lead { font-size: 1.42rem; }
+            .hero_board th, .hero_board td { font-size: 1.28rem; }
+        }
     </style>
 </head>
 
@@ -752,14 +875,56 @@
         <section id="sec-1" class="row_c padding_LR">
         <div class="deal_wrap">
 
-            <div class="deal_head">
-                <div class="deal_head_txt">
-                    <h1>백화점 <span class="accent">상품권 시세</span></h1>
-                    <p>신세계·롯데·현대·갤러리아·AK 백화점 상품권을 상품권 거래소에서
-                        얼마에 사고팔 수 있는지 한눈에 비교하세요.</p>
-                    <span class="upd">기준 시각 <b id="ratesUpdatedAt"><!--PR:ratesUpdatedAt-->2026-08-12 16:10<!--/PR:ratesUpdatedAt--></b></span>
+            <!-- 히어로 — 오른쪽 보드의 표·차트는 프리렌더 + JS 양쪽에서 같은 마크업으로
+                 그린다(collect_rates.py 의 build_hero_table/build_hero_chart 와 1:1). -->
+            <div class="hero_rate">
+                <div class="hr_left">
+                    <span class="hr_badge"><i></i>실시간 업데이트</span>
+                    <h1>백화점<br><span class="accent">상품권 시세</span></h1>
+                    <ul class="hr_points">
+                        <li>
+                            <span class="hr_ico" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"><path d="M3 17l5-6 4 4 6-8"/><path d="M15 7h5v5"/></svg>
+                            </span>
+                            거래소별 실시간 시세 비교
+                        </li>
+                        <li>
+                            <span class="hr_ico" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                            </span>
+                            최저 <b class="c_b">살때</b> · 최고 <b class="c_s">팔때</b> 한눈에 확인
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hr_right">
+                    <!-- 상품권 카드 목업 (CSS 로만 그린다 — 이미지 파일 불필요) -->
+                    <div class="hr_cards" aria-hidden="true">
+                        <div class="gc gc3"><span class="gc_nm">HYUNDAI</span><span class="gc_amt">100,000</span></div>
+                        <div class="gc gc2"><span class="gc_nm">SHINSEGAE</span><span class="gc_amt">100,000</span></div>
+                        <div class="gc gc1"><span class="gc_nm">LOTTE</span><span class="gc_amt">100,000</span></div>
+                    </div>
+
+                    <div class="hr_panel">
+                        <div class="hp_chart" id="heroChart"><!--PR:heroChart--><!--/PR:heroChart--></div>
+                        <div class="hp_board">
+                            <div class="hb_head">
+                                <span>주요 백화점 시세 비교</span>
+                                <em><i class="d_b"></i>살때(최저) <i class="d_s"></i>팔때(최고)</em>
+                            </div>
+                            <div id="heroBoard"><!--PR:heroBoard--><table class="hero_board"><tbody><tr><th scope="row">신세계</th><td class="hb_buy">96,680원</td><td class="hb_sell">96,650원</td><td class="hb_dir"><span class="hb_arw flat" aria-label="보합">–</span></td></tr><tr><th scope="row">롯데</th><td class="hb_buy">95,700원</td><td class="hb_sell">95,600원</td><td class="hb_dir"><span class="hb_arw flat" aria-label="보합">–</span></td></tr><tr><th scope="row">현대</th><td class="hb_buy">96,680원</td><td class="hb_sell">96,650원</td><td class="hb_dir"><span class="hb_arw flat" aria-label="보합">–</span></td></tr><tr><th scope="row">갤러리아</th><td class="hb_buy">96,500원</td><td class="hb_sell">96,470원</td><td class="hb_dir"><span class="hb_arw flat" aria-label="보합">–</span></td></tr><tr><th scope="row">AK</th><td class="hb_buy">96,500원</td><td class="hb_sell">95,500원</td><td class="hb_dir"><span class="hb_arw flat" aria-label="보합">–</span></td></tr></tbody></table><!--/PR:heroBoard--></div>
+                            <div class="hb_time">기준 <b id="ratesUpdatedAt"><!--PR:ratesUpdatedAt-->2026-08-12 16:33<!--/PR:ratesUpdatedAt--></b></div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <p class="hero_lead">신세계·롯데·현대·갤러리아·AK 백화점 상품권을 상품권 거래소에서
+                얼마에 사고팔 수 있는지 한눈에 비교하세요.</p>
 
             <p class="rate_intro">백화점 상품권 시세는 상품권 거래소가 상품권을 사고파는 가격입니다.
                 <b>살때</b>는 거래소에서 상품권을 구매할 때 내는 금액, <b>팔때</b>는 보유한 상품권을
@@ -774,7 +939,7 @@
                 <h2>종류별 최저 살때 · 최고 팔때</h2>
                 <span>거래소 전체에서 가장 유리한 가격</span>
             </div>
-            <div class="rate_cards" id="ratesSummary"><!--PR:ratesSummary--><div class="rate_card"><div class="rc_brand">신세계 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,700원</b><span class="rc_shop">최고상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>96,650원</b><span class="rc_shop">월드티켓상품권</span></div></div><div class="rate_card"><div class="rc_brand">롯데 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>95,700원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>95,600원</b><span class="rc_shop">엑스이상품권</span></div></div><div class="rate_card"><div class="rc_brand">현대 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,700원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>96,650원</b><span class="rc_shop">중앙상품권</span></div></div><div class="rate_card"><div class="rc_brand">갤러리아 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,500원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>96,450원</b><span class="rc_shop">미래상품권</span></div></div><div class="rate_card"><div class="rc_brand">AK 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,500원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>95,500원</b><span class="rc_shop">월드티켓상품권</span></div></div><!--/PR:ratesSummary--></div>
+            <div class="rate_cards" id="ratesSummary"><!--PR:ratesSummary--><div class="rate_card"><div class="rc_brand">신세계 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,680원</b><span class="rc_shop">고고상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>96,650원</b><span class="rc_shop">월드티켓상품권</span></div></div><div class="rate_card"><div class="rc_brand">롯데 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>95,700원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>95,600원</b><span class="rc_shop">엑스이상품권</span></div></div><div class="rate_card"><div class="rc_brand">현대 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,680원</b><span class="rc_shop">고고상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>96,650원</b><span class="rc_shop">중앙상품권</span></div></div><div class="rate_card"><div class="rc_brand">갤러리아 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,500원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>96,470원</b><span class="rc_shop">고고상품권</span></div></div><div class="rate_card"><div class="rc_brand">AK 상품권</div><div class="rc_row"><span class="rc_label buy">살때</span><b>96,500원</b><span class="rc_shop">월드티켓상품권</span></div><div class="rc_row"><span class="rc_label sell">팔때</span><b>95,500원</b><span class="rc_shop">월드티켓상품권</span></div></div><!--/PR:ratesSummary--></div>
 
             <div class="deal_block_title">
                 <h2>거래소별 상품권 시세</h2>
@@ -784,7 +949,7 @@
                 <b>참고 정보</b>이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다.
                 거래 전 해당 업체에 직접 확인하시기 바랍니다.</p>
             <div class="rate_scroll">
-                <div id="ratesMatrix"><!--PR:ratesMatrix--><table class="rate_table"><thead><tr><th>상품권 샵</th><th>신세계</th><th>롯데</th><th>현대</th><th>갤러리아</th><th>AK</th></tr></thead><tbody><tr><th scope="row"><a href="https://www.myeongdongworldticket.co.kr/" target="_blank" rel="nofollow noopener">월드티켓상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,550원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,550원</span></td><td><span class="c_buy">96,500원</span><span class="c_sell">96,200원</span></td><td><span class="c_buy">96,500원</span><span class="c_sell">95,500원</span></td></tr><tr><th scope="row"><a href="http://xegift.co.kr/html/sub0101.php" target="_blank" rel="nofollow noopener">엑스이상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,750원</span><span class="c_sell">95,600원</span></td><td><span class="c_buy">96,800원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,400원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://www.choigoticket.com/html/sub0101.php" target="_blank" rel="nofollow noopener">최고상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,700원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">95,750원</span><span class="c_sell">95,550원</span></td><td><span class="c_buy">96,800원</span><span class="c_sell">96,600원</span></td><td class="na">—</td><td class="na">—</td></tr><tr><th scope="row"><a href="http://meee.co.kr/" target="_blank" rel="nofollow noopener">미래상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,700원</span><span class="c_sell">96,500원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,400원</span></td><td><span class="c_buy">96,750원</span><span class="c_sell">96,550원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,450원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://centralgift.imweb.me/" target="_blank" rel="nofollow noopener">중앙상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">96,100원</span><span class="c_sell">95,500원</span></td><td><span class="c_buy">96,750원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,300원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://city-pay.co.kr/" target="_blank" rel="nofollow noopener">시티페이</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,800원</span><span class="c_sell">95,500원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,300원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="http://www.xn--zf0bt1zcnd5pj69p6qc.com/" target="_blank" rel="nofollow noopener">상품권백화점</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,500원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,550원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,450원</span></td><td class="na">—</td></tr></tbody></table><!--/PR:ratesMatrix--></div>
+                <div id="ratesMatrix"><!--PR:ratesMatrix--><table class="rate_table"><thead><tr><th>상품권 샵</th><th>신세계</th><th>롯데</th><th>현대</th><th>갤러리아</th><th>AK</th></tr></thead><tbody><tr><th scope="row"><a href="https://www.myeongdongworldticket.co.kr/" target="_blank" rel="nofollow noopener">월드티켓상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,550원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,550원</span></td><td><span class="c_buy">96,500원</span><span class="c_sell">96,200원</span></td><td><span class="c_buy">96,500원</span><span class="c_sell">95,500원</span></td></tr><tr><th scope="row"><a href="http://xegift.co.kr/html/sub0101.php" target="_blank" rel="nofollow noopener">엑스이상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,750원</span><span class="c_sell">95,600원</span></td><td><span class="c_buy">96,800원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,400원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://www.choigoticket.com/html/sub0101.php" target="_blank" rel="nofollow noopener">최고상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,700원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">95,750원</span><span class="c_sell">95,550원</span></td><td><span class="c_buy">96,800원</span><span class="c_sell">96,600원</span></td><td class="na">—</td><td class="na">—</td></tr><tr><th scope="row"><a href="http://meee.co.kr/" target="_blank" rel="nofollow noopener">미래상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,700원</span><span class="c_sell">96,500원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,400원</span></td><td><span class="c_buy">96,750원</span><span class="c_sell">96,550원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,450원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://centralgift.imweb.me/" target="_blank" rel="nofollow noopener">중앙상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">96,100원</span><span class="c_sell">95,500원</span></td><td><span class="c_buy">96,750원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,300원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://city-pay.co.kr/" target="_blank" rel="nofollow noopener">시티페이</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,800원</span><span class="c_sell">95,500원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,300원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="http://www.xn--zf0bt1zcnd5pj69p6qc.com/" target="_blank" rel="nofollow noopener">상품권백화점</a><span class="area">명동</span></th><td><span class="c_buy">96,800원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,500원</span></td><td><span class="c_buy">96,700원</span><span class="c_sell">96,550원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,450원</span></td><td class="na">—</td></tr><tr><th scope="row"><a href="https://xn--299aa03ct82dtjik1sz2c.com/" target="_blank" rel="nofollow noopener">고고상품권</a><span class="area">명동</span></th><td><span class="c_buy">96,680원</span><span class="c_sell">96,650원</span></td><td><span class="c_buy">95,700원</span><span class="c_sell">95,600원</span></td><td><span class="c_buy">96,680원</span><span class="c_sell">96,600원</span></td><td><span class="c_buy">96,600원</span><span class="c_sell">96,470원</span></td><td class="na">—</td></tr></tbody></table><!--/PR:ratesMatrix--></div>
             </div>
             <div class="rate_legend">
                 <span><i class="lb">위 숫자</i> = 살때(거래소에서 구매)</span>
@@ -963,7 +1128,27 @@
                     var table = '<table class="rate_table"><thead><tr><th>상품권 샵</th>' +
                         head + '</tr></thead><tbody>' + body + '</tbody></table>';
 
+                    // 히어로 보드 — collect_rates.py 의 build_hero_table() 과 같은 마크업.
+                    // 화살표 방향은 summary[].dir 에 담겨 오므로 양쪽 결과가 일치한다.
+                    // (차트는 이력 파일이 있어야 그릴 수 있어 프리렌더 결과를 그대로 둔다)
+                    var ARROWS = {
+                        down: '<span class="hb_arw down" aria-label="하락">↓</span>',
+                        up: '<span class="hb_arw up" aria-label="상승">↑</span>',
+                        flat: '<span class="hb_arw flat" aria-label="보합">–</span>'
+                    };
+                    var boardRows = (data.summary || []).map(function (s) {
+                        var buy = s.bestBuy || {}, sell = s.bestSell || {};
+                        if (!s.bestBuy && !s.bestSell) return "";
+                        return '<tr><th scope="row">' + esc(s.brand) + '</th>' +
+                            '<td class="hb_buy">' + won(buy.price) + '</td>' +
+                            '<td class="hb_sell">' + won(sell.price) + '</td>' +
+                            '<td class="hb_dir">' + (ARROWS[s.dir] || "") + '</td></tr>';
+                    }).join("");
+                    var boardHTML = '<table class="hero_board"><tbody>' + boardRows +
+                        '</tbody></table>';
+
                     // 조각을 다 만든 뒤 한 번에 반영 (중간 예외 시 프리렌더 온전 유지)
+                    document.getElementById("heroBoard").innerHTML = boardHTML;
                     document.getElementById("ratesUpdatedAt").textContent = data.updated_at || "-";
                     document.getElementById("ratesSummary").innerHTML = cards;
                     document.getElementById("ratesMatrix").innerHTML = table;
