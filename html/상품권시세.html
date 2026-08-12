@@ -692,9 +692,15 @@
             --kgc-navy: #101b2d; --kgc-text: #182235; --kgc-red: #ff603d;
             --kgc-shadow: 0 22px 60px rgba(40, 86, 151, 0.13); }
         .kgc-market-hero, .kgc-market-hero * { box-sizing: border-box; }
+        /* 배너가 놓이는 .deal_wrap 은 max-width 1040px 이라 시안의 좌우 2열
+           레이아웃이 들어갈 자리가 안 나온다. 배너만 그 제한 밖으로 빼서
+           상위 컨테이너(.row_c, 상한 1550px)만큼 넓게 쓴다.
+           body 가 overflow-x: clip 이라 이렇게 넓혀도 가로 스크롤이 생기지 않는다. */
         .kgc-market-hero {
             position: relative; isolation: isolate; color: var(--kgc-text);
-            width: min(100%, 1600px); margin: 0 auto 3rem; overflow: hidden;
+            left: 50%; transform: translateX(-50%);
+            width: min(1550px, calc(100vw - 40px));
+            margin: 0 auto 3rem; overflow: hidden;
             padding: clamp(38px, 4vw, 66px) clamp(24px, 4.5vw, 70px) clamp(24px, 3vw, 44px);
             border: 1px solid rgba(216, 228, 246, 0.92); border-radius: 34px;
             background:
