@@ -579,3 +579,74 @@ input[type="checkbox"]:checked+label:before {
     padding: 30px 2rem 0 !important;
   }
 }
+/* ================= 관련 페이지 링크 (내부링크) =================
+   매시간 갱신되는 딜·시세 페이지와 정적인 상담 페이지를 서로 잇는다.
+   크롤러가 자주 오는 페이지에서 링크가 흐르도록 하는 것이 목적이므로,
+   앵커 텍스트에는 그 페이지가 노리는 키워드를 그대로 쓴다. */
+.related_links {
+    /* 좌우 패딩은 사이트 공통 .padding_LR(0 20px)에 맡긴다.
+       여기서 padding 을 지정하면 그 규칙을 덮어 모바일에서 좌우 여백이 사라진다. */
+    margin: 4rem auto 5rem;
+    max-width: 120rem;
+}
+.related_links .rl_head {
+    margin: 0 0 1.8rem;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #222;
+    letter-spacing: -.01em;
+}
+.related_links .rl_head span {
+    display: block;
+    margin-top: .5rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #97a0ad;
+}
+.related_links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+}
+.related_links li {
+    border: 1px solid #e6e9ef;
+    border-radius: 1.4rem;
+    background: #fff;
+    transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.related_links li:hover {
+    border-color: #bcd7ff;
+    box-shadow: 0 .8rem 2rem rgba(31, 79, 163, .09);
+    transform: translateY(-.2rem);
+}
+.related_links a {
+    display: block;
+    padding: 1.9rem 2.1rem;
+    text-decoration: none;
+    color: inherit;
+}
+.related_links b {
+    display: block;
+    margin-bottom: .6rem;
+    font-size: 1.62rem;
+    font-weight: 800;
+    color: #1f4fa3;
+    letter-spacing: -.02em;
+}
+.related_links p {
+    margin: 0;
+    font-size: 1.38rem;
+    line-height: 1.65;
+    color: #6b7482;
+}
+@media screen and (max-width: 767px) {
+    .related_links { margin: 3rem auto 3.6rem; }
+    .related_links .rl_head { font-size: 1.9rem; }
+    .related_links ul { grid-template-columns: 1fr; }
+    .related_links a { padding: 1.6rem 1.7rem; }
+    .related_links b { font-size: 1.5rem; }
+    .related_links p { font-size: 1.3rem; }
+}
