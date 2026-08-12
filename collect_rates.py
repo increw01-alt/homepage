@@ -51,22 +51,28 @@ SHOPS = [
      "url": "http://xegift.co.kr/html/sub0101.php", "encoding": "utf-8"},
     {"key": "choigo", "name": "최고상품권", "area": "명동",
      "url": "https://www.choigoticket.com/html/sub0101.php", "encoding": "utf-8"},
-    {"key": "mingren", "name": "명인상품권", "area": "명동",
-     "url": "https://www.mingren.co.kr/", "encoding": "utf-8"},
     {"key": "centralgift", "name": "중앙상품권", "area": "명동",
      "url": "https://centralgift.imweb.me/", "encoding": "utf-8"},
     {"key": "citypay", "name": "시티페이", "area": "명동",
      "url": "https://city-pay.co.kr/", "encoding": "utf-8"},
-    {"key": "wooticket", "name": "우천상품권", "area": "명동",
-     "url": "http://www.wooticket.com/", "encoding": "euc-kr"},
-    {"key": "woorist", "name": "우리에스티", "area": "명동",
-     "url": "https://woorist.co.kr/happyshop/show_pricelist_woori.php",
-     "encoding": "euc-kr"},
     {"key": "sgbaekhwajeom", "name": "상품권백화점", "area": "명동",
      "url": "http://www.xn--zf0bt1zcnd5pj69p6qc.com/", "encoding": "utf-8"},
     {"key": "gogo", "name": "고고상품권", "area": "명동",
      "url": "https://xn--299aa03ct82dtjik1sz2c.com/", "encoding": "utf-8"},
 ]
+
+# ── 제외된 업체 (파서는 rate_parsers.py 에 그대로 남아 있다) ──────────
+# 아래 3곳은 로컬(국내 IP)에서는 정상 수집되지만 GitHub Actions 의 해외
+# 데이터센터 IP 로는 차단된다. 2026-08-12 확인 — 정상 응답이 27~82KB 인데
+# 765~1,600자짜리 본문에 title 도 브랜드 언급도 없는 페이지가 돌아온다.
+#   mingren   명인상품권  https://www.mingren.co.kr/
+#   wooticket 우천상품권  http://www.wooticket.com/            (EUC-KR)
+#   woorist   우리에스티  https://woorist.co.kr/happyshop/show_pricelist_woori.php (EUC-KR)
+# 프록시로 우회하지 않는다 — 상대가 막은 것을 뚫는 것은 수집 원칙에 어긋난다.
+# 국내에서 도는 수집기를 따로 두게 되면 그때 다시 넣을 것.
+#
+# 미래상품권(meee.co.kr)은 SSL 인증서 만료로 제외. 갱신되면 다시 넣는다.
+# 고고상품권은 간헐적으로 403 이 나지만 성공률이 높아 유지한다(실패해도 격리됨).
 
 BRANDS = ["신세계", "롯데", "현대", "갤러리아", "AK"]
 

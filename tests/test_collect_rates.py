@@ -15,10 +15,15 @@ class TestShopRegistry(unittest.TestCase):
         for s in cr.SHOPS:
             self.assertIn(s["key"], rp.PARSERS, f"{s['name']}: 파서 없음")
 
-    def test_every_parser_is_registered_as_shop(self):
+    def test_parsers_may_outlive_shops(self):
+        """수집 대상에서 빠진 업체의 파서는 남겨 둔다.
+
+        차단·인증서 만료 등으로 잠시 제외된 업체가 대부분이라,
+        파서를 지우면 복구할 때 처음부터 다시 만들어야 한다.
+        (파서는 픽스처 테스트로 계속 검증된다)
+        """
         keys = {s["key"] for s in cr.SHOPS}
-        for k in rp.PARSERS:
-            self.assertIn(k, keys, f"{k}: 파서만 있고 SHOPS 에 없음")
+        self.assertTrue(keys <= set(rp.PARSERS), "SHOPS 에 파서 없는 업체가 있다")
 
     def test_shop_fields(self):
         for s in cr.SHOPS:
