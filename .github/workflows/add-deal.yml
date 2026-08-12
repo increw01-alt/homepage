@@ -67,7 +67,14 @@ jobs:
             echo "변경 없음 - 커밋 생략"
           else
             git commit -m "chore: 딜 등록 (Issue #${{ github.event.issue.number }})"
-            git pull --rebase origin main
+            # 사람이 같은 파일을 동시에 고치면 리베이스가 충돌한다. 억지로 한쪽을
+            # 고르면 사람 작업을 덮어쓸 수 있어, 충돌 시엔 밀어 넣지 않고 알린다.
+            # (딜 등록 자체는 manual_deals.json 에 남아 다음 정시 수집에 반영된다)
+            if ! git pull --rebase origin main; then
+              git rebase --abort || true
+              echo "::warning::사람이 푸시한 커밋과 충돌 — 푸시를 건너뜁니다(다음 정시 수집에 반영됨)."
+              exit 0
+            fi
             git push
           fi
 
