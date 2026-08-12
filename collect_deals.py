@@ -122,6 +122,21 @@ TRUST_ALLOW = [
     "플러스유", "플러스문", "모아핀", "핀큐", "플러스존",  # 협회 자체몰
 ]
 
+# ── 노출 금지 브랜드 (신뢰 필터와 별개로 무조건 차단) ────────────
+# 발행사 부도·지급불능 등으로 소비자 피해가 발생한 상품권은 할인율이 아무리 높아도
+# 협회가 소개해서는 안 된다. 자동수집·수동등록 어느 경로로 들어와도 차단한다.
+#   해피머니: 발행사 부도로 사용 불가 — 2026-08-12 실수로 등록됐다가 제거된 이력 있음
+# 주의: 컬쳐랜드 딜 제목에 흔히 붙는 "해피캐시 충전 지원"은 별개 상품이므로
+#       걸리지 않도록 브랜드명 자체("해피머니")로만 판정한다.
+BLOCKED_BRANDS = ["해피머니"]
+
+
+def is_blocked_brand(*texts):
+    """상품명·카테고리 등에 노출 금지 브랜드가 있으면 True."""
+    joined = " ".join(t for t in texts if t)
+    return any(b in joined for b in BLOCKED_BRANDS)
+
+
 # ── 링크프라이스 딥링크 자동 변환 ──────────────────────────────
 # 승인완료 머천트의 상품 링크를 제휴(실적) 링크로 감쌉니다.
 # 어필리에이트 ID는 링크프라이스 '한국상품권협회' 채널 기준.
@@ -257,6 +272,9 @@ def best_deals_for(query, face, include, deny, must):
         if not is_trusted(link, seller):
             continue
         title = clean(it.get("title", ""))
+        # 노출 금지 브랜드(발행사 부도 등)는 할인율과 무관하게 제외
+        if is_blocked_brand(title):
+            continue
         # 브랜드 필터: include 중 하나 이상 포함 / must 는 모두 포함 / deny 는 하나도 없어야
         if include and not any(k in title for k in include):
             continue
@@ -335,6 +353,12 @@ def load_manual_deals():
         title = d.get("title", "")
         seller = d.get("seller", "")
 
+        # 노출 금지 브랜드는 등록돼 있어도 화면에 내보내지 않는다.
+        # (11번가 실시간 조회 전에 판정 — 상품명이 뒤늦게 바뀌는 경우는 아래에서 한 번 더)
+        if is_blocked_brand(title, d.get("category", "")):
+            print(f"::warning::[차단] 노출 금지 브랜드 딜 제외: {d.get('category','')} {title[:30] or url}")
+            continue
+
         # 11번가 딜: 상품명·가격·할인율을 실행마다 자동 갱신 (URL만 등록해도 동작)
         if "11st.co.kr" in url:
             try:
@@ -345,6 +369,10 @@ def load_manual_deals():
                     face = live["face"]
                     price = live["price"]
                     seller = seller or "11번가"
+                    # 실시간 조회로 상품명이 바뀌었을 수 있으므로 갱신된 이름으로 재판정
+                    if is_blocked_brand(title):
+                        print(f"::warning::[차단] 노출 금지 브랜드 딜 제외(실시간 상품명): {title[:40]}")
+                        continue
                     live_ok += 1
                 else:
                     # 품절·판매중단·비정상가 → 노출 제외 (등록값으로 잘못 노출하지 않음)
