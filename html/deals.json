@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-08-12 13:38",
+  "updated_at": "2026-08-12 15:13",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
-    "live_items": 17,
+    "live_items": 18,
     "live_zero_streak": 0,
     "auto_items": 0,
     "naver_shop_api": "disabled"
@@ -47,14 +47,6 @@
           "url": "https://www.11st.co.kr/products/9315307642",
           "price": 28440,
           "face": 30000
-        },
-        {
-          "seller": "11번가",
-          "rate": 5.2,
-          "title": "컬쳐랜드 상품권(모바일문화상품권) 1만원",
-          "url": "https://www.11st.co.kr/products/9315303869",
-          "price": 9480,
-          "face": 10000
         },
         {
           "seller": "11번가",
@@ -150,6 +142,14 @@
         },
         {
           "seller": "11번가",
+          "rate": 1.0,
+          "title": "[10만원권]신세계백화점 상품권 교환권 99,000원 카드결제가능! 이마트 사용가능! ID당 10매까지 구매가능!",
+          "url": "https://www.11st.co.kr/products/1493359734",
+          "price": 99000,
+          "face": 100000
+        },
+        {
+          "seller": "11번가",
           "rate": 0.7,
           "title": "신세계상품권(100,000원)",
           "url": "https://www.11st.co.kr/products/5917614041",
@@ -161,6 +161,14 @@
     {
       "category": "구글플레이 기프트카드",
       "items": [
+        {
+          "seller": "11번가",
+          "rate": 3.0,
+          "title": "[5만원권] Google Play 구글플레이 기프트코드_3% 할인_실시간 발송",
+          "url": "https://www.11st.co.kr/products/1805679704",
+          "price": 48500,
+          "face": 50000
+        },
         {
           "seller": "11번가",
           "rate": 3.0,
