@@ -220,10 +220,19 @@ def fetch_11st_live(url, face=None):
         return None
 
     name = (ld.get("name") or "").strip()
-    # 액면가: 인자 > 정가(취소선 가격) > 상품명
+    # 액면가 판정: 등록 시 지정한 face 가 있으면 그것이 우선.
+    # 없으면 "정가(priceSpecification)"와 "상품명에서 읽은 액면가" 중 **큰 값**을 쓴다.
+    #   11번가는 할인 상품에서도 priceSpecification 에 정가가 아니라 판매가를 그대로
+    #   넣어두는 경우가 있다(예: [10만원권] 현대백화점 상품권 → 판매가·정가 모두 98,000).
+    #   그 값을 액면가로 믿으면 할인율이 0%로 계산돼 정상 딜이 통째로 누락된다.
+    #   액면가는 판매가보다 작을 수 없으므로 둘 중 큰 값을 택하는 편이 안전하며,
+    #   과도하게 큰 값은 아래 상식 범위 검증(70~102%)에서 걸러진다.
     if not face:
         spec = offers.get("priceSpecification") or {}
-        face = spec.get("price") or parse_face_from_name(name)
+        spec_face = spec.get("price")
+        name_face = parse_face_from_name(name)
+        cands = [v for v in (spec_face, name_face) if isinstance(v, (int, float)) and v > 0]
+        face = max(cands) if cands else None
     if not face:
         return None
 
