@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-08-12 10:48",
+  "updated_at": "2026-08-12 11:50",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
-    "live_items": 6,
+    "live_items": 13,
     "live_zero_streak": 0,
     "auto_items": 0,
     "naver_shop_api": "disabled"
@@ -20,7 +20,7 @@
         "seller": "11번가",
         "rates": [
           5.2,
-          5.0,
+          6.0,
           0.7,
           null,
           0.7
@@ -55,6 +55,22 @@
           "url": "https://www.11st.co.kr/products/9315303869",
           "price": 9480,
           "face": 10000
+        },
+        {
+          "seller": "11번가",
+          "rate": 5.0,
+          "title": "[10만원권]컬쳐랜드 모바일 상품권 최대 10% 할인",
+          "url": "https://www.11st.co.kr/products/1541978801",
+          "price": 95000,
+          "face": 100000
+        },
+        {
+          "seller": "11번가",
+          "rate": 4.0,
+          "title": "컬쳐랜드상품권(모바일문화상품권) 5만원",
+          "url": "https://www.11st.co.kr/products/5320358371",
+          "price": 48000,
+          "face": 50000
         }
       ]
     },
@@ -63,11 +79,35 @@
       "items": [
         {
           "seller": "11번가",
+          "rate": 6.0,
+          "title": "[10만원] 모바일 도서문화 상품권 6% 할인 북앤라이프",
+          "url": "https://www.11st.co.kr/products/1664442333",
+          "price": 94000,
+          "face": 100000
+        },
+        {
+          "seller": "11번가",
           "rate": 5.0,
           "title": "북앤라이프 도서문화상품권 5만원권 5%할인",
           "url": "https://www.11st.co.kr/products/9203481517",
           "price": 47500,
           "face": 50000
+        },
+        {
+          "seller": "11번가",
+          "rate": 4.5,
+          "title": "[5만원권] 도서문화상품권 북앤라이프 카드결제가능",
+          "url": "https://www.11st.co.kr/products/3154193285",
+          "price": 47750,
+          "face": 50000
+        },
+        {
+          "seller": "11번가",
+          "rate": 3.5,
+          "title": "[10만원권] 모바일 도서문화상품권 / 카드결제 가능 / 문화상품권 / 북앤라이프",
+          "url": "https://www.11st.co.kr/products/1678554466",
+          "price": 96500,
+          "face": 100000
         }
       ]
     },
@@ -94,6 +134,27 @@
           "url": "https://www.11st.co.kr/products/5917614041",
           "price": 99300,
           "face": 100000
+        }
+      ]
+    },
+    {
+      "category": "해피머니 상품권",
+      "items": [
+        {
+          "seller": "11번가",
+          "rate": 8.0,
+          "title": "[5만원권] 해피머니 상품권 8% 할인 카드결제가능",
+          "url": "https://www.11st.co.kr/products/2778024489",
+          "price": 46000,
+          "face": 50000
+        },
+        {
+          "seller": "11번가",
+          "rate": 4.0,
+          "title": "[해피머니] 온라인상품권 5만원권",
+          "url": "https://www.11st.co.kr/products/5652714323",
+          "price": 48000,
+          "face": 50000
         }
       ]
     }
