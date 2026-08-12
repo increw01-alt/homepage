@@ -715,9 +715,18 @@
             background-image: radial-gradient(circle, #9ec0ff 2.4px, transparent 2.8px);
             background-size: 17px 17px;
         }
+        /* 배너가 들어가는 자리(.deal_wrap)는 화면이 아무리 넓어도 1040px 로 고정된다.
+           그래서 뷰포트 기준 미디어쿼리로는 "2열로 벌려도 되는지"를 알 수 없다
+           — 1600px 화면에서도 배너 안은 좁아서 대시보드가 깨졌다.
+           컨테이너 쿼리로 '배너 자신의 폭'을 기준 삼는다. 미지원 브라우저는
+           기본값(세로 1열)을 보게 되므로 깨지지 않는다. */
+        .kgc-market-hero { container-type: inline-size; }
         .kgc-market-grid {
-            display: grid; grid-template-columns: minmax(390px, 0.84fr) minmax(650px, 1.16fr);
+            display: grid; grid-template-columns: 1fr;
             gap: clamp(30px, 4vw, 68px); align-items: start;
+        }
+        @container (min-width: 1080px) {
+            .kgc-market-grid { grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr); }
         }
         .kgc-market-copy { position: relative; z-index: 3; padding-top: 38px; }
         .kgc-live-badge {
@@ -772,7 +781,12 @@
             background-image: radial-gradient(circle, #8cb4ff 2.3px, transparent 2.8px);
             background-size: 16px 16px;
         }
-        .kgc-vouchers { position: relative; z-index: 1; height: 278px; margin-left: 34px; }
+        /* 카드가 rotate 로 기울어 있어 바운딩 박스가 좌우로 커진다.
+           여유를 두지 않으면 배너의 overflow:hidden 에 모서리가 잘린다.
+           absolute 자식의 right 기준은 padding box 라서 padding 으로는 밀리지 않는다
+           — 컨테이너 자체를 margin 으로 좁혀야 한다. */
+        .kgc-vouchers { position: relative; z-index: 1; height: 278px;
+            margin-left: 34px; }
         .kgc-voucher {
             position: absolute; overflow: hidden; width: min(64%, 520px); aspect-ratio: 2.14 / 1;
             border: 8px solid rgba(255, 255, 255, 0.92); border-radius: 20px;
@@ -803,10 +817,10 @@
             font-weight: 750; letter-spacing: 0.08em; opacity: 0.76; }
         .kgc-voucher-value { right: 6.5%; bottom: 10.5%; font-size: clamp(19px, 2vw, 32px);
             font-weight: 900; letter-spacing: -0.03em; }
-        .kgc-voucher--shinsegae { z-index: 1; top: 0; right: 1%; color: #80662a;
+        .kgc-voucher--shinsegae { z-index: 1; top: 0; right: 4%; color: #80662a;
             background: linear-gradient(115deg, #fffdf7 0%, #fff3d5 55%, #f6e2ae 100%);
             transform: rotate(2.7deg); }
-        .kgc-voucher--hyundai { z-index: 2; top: 112px; right: 0; color: #566180;
+        .kgc-voucher--hyundai { z-index: 2; top: 112px; right: 3%; color: #566180;
             background: linear-gradient(115deg, #d8d8ee 0%, #b7b9dc 55%, #8e94bd 100%);
             transform: rotate(5deg); }
         .kgc-voucher--lotte { z-index: 3; top: 74px; left: 9%; color: #2454a4;
@@ -835,10 +849,14 @@
         }
         .kgc-dashboard {
             position: relative; z-index: 5; margin-top: -12px; display: grid;
-            grid-template-columns: minmax(260px, 0.7fr) minmax(440px, 1.3fr); min-height: 315px;
+            grid-template-columns: 1fr; min-height: 315px;
             overflow: hidden; border: 1px solid rgba(217, 225, 238, 0.96); border-radius: 23px;
             background: rgba(255, 255, 255, 0.94); box-shadow: 0 18px 46px rgba(45, 79, 128, 0.15);
             backdrop-filter: blur(16px);
+        }
+        @container (min-width: 620px) {
+            .kgc-dashboard { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
+            .kgc-chart-panel { border-right: 1px solid #e9edf4; border-bottom: 0; }
         }
         .kgc-chart-panel, .kgc-table-panel { padding: 31px 30px 26px; }
         .kgc-chart-panel { border-right: 1px solid #e9edf4; }
@@ -857,8 +875,10 @@
             stroke-linecap: round; stroke-linejoin: round;
             filter: drop-shadow(0 4px 5px rgba(20, 119, 248, 0.18)); }
         .kgc-chart-point { fill: #fff; stroke: var(--kgc-blue); stroke-width: 2; }
-        .kgc-chart-time { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
-            margin-top: -3px; color: #8a94a7; font-size: 10px; text-align: center; }
+        .kgc-chart-time { display: flex; justify-content: space-between; gap: 4px;
+            margin-top: -3px; color: #8a94a7; font-size: 10px; white-space: nowrap; }
+        /* 라벨이 좁은 폭에서 서로 붙어 읽기 어려워지므로 가운데 것들은 넓을 때만 */
+        .kgc-chart-time span:not(:first-child):not(:last-child) { opacity: .85; }
         .kgc-chart-empty { display: grid; place-items: center; height: 145px;
             color: #9aa6b8; font-size: 12px; font-weight: 600; }
         .kgc-time-stamp {
@@ -926,15 +946,12 @@
             50% { box-shadow: 0 0 0 9px rgba(20, 119, 248, 0.02); }
         }
         @media (max-width: 1280px) {
-            .kgc-market-grid { grid-template-columns: minmax(330px, 0.78fr) minmax(590px, 1.22fr); gap: 30px; }
-            .kgc-dashboard { grid-template-columns: minmax(220px, 0.66fr) minmax(410px, 1.34fr); }
             .kgc-chart-panel, .kgc-table-panel { padding-left: 22px; padding-right: 22px; }
             .kgc-feature { padding-left: 14px; padding-right: 14px; gap: 11px; }
             .kgc-feature-icon { width: 48px; height: 48px; flex-basis: 48px; }
             .kgc-feature-icon svg { width: 27px; height: 27px; }
         }
-        @media (max-width: 1050px) {
-            .kgc-market-grid { grid-template-columns: 1fr; }
+        @media (max-width: 1400px) {
             .kgc-market-copy { padding-top: 0; text-align: center; }
             .kgc-market-summary { width: min(100%, 660px); margin-left: auto; margin-right: auto; }
             .kgc-summary-item { justify-content: center; text-align: left; }
@@ -957,13 +974,14 @@
             
             .kgc-vouchers { height: 232px; margin-top: 6px; }
             .kgc-voucher { width: 72%; border-width: 5px; border-radius: 14px; }
-            .kgc-voucher--shinsegae { right: 0; }
-            .kgc-voucher--hyundai { top: 93px; right: -2%; }
+            .kgc-voucher--shinsegae { right: 3%; }
+            /* 회전한 카드의 모서리가 배너 밖으로 나가 잘리지 않도록 안쪽으로 */
+            .kgc-voucher--hyundai { top: 93px; right: 2%; }
             .kgc-voucher--lotte { top: 63px; left: 3%; }
             .kgc-gift-box { top: 154px; left: 0; width: 100px; height: 65px; }
             .kgc-gift-box::after { left: 38px; right: 38px; }
             .kgc-gift-ribbon { left: 32px; }
-            .kgc-dashboard { grid-template-columns: 1fr; margin-top: 2px; }
+            .kgc-dashboard { margin-top: 2px; }
             .kgc-chart-panel { border-right: 0; border-bottom: 1px solid #e9edf4; }
             .kgc-chart { height: 170px; }
             .kgc-table-heading { align-items: flex-start; }
