@@ -78,16 +78,16 @@ jobs:
           gh issue comment ${{ github.event.issue.number }} --body-file result.md
           gh issue close ${{ github.event.issue.number }}
 
-      - name: 자동수집 건강 점검 (0건 지속 시 실행 실패로 알림)
+      - name: 자동 갱신 건강 점검 (0건 지속 시 실행 실패로 알림)
         # collect-deals.yml 의 동일 스텝과 한 쌍 — 이 워크플로의 수집 실행도
-        # auto_zero_streak 를 올리므로, 여기서만 24의 배수가 소비되면 정시 워크플로가
+        # live_zero_streak 를 올리므로, 여기서만 24의 배수가 소비되면 정시 워크플로가
         # 배수를 놓쳐 알림이 최대 하루 늦어지는 구멍을 막는다.
         # 맨 끝에 두어 실패해도 딜 등록·커밋·Issue 처리에는 영향이 없다.
         run: |
-          streak=$(jq -r '.collect_health.auto_zero_streak // 0' html/deals.json)
-          auto=$(jq -r '.collect_health.auto_items // 0' html/deals.json)
-          echo "네이버 자동수집 ${auto}건 / 연속 0건 ${streak}회"
+          streak=$(jq -r '.collect_health.live_zero_streak // 0' html/deals.json)
+          live=$(jq -r '.collect_health.live_items // 0' html/deals.json)
+          echo "11번가 실시간 조회 ${live}건 / 연속 0건 ${streak}회"
           if [ "$streak" -ge 24 ] && [ $((streak % 24)) -eq 0 ]; then
-            echo "::error::네이버 자동수집이 ${streak}시간 연속 0건입니다 — API 키·쿼터·신뢰필터를 점검하세요."
+            echo "::error::11번가 실시간 조회가 ${streak}시간 연속 0건입니다 — 자동 검증되는 딜이 없습니다. 11번가 페이지 구조 변경·전량 품절 여부를 점검하세요."
             exit 1
           fi

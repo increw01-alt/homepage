@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-네이버 쇼핑 검색 API로 상품권 최저가를 수집해 할인율을 계산하고
-html/deals.json 을 자동 생성하는 스크립트.
+상품권 최저가를 모아 할인율을 계산하고 html/deals.json 과 프리렌더를
+자동 생성하는 스크립트.
+
+데이터 소스:
+  - 11번가 등록 딜: 상품 페이지의 JSON-LD 를 매 실행 조회해 현재가·품절 자동 반영
+  - 수동 등록 딜(지마켓·옥션 등): manual_deals.json, 14일 지나면 자동 만료
+  - 네이버 쇼핑 검색 API: 2026-07-31 폐지(SE05)되어 현재 비활성
+    → NAVER_SHOP_SEARCH_ENABLED 주석 참고
 
 사용법 (Windows PowerShell):
-    $env:NAVER_CLIENT_ID="발급받은_Client_ID"
-    $env:NAVER_CLIENT_SECRET="발급받은_Client_Secret"
     python collect_deals.py
 
-키는 코드에 절대 넣지 말고 환경변수로만 전달합니다.
+네이버 검색을 다시 켤 때만 키가 필요합니다. 키는 코드에 절대 넣지 말고
+환경변수로만 전달합니다.
+    $env:NAVER_CLIENT_ID="발급받은_Client_ID"
+    $env:NAVER_CLIENT_SECRET="발급받은_Client_Secret"
 """
 
 import os
@@ -31,6 +38,19 @@ CLIENT_ID = os.environ.get("NAVER_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("NAVER_CLIENT_SECRET")
 
 API_URL = "https://openapi.naver.com/v1/search/shop.json"
+
+# ── 네이버 쇼핑 검색 API 중단 (2026-08-12 원인 확정) ─────────────
+# 2026-07-31 18:43 KST 실행을 마지막으로 모든 검색어가 HTTP 404 로 실패해 왔다.
+# 2026-08-12 Actions 에서 같은 키로 두 API 를 대조 호출한 결과:
+#   /v1/search/shop.json → HTTP 404  errorCode "SE05"
+#                          "Invalid search api (존재하지 않는 검색 api 입니다.)"
+#   /v1/search/blog.json → HTTP 200  정상 응답 (같은 키·같은 앱)
+# 블로그 검색이 성공하므로 키·앱·쿼터는 정상이며, 401(인증)도 429(한도)도 아닌
+# SE05 는 "그 API 가 존재하지 않는다"는 뜻이다 → 쇼핑 검색 API 자체가 폐지됐다.
+# 코드로 고칠 수 있는 장애가 아니므로 무의미한 매시간 404 호출을 중단한다.
+# CATEGORIES 의 검색어·필터 정의는 그대로 남겨 둔다 — 네이버가 API 를 되살리거나
+# 동등한 검색형 소스를 붙일 때 이 값을 True 로 되돌리면 즉시 복구된다.
+NAVER_SHOP_SEARCH_ENABLED = False
 
 # 수집 대상: 상품권 종류(컬럼) → 액면가별 검색어
 # key     : 요약표 컬럼명
@@ -301,6 +321,9 @@ def load_manual_deals():
     by_cat = {}
     expired = []   # 만료로 제외된 수동 딜 (요약 경고용)
     expiring = []  # 만료 임박 수동 딜 (요약 경고용)
+    # 네이버 쇼핑 검색 폐지 후 11번가 실시간 조회가 유일하게 남은 자동 갱신 경로다.
+    # 이 건수가 0 이 되면 페이지에 자동 검증되는 딜이 하나도 없다는 뜻이므로 감시한다.
+    live_ok = 0
     for d in data.get("deals", []):
         url = d.get("url", "")
         # URL 미입력(플레이스홀더) 항목은 건너뜀
@@ -322,6 +345,7 @@ def load_manual_deals():
                     face = live["face"]
                     price = live["price"]
                     seller = seller or "11번가"
+                    live_ok += 1
                 else:
                     # 품절·판매중단·비정상가 → 노출 제외 (등록값으로 잘못 노출하지 않음)
                     print(f"[제외] 11번가 딜 확인 불가(품절/변경): {title[:30] or url}")
@@ -369,7 +393,7 @@ def load_manual_deals():
     if expiring:
         print(f"::warning::[만료 임박] 수동 딜 {len(expiring)}건 — manual_deals.json 의 checked 갱신 필요: "
               + "; ".join(expiring[:5]) + (f" 외 {len(expiring) - 5}건" if len(expiring) > 5 else ""))
-    return by_cat
+    return by_cat, live_ok
 
 
 # ─────────────────────────────────────────────────────────────
@@ -881,7 +905,9 @@ def ping_indexnow():
 
 
 def main():
-    if not CLIENT_ID or not CLIENT_SECRET:
+    # 네이버 쇼핑 검색이 폐지된 뒤로는 키가 없어도 11번가 실시간 조회 + 수동 딜로
+    # 정상 동작한다. 검색을 다시 켤 때만 키를 필수로 요구한다.
+    if NAVER_SHOP_SEARCH_ENABLED and (not CLIENT_ID or not CLIENT_SECRET):
         print("[오류] 환경변수 NAVER_CLIENT_ID / NAVER_CLIENT_SECRET 가 설정되지 않았습니다.")
         print("       PowerShell에서:")
         print('       $env:NAVER_CLIENT_ID="..."; $env:NAVER_CLIENT_SECRET="..."')
@@ -891,13 +917,13 @@ def main():
     # (seller, category_key) -> 최고 할인율  (요약표용)
     matrix = {}
     sellers_seen = {}
-    auto_items = 0  # 네이버 API 자동수집으로 필터를 통과한 딜 수 (침묵 장애 감시용)
-    manual_by_cat = load_manual_deals()
+    auto_items = 0  # 네이버 API 자동수집으로 필터를 통과한 딜 수 (현재 API 폐지로 항상 0)
+    manual_by_cat, live_items = load_manual_deals()
 
     for cat in CATEGORIES:
         # 수동 등록 딜 먼저 반영 (자동수집이 놓친 특가)
         collected = list(manual_by_cat.pop(cat["name"], []))
-        for item in cat["items"]:
+        for item in cat["items"] if NAVER_SHOP_SEARCH_ENABLED else []:
             try:
                 found = best_deals_for(
                     item["q"], item["face"], cat.get("include", []),
@@ -908,7 +934,12 @@ def main():
                 if e.code == 401:
                     print("[오류] 인증 실패(401). Client ID/Secret 을 확인하세요.")
                     sys.exit(1)
-                print(f"[경고] '{item['q']}' 검색 실패: HTTP {e.code}")
+                # 응답 본문에 네이버 errorCode 가 들어 있다 — 원인 판별에 필수이므로 함께 남긴다
+                try:
+                    detail = e.read().decode("utf-8", "replace")[:200].replace("\n", " ")
+                except Exception:
+                    detail = "(본문 읽기 실패)"
+                print(f"[경고] '{item['q']}' 검색 실패: HTTP {e.code} {detail}")
             except Exception as e:
                 print(f"[경고] '{item['q']}' 검색 중 오류: {e}")
             time.sleep(0.1)  # API 예의상 약간의 간격
@@ -971,25 +1002,34 @@ def main():
 
     out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "html", "deals.json")
 
-    # 자동수집 전멸 감시 — 수동딜만으로 위 가드(3건)를 통과하면 네이버 수집이 죽어도
-    # 워크플로가 계속 성공해 장애가 묻힌다(2026-07-31~08-11 실제 사건). 연속 0건
-    # 횟수를 deals.json 에 기록하고, 워크플로의 후속 '건강 점검' 스텝이 임계치에서
-    # 실행을 실패시켜 GitHub 알림을 발생시킨다(데이터 커밋 뒤라 사이트 갱신은 계속됨).
+    # 자동 갱신 전멸 감시 — 수동딜만으로 위 가드(3건)를 통과하면 자동 경로가 죽어도
+    # 워크플로가 계속 성공해 장애가 묻힌다(2026-07-31~08-11 실제 사건).
+    # 네이버 쇼핑 검색이 폐지된 지금은 11번가 실시간 조회가 유일한 자동 경로이므로,
+    # 감시 대상을 "네이버 수집 0건"에서 "11번가 실시간 조회 0건"으로 옮긴다.
+    # (네이버 기준으로 두면 복구 불가능한 원인으로 매일 알림이 울려 소음만 된다.)
     prev_streak = 0
     try:
         with open(out_path, encoding="utf-8") as f:
-            prev_streak = int(json.load(f).get("collect_health", {}).get("auto_zero_streak", 0) or 0)
+            prev_streak = int(json.load(f).get("collect_health", {}).get("live_zero_streak", 0) or 0)
     except Exception:
         pass
-    auto_zero_streak = prev_streak + 1 if auto_items == 0 else 0
-    if auto_items == 0:
-        print(f"::warning::네이버 자동수집 0건 (연속 {auto_zero_streak}회) — API 오류·쿼터·신뢰필터 전량 탈락 여부 점검 필요")
+    live_zero_streak = prev_streak + 1 if live_items == 0 else 0
+    if live_items == 0:
+        print(f"::warning::11번가 실시간 조회 0건 (연속 {live_zero_streak}회) — 자동으로 검증되는 딜이 "
+              "하나도 없습니다. 11번가 페이지 구조 변경·등록 상품 전량 품절 여부를 점검하세요.")
 
     kst = timezone(timedelta(hours=9))
     result = {
         "updated_at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"),
         "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
-        "collect_health": {"auto_items": auto_items, "auto_zero_streak": auto_zero_streak},
+        "collect_health": {
+            # live_* : 11번가 실시간 조회(현재 유일한 자동 갱신 경로) 감시 지표
+            "live_items": live_items,
+            "live_zero_streak": live_zero_streak,
+            # 네이버 쇼핑 검색은 2026-07-31 폐지(SE05) — 되살아나기 전까지 항상 0
+            "auto_items": auto_items,
+            "naver_shop_api": "disabled" if not NAVER_SHOP_SEARCH_ENABLED else "enabled",
+        },
         "summary": {"columns": columns, "rows": rows},
         "deals": deals,
     }
@@ -1007,7 +1047,9 @@ def main():
     # 콘솔 요약 출력
     print(f"[완료] {out_path} 생성")
     print(f"       업데이트: {result['updated_at']}")
-    print(f"       카테고리 {len(deals)}개 / 요약표 판매처 {len(rows)}개 / 네이버 자동수집 {auto_items}건")
+    print(f"       카테고리 {len(deals)}개 / 요약표 판매처 {len(rows)}개 / "
+          f"11번가 실시간 {live_items}건 / 네이버 자동수집 {auto_items}건"
+          f"{' (API 폐지로 비활성)' if not NAVER_SHOP_SEARCH_ENABLED else ''}")
     for g in deals:
         if g["items"]:
             b = g["items"][0]
