@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-12 15:50",
+  "updated_at": "2026-08-12 15:51",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
-    "shops_ok": 10,
+    "shops_ok": 6,
     "shops_total": 10,
     "shop_low_streak": 0
   },
@@ -18,9 +18,9 @@
     {
       "brand": "신세계",
       "bestBuy": {
-        "price": 96680,
-        "rate": 3.32,
-        "shop": "고고상품권"
+        "price": 96700,
+        "rate": null,
+        "shop": "최고상품권"
       },
       "bestSell": {
         "price": 96650,
@@ -44,9 +44,9 @@
     {
       "brand": "현대",
       "bestBuy": {
-        "price": 96680,
-        "rate": 3.32,
-        "shop": "고고상품권"
+        "price": 96700,
+        "rate": 3.3,
+        "shop": "월드티켓상품권"
       },
       "bestSell": {
         "price": 96650,
@@ -62,17 +62,17 @@
         "shop": "월드티켓상품권"
       },
       "bestSell": {
-        "price": 96470,
-        "rate": 3.53,
-        "shop": "고고상품권"
+        "price": 96450,
+        "rate": null,
+        "shop": "상품권백화점"
       }
     },
     {
       "brand": "AK",
       "bestBuy": {
-        "price": 96200,
-        "rate": 3.8,
-        "shop": "우천상품권"
+        "price": 96500,
+        "rate": 3.5,
+        "shop": "월드티켓상품권"
       },
       "bestSell": {
         "price": 95500,
@@ -188,41 +188,6 @@
       ]
     },
     {
-      "name": "명인상품권",
-      "url": "https://www.mingren.co.kr/",
-      "area": "명동",
-      "rows": [
-        {
-          "brand": "롯데",
-          "buy": 95800,
-          "buyRate": 4.2,
-          "sell": 95500,
-          "sellRate": 4.5
-        },
-        {
-          "brand": "신세계",
-          "buy": 96800,
-          "buyRate": 3.2,
-          "sell": 96600,
-          "sellRate": 3.4
-        },
-        {
-          "brand": "현대",
-          "buy": 96850,
-          "buyRate": 3.15,
-          "sell": 96550,
-          "sellRate": 3.45
-        },
-        {
-          "brand": "갤러리아",
-          "buy": 96600,
-          "buyRate": 3.4,
-          "sell": 96400,
-          "sellRate": 3.6
-        }
-      ]
-    },
-    {
       "name": "중앙상품권",
       "url": "https://centralgift.imweb.me/",
       "area": "명동",
@@ -293,83 +258,6 @@
       ]
     },
     {
-      "name": "우천상품권",
-      "url": "http://www.wooticket.com/",
-      "area": "명동",
-      "rows": [
-        {
-          "brand": "롯데",
-          "buy": 95700,
-          "buyRate": 4.3,
-          "sell": 95500,
-          "sellRate": 4.5
-        },
-        {
-          "brand": "신세계",
-          "buy": 96800,
-          "buyRate": 3.2,
-          "sell": 96650,
-          "sellRate": 3.35
-        },
-        {
-          "brand": "현대",
-          "buy": 96700,
-          "buyRate": 3.3,
-          "sell": 96550,
-          "sellRate": 3.45
-        },
-        {
-          "brand": "갤러리아",
-          "buy": 96600,
-          "buyRate": 3.4,
-          "sell": 96450,
-          "sellRate": 3.55
-        },
-        {
-          "brand": "AK",
-          "buy": 96200,
-          "buyRate": 3.8,
-          "sell": 95000,
-          "sellRate": 5.0
-        }
-      ]
-    },
-    {
-      "name": "우리에스티",
-      "url": "https://woorist.co.kr/happyshop/show_pricelist_woori.php",
-      "area": "명동",
-      "rows": [
-        {
-          "brand": "롯데",
-          "buy": 96800,
-          "buyRate": 3.2,
-          "sell": 95500,
-          "sellRate": 4.5
-        },
-        {
-          "brand": "신세계",
-          "buy": 97000,
-          "buyRate": 3.0,
-          "sell": 96650,
-          "sellRate": 3.35
-        },
-        {
-          "brand": "갤러리아",
-          "buy": 96700,
-          "buyRate": 3.3,
-          "sell": 96100,
-          "sellRate": 3.9
-        },
-        {
-          "brand": "현대",
-          "buy": 97200,
-          "buyRate": 2.8,
-          "sell": 96600,
-          "sellRate": 3.4
-        }
-      ]
-    },
-    {
       "name": "상품권백화점",
       "url": "http://www.xn--zf0bt1zcnd5pj69p6qc.com/",
       "area": "명동",
@@ -401,41 +289,6 @@
           "buyRate": null,
           "sell": 96450,
           "sellRate": null
-        }
-      ]
-    },
-    {
-      "name": "고고상품권",
-      "url": "https://xn--299aa03ct82dtjik1sz2c.com/",
-      "area": "명동",
-      "rows": [
-        {
-          "brand": "롯데",
-          "buy": 95700,
-          "buyRate": 4.3,
-          "sell": 95600,
-          "sellRate": 4.4
-        },
-        {
-          "brand": "신세계",
-          "buy": 96680,
-          "buyRate": 3.32,
-          "sell": 96650,
-          "sellRate": 3.35
-        },
-        {
-          "brand": "현대",
-          "buy": 96680,
-          "buyRate": 3.32,
-          "sell": 96600,
-          "sellRate": 3.4
-        },
-        {
-          "brand": "갤러리아",
-          "buy": 96600,
-          "buyRate": 3.4,
-          "sell": 96470,
-          "sellRate": 3.53
         }
       ]
     }
