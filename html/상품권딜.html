@@ -410,10 +410,15 @@
             display: flex; align-items: center; gap: 9px;
         }
         .deal_cat_title::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--po-color); }
-        /* 종류별 설명 문단 — 검색엔진이 읽을 본문이자 이용자에게 주는 맥락 */
+        /* 종류별 설명 문단 — 검색엔진이 읽을 본문이자 이용자에게 주는 맥락.
+           딜 목록이 주인공이므로 보조 정보로 물러나 보이게 작고 연하게 둔다.
+           실제 크기는 루트 폰트(뷰포트별 10px/9px)에 따라 11.7~13px.
+           이보다 더 줄이지는 말 것 — 딜 상품명(13.5~15px) 대비 이미 0.87배로,
+           더 내리면 가독성이 떨어지고 본문으로서의 무게도 잃는다. */
         .cat_intro {
-            margin: -0.6rem 0 1.5rem; padding-left: 17px;
-            font-size: 1.45rem; line-height: 1.75; color: #5c6470; max-width: 78ch;
+            margin: -0.7rem 0 1.4rem; padding-left: 17px;
+            font-size: 1.3rem; line-height: 1.7; color: #8a919e; max-width: 74ch;
+            letter-spacing: -0.1px;
         }
         /* ---- 자주 묻는 질문(FAQ) ---- */
         .faq_list { display: flex; flex-direction: column; gap: 10px; }
@@ -439,7 +444,9 @@
         }
         .faq_item .faq_a a { color: var(--deal-navy); font-weight: 700; text-decoration: underline; }
         @media (max-width: 767px) {
-            .cat_intro { font-size: 1.35rem; padding-left: 0; }
+            /* font-size 는 오버라이드하지 않는다 — 루트 폰트가 뷰포트에 따라 이미
+               줄어들어(10px→9px) 여기서 또 줄이면 좁은 데스크톱보다 커지는 역전이 생긴다 */
+            .cat_intro { padding-left: 0; }
             .faq_item summary { font-size: 1.42rem; }
             .faq_item .faq_a { font-size: 1.35rem; }
         }
