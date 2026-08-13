@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-13 15:16",
+  "updated_at": "2026-08-13 17:20",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -18,16 +18,16 @@
     {
       "brand": "신세계",
       "bestBuy": {
-        "price": 96680,
-        "rate": 3.32,
-        "shop": "고고상품권"
+        "price": 96700,
+        "rate": 3.3,
+        "shop": "미래상품권"
       },
       "bestSell": {
-        "price": 96650,
-        "rate": 3.35,
-        "shop": "월드티켓상품권"
+        "price": 96700,
+        "rate": 3.3,
+        "shop": "고고상품권"
       },
-      "dir": "flat"
+      "dir": "up"
     },
     {
       "brand": "롯데",
@@ -37,11 +37,11 @@
         "shop": "월드티켓상품권"
       },
       "bestSell": {
-        "price": 95720,
-        "rate": 4.28,
+        "price": 95760,
+        "rate": 4.24,
         "shop": "고고상품권"
       },
-      "dir": "up"
+      "dir": "flat"
     },
     {
       "brand": "현대",
@@ -136,10 +136,10 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 95900,
-          "buyRate": 4.1,
-          "sell": 95700,
-          "sellRate": 4.3
+          "buy": 96000,
+          "buyRate": 4.0,
+          "sell": 95750,
+          "sellRate": 4.25
         },
         {
           "brand": "신세계",
@@ -199,8 +199,8 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 95800,
-          "buyRate": 4.2,
+          "buy": 96000,
+          "buyRate": 4.0,
           "sell": 95650,
           "sellRate": 4.35
         },
@@ -341,15 +341,15 @@
           "brand": "롯데",
           "buy": 96000,
           "buyRate": 4.0,
-          "sell": 95720,
-          "sellRate": 4.28
+          "sell": 95760,
+          "sellRate": 4.24
         },
         {
           "brand": "신세계",
-          "buy": 96680,
-          "buyRate": 3.32,
-          "sell": 96650,
-          "sellRate": 3.35
+          "buy": 96750,
+          "buyRate": 3.25,
+          "sell": 96700,
+          "sellRate": 3.3
         },
         {
           "brand": "현대",
