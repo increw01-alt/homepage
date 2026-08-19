@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-19 10:08",
+  "updated_at": "2026-08-19 11:56",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -37,8 +37,8 @@
         "shop": "엑스이상품권"
       },
       "bestSell": {
-        "price": 96610,
-        "rate": 3.39,
+        "price": 96620,
+        "rate": 3.38,
         "shop": "고고상품권"
       },
       "dir": "flat"
@@ -103,8 +103,8 @@
           "brand": "신세계",
           "buy": 96900,
           "buyRate": 3.1,
-          "sell": 96750,
-          "sellRate": 3.25
+          "sell": 96700,
+          "sellRate": 3.3
         },
         {
           "brand": "현대",
@@ -145,8 +145,8 @@
           "brand": "신세계",
           "buy": 96900,
           "buyRate": 3.1,
-          "sell": 96650,
-          "sellRate": 3.35
+          "sell": 96700,
+          "sellRate": 3.3
         },
         {
           "brand": "현대",
@@ -171,7 +171,7 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 96900,
+          "buy": 96800,
           "buyRate": null,
           "sell": 96600,
           "sellRate": null
@@ -276,10 +276,10 @@
         },
         {
           "brand": "신세계",
-          "buy": 97000,
-          "buyRate": 3.0,
-          "sell": 96800,
-          "sellRate": 3.2
+          "buy": 96800,
+          "buyRate": 3.2,
+          "sell": 96700,
+          "sellRate": 3.3
         },
         {
           "brand": "현대",
@@ -341,8 +341,8 @@
           "brand": "롯데",
           "buy": 96700,
           "buyRate": 3.3,
-          "sell": 96610,
-          "sellRate": 3.39
+          "sell": 96620,
+          "sellRate": 3.38
         },
         {
           "brand": "신세계",
