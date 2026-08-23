@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23 10:14",
+  "updated_at": "2026-08-23 12:01",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -23,9 +23,9 @@
         "shop": "미래상품권"
       },
       "bestSell": {
-        "price": 96800,
-        "rate": 3.2,
-        "shop": "중앙상품권"
+        "price": 96780,
+        "rate": 3.22,
+        "shop": "고고상품권"
       },
       "dir": "flat"
     },
@@ -39,7 +39,7 @@
       "bestSell": {
         "price": 96550,
         "rate": 3.45,
-        "shop": "월드티켓상품권"
+        "shop": "시티페이"
       },
       "dir": "flat"
     },
@@ -96,15 +96,15 @@
           "brand": "롯데",
           "buy": 96600,
           "buyRate": 3.4,
-          "sell": 96550,
-          "sellRate": 3.45
+          "sell": 96500,
+          "sellRate": 3.5
         },
         {
           "brand": "신세계",
           "buy": 96900,
           "buyRate": 3.1,
-          "sell": 96750,
-          "sellRate": 3.25
+          "sell": 96700,
+          "sellRate": 3.3
         },
         {
           "brand": "현대",
@@ -243,8 +243,8 @@
           "brand": "신세계",
           "buy": 96900,
           "buyRate": 3.1,
-          "sell": 96800,
-          "sellRate": 3.2
+          "sell": 96750,
+          "sellRate": 3.25
         },
         {
           "brand": "현대",
@@ -304,7 +304,7 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 96800,
+          "buy": 96600,
           "buyRate": null,
           "sell": 96500,
           "sellRate": null
@@ -338,16 +338,9 @@
       "area": "명동",
       "rows": [
         {
-          "brand": "롯데",
-          "buy": 96550,
-          "buyRate": 3.45,
-          "sell": 96530,
-          "sellRate": 3.47
-        },
-        {
           "brand": "신세계",
-          "buy": 96800,
-          "buyRate": 3.2,
+          "buy": 96850,
+          "buyRate": 3.15,
           "sell": 96780,
           "sellRate": 3.22
         },
