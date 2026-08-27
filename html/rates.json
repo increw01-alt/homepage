@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-27 06:46",
+  "updated_at": "2026-08-27 11:56",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -34,7 +34,7 @@
       "bestBuy": {
         "price": 96550,
         "rate": 3.45,
-        "shop": "미래상품권"
+        "shop": "고고상품권"
       },
       "bestSell": {
         "price": 96510,
@@ -51,9 +51,9 @@
         "shop": "미래상품권"
       },
       "bestSell": {
-        "price": 96510,
-        "rate": 3.49,
-        "shop": "고고상품권"
+        "price": 96500,
+        "rate": 3.5,
+        "shop": "중앙상품권"
       },
       "dir": "flat"
     },
@@ -138,15 +138,15 @@
           "brand": "롯데",
           "buy": 96600,
           "buyRate": 3.4,
-          "sell": 96400,
-          "sellRate": 3.6
+          "sell": 96500,
+          "sellRate": 3.5
         },
         {
           "brand": "신세계",
           "buy": 96900,
           "buyRate": 3.1,
-          "sell": 96500,
-          "sellRate": 3.5
+          "sell": 96600,
+          "sellRate": 3.4
         },
         {
           "brand": "현대",
@@ -199,8 +199,8 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 96550,
-          "buyRate": 3.45,
+          "buy": 96600,
+          "buyRate": 3.4,
           "sell": 96500,
           "sellRate": 3.5
         },
@@ -269,15 +269,15 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 96600,
-          "buyRate": 3.4,
-          "sell": 96400,
-          "sellRate": 3.6
+          "buy": 96700,
+          "buyRate": 3.3,
+          "sell": 96500,
+          "sellRate": 3.5
         },
         {
           "brand": "신세계",
-          "buy": 96800,
-          "buyRate": 3.2,
+          "buy": 96900,
+          "buyRate": 3.1,
           "sell": 96700,
           "sellRate": 3.3
         },
@@ -355,8 +355,8 @@
           "brand": "현대",
           "buy": 96540,
           "buyRate": 3.46,
-          "sell": 96510,
-          "sellRate": 3.49
+          "sell": 96500,
+          "sellRate": 3.5
         },
         {
           "brand": "갤러리아",
