@@ -80,6 +80,26 @@
     {
       "category": "이마트 상품권",
       "url": "https://www.11st.co.kr/products/5030973221"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "옥션",
+      "rate": 7.0,
+      "face": 50000,
+      "price": 46500,
+      "checked": "2026-09-01",
+      "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917950563"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "지마켓",
+      "rate": 7.0,
+      "face": 50000,
+      "price": 46500,
+      "checked": "2026-09-01",
+      "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4339623390"
     }
   ]
 }

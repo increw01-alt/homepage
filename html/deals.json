@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-01 07:28",
+  "updated_at": "2026-09-01 08:46",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
     "live_items": 19,
@@ -25,6 +25,26 @@
           2.0,
           2.0
         ]
+      },
+      {
+        "seller": "옥션",
+        "rates": [
+          7.0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "seller": "지마켓",
+        "rates": [
+          7.0,
+          null,
+          null,
+          null,
+          null
+        ]
       }
     ]
   },
@@ -32,6 +52,22 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "items": [
+        {
+          "seller": "옥션",
+          "rate": 7.0,
+          "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917950563",
+          "price": 46500,
+          "face": 50000
+        },
+        {
+          "seller": "지마켓",
+          "rate": 7.0,
+          "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4339623390",
+          "price": 46500,
+          "face": 50000
+        },
         {
           "seller": "11번가",
           "rate": 5.2,
@@ -63,14 +99,6 @@
           "url": "https://www.11st.co.kr/products/1541978801",
           "price": 95000,
           "face": 100000
-        },
-        {
-          "seller": "11번가",
-          "rate": 4.0,
-          "title": "컬쳐랜드상품권(모바일문화상품권) 5만원",
-          "url": "https://www.11st.co.kr/products/5320358371",
-          "price": 48000,
-          "face": 50000
         }
       ]
     },
