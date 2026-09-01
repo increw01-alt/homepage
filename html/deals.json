@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-01 09:02",
+  "updated_at": "2026-09-01 09:10",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
     "live_items": 19,
@@ -69,6 +69,22 @@
           "face": 50000
         },
         {
+          "seller": "옥션",
+          "rate": 6.4,
+          "title": "(컬쳐랜드) 모바일문화상품권 3만원권 /컬쳐캐시 충전",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DF572768739",
+          "price": 28080,
+          "face": 30000
+        },
+        {
+          "seller": "지마켓",
+          "rate": 6.4,
+          "title": "(컬쳐랜드) 모바일문화상품권 3만원권 /컬쳐캐시 충전",
+          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4763896952",
+          "price": 28080,
+          "face": 30000
+        },
+        {
           "seller": "11번가",
           "rate": 5.2,
           "title": "컬쳐랜드 상품권(모바일문화상품권) 5만원",
@@ -83,22 +99,6 @@
           "url": "https://www.11st.co.kr/products/9315307642",
           "price": 28440,
           "face": 30000
-        },
-        {
-          "seller": "11번가",
-          "rate": 5.2,
-          "title": "컬쳐랜드 상품권(모바일문화상품권) 1만원",
-          "url": "https://www.11st.co.kr/products/9315303869",
-          "price": 9480,
-          "face": 10000
-        },
-        {
-          "seller": "11번가",
-          "rate": 5.0,
-          "title": "[10만원권]컬쳐랜드 모바일 상품권 최대 10% 할인",
-          "url": "https://www.11st.co.kr/products/1541978801",
-          "price": 95000,
-          "face": 100000
         }
       ]
     },
@@ -120,6 +120,14 @@
           "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4551232530",
           "price": 46500,
           "face": 50000
+        },
+        {
+          "seller": "옥션",
+          "rate": 6.4,
+          "title": "(북앤라이프) 도서문화상품권 3만원권 / 온라인전용",
+          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917052511",
+          "price": 28080,
+          "face": 30000
         },
         {
           "seller": "11번가",
@@ -144,14 +152,6 @@
           "url": "https://www.11st.co.kr/products/3154193285",
           "price": 47750,
           "face": 50000
-        },
-        {
-          "seller": "11번가",
-          "rate": 3.5,
-          "title": "[10만원권] 모바일 도서문화상품권 / 카드결제 가능 / 문화상품권 / 북앤라이프",
-          "url": "https://www.11st.co.kr/products/1678554466",
-          "price": 96500,
-          "face": 100000
         }
       ]
     },
