@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-02 11:58",
+  "updated_at": "2026-09-02 16:48",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -25,7 +25,7 @@
       "bestSell": {
         "price": 96400,
         "rate": 3.6,
-        "shop": "중앙상품권"
+        "shop": "고고상품권"
       },
       "dir": "flat"
     },
@@ -37,11 +37,11 @@
         "shop": "고고상품권"
       },
       "bestSell": {
-        "price": 96500,
-        "rate": 3.5,
+        "price": 96400,
+        "rate": 3.6,
         "shop": "월드티켓상품권"
       },
-      "dir": "down"
+      "dir": "flat"
     },
     {
       "brand": "현대",
@@ -96,15 +96,15 @@
           "brand": "롯데",
           "buy": 96700,
           "buyRate": 3.3,
-          "sell": 96500,
-          "sellRate": 3.5
+          "sell": 96400,
+          "sellRate": 3.6
         },
         {
           "brand": "신세계",
-          "buy": 96600,
-          "buyRate": 3.4,
-          "sell": 96300,
-          "sellRate": 3.7
+          "buy": 96650,
+          "buyRate": 3.35,
+          "sell": 96000,
+          "sellRate": 4.0
         },
         {
           "brand": "현대",
@@ -143,8 +143,8 @@
         },
         {
           "brand": "신세계",
-          "buy": 96900,
-          "buyRate": 3.1,
+          "buy": 96700,
+          "buyRate": 3.3,
           "sell": 96200,
           "sellRate": 3.8
         },
@@ -152,8 +152,8 @@
           "brand": "현대",
           "buy": 96550,
           "buyRate": 3.45,
-          "sell": 96200,
-          "sellRate": 3.8
+          "sell": 96300,
+          "sellRate": 3.7
         },
         {
           "brand": "갤러리아",
@@ -173,14 +173,14 @@
           "brand": "롯데",
           "buy": 96650,
           "buyRate": null,
-          "sell": 96450,
+          "sell": 96400,
           "sellRate": null
         },
         {
           "brand": "신세계",
           "buy": 96600,
           "buyRate": null,
-          "sell": 96300,
+          "sell": 96200,
           "sellRate": null
         },
         {
@@ -236,22 +236,22 @@
           "brand": "롯데",
           "buy": 96700,
           "buyRate": 3.3,
-          "sell": 96400,
-          "sellRate": 3.6
+          "sell": 96200,
+          "sellRate": 3.8
         },
         {
           "brand": "신세계",
           "buy": 96800,
           "buyRate": 3.2,
-          "sell": 96400,
-          "sellRate": 3.6
+          "sell": 96000,
+          "sellRate": 4.0
         },
         {
           "brand": "현대",
           "buy": 96600,
           "buyRate": 3.4,
-          "sell": 96300,
-          "sellRate": 3.7
+          "sell": 96200,
+          "sellRate": 3.8
         },
         {
           "brand": "갤러리아",
@@ -271,15 +271,15 @@
           "brand": "롯데",
           "buy": 96700,
           "buyRate": 3.3,
-          "sell": 96500,
-          "sellRate": 3.5
+          "sell": 96400,
+          "sellRate": 3.6
         },
         {
           "brand": "신세계",
           "buy": 96700,
           "buyRate": 3.3,
-          "sell": 96400,
-          "sellRate": 3.6
+          "sell": 96300,
+          "sellRate": 3.7
         },
         {
           "brand": "현대",
@@ -313,7 +313,7 @@
           "brand": "신세계",
           "buy": 96900,
           "buyRate": null,
-          "sell": 96200,
+          "sell": 96100,
           "sellRate": null
         },
         {
@@ -348,15 +348,15 @@
           "brand": "신세계",
           "buy": 96500,
           "buyRate": 3.5,
-          "sell": 96200,
-          "sellRate": 3.8
+          "sell": 96400,
+          "sellRate": 3.6
         },
         {
           "brand": "현대",
           "buy": 96500,
           "buyRate": 3.5,
-          "sell": 96300,
-          "sellRate": 3.7
+          "sell": 96400,
+          "sellRate": 3.6
         },
         {
           "brand": "갤러리아",
