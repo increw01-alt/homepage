@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-09-03 02:00",
+  "updated_at": "2026-09-03 04:42",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
-    "live_items": 18,
+    "live_items": 19,
     "live_zero_streak": 0,
     "auto_items": 0,
     "naver_shop_api": "disabled"
@@ -22,7 +22,7 @@
           5.2,
           6.0,
           0.7,
-          null,
+          2.0,
           2.0
         ]
       },
@@ -164,6 +164,19 @@
           "title": "롯데모바일교환권 100,000원(롯데백화점)",
           "url": "https://www.11st.co.kr/products/9436987138",
           "price": 99300,
+          "face": 100000
+        }
+      ]
+    },
+    {
+      "category": "현대백화점 상품권",
+      "items": [
+        {
+          "seller": "11번가",
+          "rate": 2.0,
+          "title": "[10만원권] 현대백화점 상품권 카드결제가능",
+          "url": "https://www.11st.co.kr/products/1678567307",
+          "price": 98000,
           "face": 100000
         }
       ]
