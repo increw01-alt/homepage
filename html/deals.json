@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-04 08:50",
+  "updated_at": "2026-09-04 12:00",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
-    "live_items": 0,
-    "live_zero_streak": 2,
+    "live_items": 19,
+    "live_zero_streak": 0,
     "auto_items": 0,
     "naver_shop_api": "disabled"
   },
@@ -16,6 +16,16 @@
       "신세계"
     ],
     "rows": [
+      {
+        "seller": "11번가",
+        "rates": [
+          5.2,
+          6.0,
+          0.7,
+          2.0,
+          2.0
+        ]
+      },
       {
         "seller": "옥션",
         "rates": [
@@ -75,20 +85,20 @@
           "face": 30000
         },
         {
-          "seller": "옥션",
-          "rate": 3.0,
-          "title": "(컬쳐랜드) 모바일문화상품권 1만원권 /컬쳐캐시 충전",
-          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DF572764252",
-          "price": 9700,
-          "face": 10000
+          "seller": "11번가",
+          "rate": 5.2,
+          "title": "컬쳐랜드 상품권(모바일문화상품권) 5만원",
+          "url": "https://www.11st.co.kr/products/9315309544",
+          "price": 47400,
+          "face": 50000
         },
         {
-          "seller": "지마켓",
-          "rate": 3.0,
-          "title": "(컬쳐랜드) 모바일문화상품권 1만원권 /컬쳐캐시 충전",
-          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4763896326",
-          "price": 9700,
-          "face": 10000
+          "seller": "11번가",
+          "rate": 5.2,
+          "title": "컬쳐랜드 상품권(모바일문화상품권) 3만원",
+          "url": "https://www.11st.co.kr/products/9315307642",
+          "price": 28440,
+          "face": 30000
         }
       ]
     },
@@ -120,28 +130,138 @@
           "face": 30000
         },
         {
-          "seller": "옥션",
+          "seller": "11번가",
+          "rate": 6.0,
+          "title": "[10만원] 모바일 도서문화 상품권 6% 할인 북앤라이프",
+          "url": "https://www.11st.co.kr/products/1664442333",
+          "price": 94000,
+          "face": 100000
+        },
+        {
+          "seller": "11번가",
+          "rate": 5.0,
+          "title": "북앤라이프 도서문화상품권 5만원권 5%할인",
+          "url": "https://www.11st.co.kr/products/9203481517",
+          "price": 47500,
+          "face": 50000
+        },
+        {
+          "seller": "11번가",
+          "rate": 4.5,
+          "title": "[5만원권] 도서문화상품권 북앤라이프 카드결제가능",
+          "url": "https://www.11st.co.kr/products/3154193285",
+          "price": 47750,
+          "face": 50000
+        }
+      ]
+    },
+    {
+      "category": "롯데 상품권",
+      "items": [
+        {
+          "seller": "11번가",
+          "rate": 0.7,
+          "title": "롯데모바일교환권 100,000원(롯데백화점)",
+          "url": "https://www.11st.co.kr/products/9436987138",
+          "price": 99300,
+          "face": 100000
+        }
+      ]
+    },
+    {
+      "category": "현대백화점 상품권",
+      "items": [
+        {
+          "seller": "11번가",
+          "rate": 2.0,
+          "title": "[10만원권] 현대백화점 상품권 카드결제가능",
+          "url": "https://www.11st.co.kr/products/1678567307",
+          "price": 98000,
+          "face": 100000
+        }
+      ]
+    },
+    {
+      "category": "신세계 상품권",
+      "items": [
+        {
+          "seller": "11번가",
+          "rate": 2.0,
+          "title": "(SSG) SSG 상품권 5만원권 2% 할인",
+          "url": "https://www.11st.co.kr/products/6442839809",
+          "price": 49000,
+          "face": 50000
+        },
+        {
+          "seller": "11번가",
+          "rate": 1.0,
+          "title": "[10만원권]신세계백화점 상품권 교환권 99,000원 카드결제가능! 이마트 사용가능! ID당 10매까지 구매가능!",
+          "url": "https://www.11st.co.kr/products/1493359734",
+          "price": 99000,
+          "face": 100000
+        },
+        {
+          "seller": "11번가",
+          "rate": 0.7,
+          "title": "신세계상품권(100,000원)",
+          "url": "https://www.11st.co.kr/products/5917614041",
+          "price": 99300,
+          "face": 100000
+        }
+      ]
+    },
+    {
+      "category": "구글플레이 기프트카드",
+      "items": [
+        {
+          "seller": "11번가",
           "rate": 3.0,
-          "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
-          "url": "https://click.linkprice.com/click.php?m=auction&a=A100706248&l=9999&tu=https%3A%2F%2Fitempage3.auction.co.kr%2FDetailView.aspx%3Fitemno%3DE917062436",
-          "price": 9700,
+          "title": "[5만원권] Google Play 구글플레이 기프트코드_3% 할인_실시간 발송",
+          "url": "https://www.11st.co.kr/products/1805679704",
+          "price": 48500,
+          "face": 50000
+        },
+        {
+          "seller": "11번가",
+          "rate": 3.0,
+          "title": "[10만원권] Google Play 구글플레이 기프트코드 3% 할인_실시간 발송",
+          "url": "https://www.11st.co.kr/products/1805680463",
+          "price": 97000,
+          "face": 100000
+        }
+      ]
+    },
+    {
+      "category": "에그머니",
+      "items": [
+        {
+          "seller": "11번가",
+          "rate": 8.0,
+          "title": "[기프티콘] 에그머니 10000원(8%할인)",
+          "url": "https://www.11st.co.kr/products/4213507277",
+          "price": 9200,
           "face": 10000
         },
         {
-          "seller": "지마켓",
-          "rate": 3.0,
-          "title": "(북앤라이프) 도서문화상품권 3만원권 / 온라인전용",
-          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4333465835",
-          "price": 29100,
+          "seller": "11번가",
+          "rate": 8.0,
+          "title": "[기프티콘] 에그머니 30000원(8%할인)",
+          "url": "https://www.11st.co.kr/products/4213530651",
+          "price": 27600,
           "face": 30000
-        },
+        }
+      ]
+    },
+    {
+      "category": "이마트 상품권",
+      "items": [
         {
-          "seller": "지마켓",
-          "rate": 3.0,
-          "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
-          "url": "https://click.linkprice.com/click.php?m=gmarket&a=A100706248&l=9999&tu=https%3A%2F%2Fitem.gmarket.co.kr%2FItem%3Fgoodscode%3D4333371120",
-          "price": 9700,
-          "face": 10000
+          "seller": "11번가",
+          "rate": 0.4,
+          "title": "(이마트) 5만원 상품권 교환권 (이마트 교환)",
+          "url": "https://www.11st.co.kr/products/5030973221",
+          "price": 49800,
+          "face": 50000
         }
       ]
     }
