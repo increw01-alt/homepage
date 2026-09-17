@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17 14:45",
+  "updated_at": "2026-09-17 20:00",
   "note": "본 페이지는 대형 오픈마켓·공식 스토어 등 신뢰할 수 있는 판매처의 가격만 선별해 자동 계산합니다. 일부 링크는 제휴마케팅이 포함된 광고로 커미션을 지급받을 수 있으며, 실제 구매 조건은 판매처에서 확인해 주세요.",
   "collect_health": {
     "live_items": 19,
@@ -171,18 +171,18 @@
       "items": [
         {
           "seller": "11번가",
-          "rate": 3.0,
-          "title": "[5만원권] Google Play 구글플레이 기프트코드_3% 할인_실시간 발송",
+          "rate": 7.0,
+          "title": "[5만원권] Google Play 구글플레이 기프트코드_7% 할인_실시간 발송",
           "url": "https://www.11st.co.kr/products/1805679704",
-          "price": 48500,
+          "price": 46500,
           "face": 50000
         },
         {
           "seller": "11번가",
-          "rate": 3.0,
-          "title": "[10만원권] Google Play 구글플레이 기프트코드 3% 할인_실시간 발송",
+          "rate": 7.0,
+          "title": "[10만원권] Google Play 구글플레이 기프트코드 7% 할인_실시간 발송",
           "url": "https://www.11st.co.kr/products/1805680463",
-          "price": 97000,
+          "price": 93000,
           "face": 100000
         }
       ]
