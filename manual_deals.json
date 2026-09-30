@@ -94,10 +94,10 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "지마켓",
-      "rate": 7.0,
+      "rate": 3.3,
       "face": 50000,
-      "price": 46500,
-      "checked": "2026-09-01",
+      "price": 48350,
+      "checked": "2026-09-30",
       "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4339623390"
     },
@@ -114,10 +114,10 @@
     {
       "category": "도서문화상품권 (북앤라이프)",
       "seller": "지마켓",
-      "rate": 7.0,
+      "rate": 3.3,
       "face": 50000,
-      "price": 46500,
-      "checked": "2026-09-01",
+      "price": 48350,
+      "checked": "2026-09-30",
       "title": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4551232530"
     },
@@ -144,10 +144,10 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "지마켓",
-      "rate": 6.4,
+      "rate": 3.0,
       "face": 30000,
-      "price": 28080,
-      "checked": "2026-09-01",
+      "price": 29100,
+      "checked": "2026-09-30",
       "title": "(컬쳐랜드) 모바일문화상품권 3만원권 /컬쳐캐시 충전",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4763896952"
     },
@@ -157,7 +157,7 @@
       "rate": 3.0,
       "face": 10000,
       "price": 9700,
-      "checked": "2026-09-01",
+      "checked": "2026-09-30",
       "title": "(컬쳐랜드) 모바일문화상품권 1만원권 /컬쳐캐시 충전",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4763896326"
     },
@@ -187,7 +187,7 @@
       "rate": 3.0,
       "face": 30000,
       "price": 29100,
-      "checked": "2026-09-01",
+      "checked": "2026-09-30",
       "title": "(북앤라이프) 도서문화상품권 3만원권 / 온라인전용",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4333465835"
     },
@@ -197,7 +197,7 @@
       "rate": 3.0,
       "face": 10000,
       "price": 9700,
-      "checked": "2026-09-01",
+      "checked": "2026-09-30",
       "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4333371120"
     }
