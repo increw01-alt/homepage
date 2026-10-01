@@ -84,10 +84,10 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "옥션",
-      "rate": 3.3,
+      "rate": 6.9,
       "face": 50000,
-      "price": 48350,
-      "checked": "2026-09-30",
+      "price": 46550,
+      "checked": "2026-10-01",
       "title": "(특가) 컬쳐랜드 모바일 문화상품권 5만원권 /컬쳐캐시 충전",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917950563"
     },
@@ -104,10 +104,10 @@
     {
       "category": "도서문화상품권 (북앤라이프)",
       "seller": "옥션",
-      "rate": 3.3,
+      "rate": 6.9,
       "face": 50000,
-      "price": 48350,
-      "checked": "2026-09-30",
+      "price": 46550,
+      "checked": "2026-10-01",
       "title": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F355391843"
     },
@@ -124,10 +124,10 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "옥션",
-      "rate": 3.0,
+      "rate": 6.4,
       "face": 30000,
-      "price": 29100,
-      "checked": "2026-09-30",
+      "price": 28080,
+      "checked": "2026-10-01",
       "title": "(컬쳐랜드) 모바일문화상품권 3만원권 /컬쳐캐시 충전",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F572768739"
     },
@@ -137,7 +137,7 @@
       "rate": 3.0,
       "face": 10000,
       "price": 9700,
-      "checked": "2026-09-30",
+      "checked": "2026-10-01",
       "title": "(컬쳐랜드) 모바일문화상품권 1만원권 /컬쳐캐시 충전",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F572764252"
     },
@@ -167,7 +167,7 @@
       "rate": 3.0,
       "face": 30000,
       "price": 29100,
-      "checked": "2026-09-30",
+      "checked": "2026-10-01",
       "title": "(북앤라이프) 도서문화상품권 3만원권 / 온라인전용",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917052511"
     },
@@ -177,7 +177,7 @@
       "rate": 3.0,
       "face": 10000,
       "price": 9700,
-      "checked": "2026-09-30",
+      "checked": "2026-10-01",
       "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917062436"
     },
@@ -200,6 +200,16 @@
       "checked": "2026-09-30",
       "title": "(북앤라이프) 도서문화상품권 1만원권 / 온라인전용",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4333371120"
+    },
+    {
+      "category": "컬쳐랜드 문화상품권",
+      "seller": "옥션",
+      "rate": 6.4,
+      "face": 500000,
+      "price": 468000,
+      "checked": "2026-10-01",
+      "title": "(컬쳐랜드) 모바일문화상품권 50만원권 /컬쳐캐시 충전",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F572787258"
     }
   ]
 }
