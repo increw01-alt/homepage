@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05 07:45",
+  "updated_at": "2026-10-05 10:37",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -23,16 +23,16 @@
         "shop": "미래상품권"
       },
       "bestSell": {
-        "price": 96400,
-        "rate": 3.6,
-        "shop": "중앙상품권"
+        "price": 96410,
+        "rate": 3.59,
+        "shop": "고고상품권"
       },
       "dir": "flat"
     },
     {
       "brand": "롯데",
       "bestBuy": {
-        "price": 96000,
+        "price": 96050,
         "rate": null,
         "shop": "최고상품권"
       },
@@ -41,7 +41,7 @@
         "rate": 4.0,
         "shop": "중앙상품권"
       },
-      "dir": "flat"
+      "dir": "up"
     },
     {
       "brand": "현대",
@@ -171,7 +171,7 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 96000,
+          "buy": 96050,
           "buyRate": null,
           "sell": 95800,
           "sellRate": null
@@ -180,7 +180,7 @@
           "brand": "신세계",
           "buy": 96500,
           "buyRate": null,
-          "sell": 96150,
+          "sell": 96300,
           "sellRate": null
         },
         {
@@ -339,10 +339,10 @@
         },
         {
           "brand": "신세계",
-          "buy": 96400,
-          "buyRate": 3.6,
-          "sell": 96360,
-          "sellRate": 3.64
+          "buy": 96500,
+          "buyRate": 3.5,
+          "sell": 96410,
+          "sellRate": 3.59
         },
         {
           "brand": "현대",
