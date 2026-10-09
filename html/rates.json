@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09 07:55",
+  "updated_at": "2026-10-09 11:48",
   "note": "각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 수량·권종·상품권 상태에 따라 다를 수 있습니다. 거래 전 해당 업체에 직접 확인하시기 바랍니다.",
   "face": 100000,
   "collect_health": {
@@ -33,13 +33,13 @@
       "brand": "롯데",
       "bestBuy": {
         "price": 95980,
-        "rate": null,
-        "shop": "최고상품권"
+        "rate": 4.02,
+        "shop": "미래상품권"
       },
       "bestSell": {
-        "price": 95920,
-        "rate": 4.08,
-        "shop": "고고상품권"
+        "price": 95900,
+        "rate": 4.1,
+        "shop": "엑스이상품권"
       },
       "dir": "flat"
     },
@@ -53,7 +53,7 @@
       "bestSell": {
         "price": 96400,
         "rate": 3.6,
-        "shop": "월드티켓상품권"
+        "shop": "미래상품권"
       },
       "dir": "flat"
     },
@@ -96,8 +96,8 @@
           "brand": "롯데",
           "buy": 96100,
           "buyRate": 3.9,
-          "sell": 95900,
-          "sellRate": 4.1
+          "sell": 95850,
+          "sellRate": 4.15
         },
         {
           "brand": "신세계",
@@ -110,8 +110,8 @@
           "brand": "현대",
           "buy": 96600,
           "buyRate": 3.4,
-          "sell": 96400,
-          "sellRate": 3.6
+          "sell": 96350,
+          "sellRate": 3.65
         },
         {
           "brand": "갤러리아",
@@ -152,8 +152,8 @@
           "brand": "현대",
           "buy": 96600,
           "buyRate": 3.4,
-          "sell": 96350,
-          "sellRate": 3.65
+          "sell": 96300,
+          "sellRate": 3.7
         },
         {
           "brand": "갤러리아",
@@ -171,7 +171,7 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 95980,
+          "buy": 96000,
           "buyRate": null,
           "sell": 95900,
           "sellRate": null
@@ -180,7 +180,7 @@
           "brand": "신세계",
           "buy": 96500,
           "buyRate": null,
-          "sell": 96300,
+          "sell": 96350,
           "sellRate": null
         },
         {
@@ -241,8 +241,8 @@
         },
         {
           "brand": "신세계",
-          "buy": 96600,
-          "buyRate": 3.4,
+          "buy": 96500,
+          "buyRate": 3.5,
           "sell": 96400,
           "sellRate": 3.6
         },
@@ -304,7 +304,7 @@
         },
         {
           "brand": "신세계",
-          "buy": 96600,
+          "buy": 96700,
           "buyRate": null,
           "sell": 96400,
           "sellRate": null
@@ -332,10 +332,10 @@
       "rows": [
         {
           "brand": "롯데",
-          "buy": 96000,
-          "buyRate": 4.0,
-          "sell": 95920,
-          "sellRate": 4.08
+          "buy": 95980,
+          "buyRate": 4.02,
+          "sell": 95900,
+          "sellRate": 4.1
         },
         {
           "brand": "신세계",
