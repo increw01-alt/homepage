@@ -1,0 +1,9 @@
+# 호스팅(Cloudflare Pages / Netlify) 리다이렉트 규칙 — 빌드 출력 디렉터리(html/) 기준
+# 1) 예전 사이트 경로(/child/…) → 홈. 네이버가 과거 URL을 홈으로 색인한 문제 해결
+/child/*                      /    301
+/child                        /    301
+# 2) /index.html → / (중복 URL 통합)
+/index.html                   /    301
+# 3) www → 비-www (Netlify 적용. Cloudflare Pages는 대시보드 'Redirect Rules'에서 별도 설정 필요)
+https://www.koreagiftcard.co.kr/*   https://koreagiftcard.co.kr/:splat   301!
+http://www.koreagiftcard.co.kr/*    https://koreagiftcard.co.kr/:splat   301!

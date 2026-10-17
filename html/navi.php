@@ -1,7 +1,7 @@
 <header>
     <div id="gnb">
         <div class="pc_navi_wrap row_c padding_LR">
-            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+            <div class="logo" onclick="location.href='/'" style="cursor: pointer;">
                 <img class="pc_logo" src="img/logo/logo.png" alt="한국상품권협회 로고">
                 <img class="pc_logo_white" src="img/logo/logo_white.png" alt="한국상품권협회 로고">
             </div><!-- logo -->
@@ -63,10 +63,10 @@
 
         <div class="mob_navi_wrap padding_LR">
             <div class="logo">
-                <a href="index.html" class="mob_logo">
+                <a href="/" class="mob_logo">
                     <img src="img/logo/logo.png" alt="한국상품권협회 로고">
                 </a>
-                <a href="index.html" class="mob_logo_white">
+                <a href="/" class="mob_logo_white">
                     <img src="img/logo/logo_white.png" alt="한국상품권협회 로고">
                 </a>
             </div><!-- logo -->
