@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <meta name="google-adsense-account" content="ca-pub-7264132893256941">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        /* 정규 URL 통합: www → 비-www, 예전 사이트 경로(/child/…)·/index.html → 홈.
+           호스팅 301이 없을 때를 대비한 클라이언트 보조 리다이렉트 */
+        (function () {
+            try {
+                var h = location.hostname, p = location.pathname;
+                if (h === 'www.koreagiftcard.co.kr') {
+                    location.replace('https://koreagiftcard.co.kr' + p + location.search + location.hash);
+                } else if (h === 'koreagiftcard.co.kr' && (p.indexOf('/child') === 0 || p === '/index.html')) {
+                    location.replace('https://koreagiftcard.co.kr/');
+                }
+            } catch (e) {}
+        })();
+    </script>
     
     <title>한국상품권협회 공식 홈페이지 | 상품권 할부 구매 · 모바일 상품권 24시간 매입</title>
 
@@ -227,7 +241,7 @@
     <header>
         <div id="gnb">
             <div class="pc_navi_wrap row_c padding_LR">
-                <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <div class="logo" onclick="location.href='/'" style="cursor: pointer;">
                     <img class="pc_logo" src="img/logo/logo.png" alt="한국상품권협회 로고">
                     <img class="pc_logo_white" src="img/logo/logo_white.png" alt="한국상품권협회 로고">
                 </div><ul class="menu">
@@ -290,10 +304,10 @@
                     <p>채널톡 상담</p>
                 </a></div><div class="mob_navi_wrap padding_LR">
                 <div class="logo">
-                    <a href="index.html" class="mob_logo">
+                    <a href="/" class="mob_logo">
                         <img src="img/logo/logo.png" alt="한국상품권협회 로고">
                     </a>
-                    <a href="index.html" class="mob_logo_white">
+                    <a href="/" class="mob_logo_white">
                         <img src="img/logo/logo_white.png" alt="한국상품권협회 로고">
                     </a>
                 </div><div class="mob_nav_btn">
