@@ -117,6 +117,8 @@ video {
     margin-bottom: 15px;
 }
 
+#sec-1 .wrap h1,
+
 #sec-1 .wrap h2 {
     /* font-family: 'Pretendard', sans-serif;
   font-weight: 800; */
@@ -129,6 +131,7 @@ video {
     margin-bottom: 2px;
 }
 
+#sec-1 .wrap h1 span,
 #sec-1 .wrap h2 span {
     color: var(--po-color-3);
     color: #00f9ff;
@@ -555,7 +558,7 @@ h2 {
 } */
 
 /* 타이틀 */
-#installment-banner h1 {
+#installment-banner h2 {
     font-size: 3.5rem;
     font-family: 'paperlogy';
     font-weight: 500;
@@ -846,6 +849,8 @@ h2 {
         align-items: center;
     }
 
+    #sec-1 .wrap h1,
+
     #sec-1 .wrap h2 {
         line-height: 1.2;
     }
@@ -866,7 +871,7 @@ h2 {
     }
 
     .sec-top h2,
-    #installment-banner h1 {
+    #installment-banner h2 {
         font-size: 2.8rem;
     }
 
@@ -949,6 +954,7 @@ h2 {
 }
 
 @media (max-width:500px) {
+    #sec-1 .wrap h1,
     #sec-1 .wrap h2 {
         /* font-size: 4.2rem; */
         text-align: center;
@@ -969,6 +975,7 @@ h2 {
 }
 
 /* @media (max-width:400px) {
+    #sec-1 .wrap h1,
     #sec-1 .wrap h2 {
         font-size: 3.6rem;
     }
