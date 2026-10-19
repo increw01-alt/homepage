@@ -201,5 +201,65 @@ class TestPrerenderHelpers(unittest.TestCase):
         self.assertEqual(cr.esc('<a href="x">&'), "&lt;a href=&quot;x&quot;&gt;&amp;")
 
 
+class TestDailyHistory(unittest.TestCase):
+    """일별 시세 이력 + 30일 추이 차트."""
+
+    def setUp(self):
+        import tempfile, json
+        self.tmp = tempfile.mkdtemp()
+        self._daily, self._hourly = cr.DAILY_HISTORY_PATH, cr.HISTORY_PATH
+        cr.DAILY_HISTORY_PATH = os.path.join(self.tmp, "daily.json")
+        cr.HISTORY_PATH = os.path.join(self.tmp, "hourly.json")
+        self.json = json
+
+    def tearDown(self):
+        cr.DAILY_HISTORY_PATH, cr.HISTORY_PATH = self._daily, self._hourly
+
+    def _result(self, updated_at, buy=96500, sell=96400):
+        return {"updated_at": updated_at, "summary": [
+            {"brand": "신세계",
+             "bestBuy": {"price": buy, "shop": "A"},
+             "bestSell": {"price": sell, "shop": "A"}}]}
+
+    def _days(self):
+        with open(cr.DAILY_HISTORY_PATH, encoding="utf-8") as f:
+            return self.json.load(f)["days"]
+
+    def test_같은_날짜는_마지막_값으로_덮어쓴다(self):
+        cr.update_daily_history(self._result("2026-10-19 09:00", buy=96500))
+        cr.update_daily_history(self._result("2026-10-19 23:00", buy=96300))
+        days = self._days()
+        self.assertEqual(len(days), 1)
+        self.assertEqual(days[0]["신세계"]["buy"], 96300)
+        self.assertEqual(days[0]["신세계"]["sell"], 96400)
+
+    def test_첫_생성시_시간별_이력에서_살때를_백필한다(self):
+        with open(cr.HISTORY_PATH, "w", encoding="utf-8") as f:
+            self.json.dump({"points": [
+                {"t": "2026-10-17 09:00", "신세계": 96700},
+                {"t": "2026-10-17 18:00", "신세계": 96600},  # 같은 날 — 늦은 값이 남아야
+                {"t": "2026-10-18 09:00", "신세계": 96500},
+            ]}, f, ensure_ascii=False)
+        cr.update_daily_history(self._result("2026-10-19 09:00"))
+        days = self._days()
+        self.assertEqual([d["d"] for d in days],
+                         ["2026-10-17", "2026-10-18", "2026-10-19"])
+        self.assertEqual(days[0]["신세계"]["buy"], 96600)
+        self.assertNotIn("sell", days[0]["신세계"])  # 백필에는 팔때가 없다
+
+    def test_이력_3일_미만이면_안내문구(self):
+        cr.update_daily_history(self._result("2026-10-19 09:00"))
+        self.assertIn("쌓는 중", cr.build_history_chart())
+
+    def test_이력_3일이면_SVG_선과_범례가_나온다(self):
+        for i, d in enumerate(["2026-10-17", "2026-10-18", "2026-10-19"]):
+            cr.update_daily_history(self._result(f"{d} 09:00", buy=96500 - i * 100))
+        html = cr.build_history_chart()
+        self.assertIn("<svg", html)
+        self.assertIn("신세계", html)
+        self.assertIn("<path", html)
+        self.assertIn("hist_legend", html)
+
+
 if __name__ == "__main__":
     unittest.main()

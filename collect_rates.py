@@ -133,6 +133,13 @@ def collect():
 HISTORY_PATH = os.path.join(BASE_DIR, "html", "rates_market_history.json")
 HISTORY_DAYS = 14
 
+# 일별 시세 이력 — 하루 1점(그날 마지막 수집값)씩 무기한 보관한다.
+# 시간별 이력(위, 14일)과 달리 장기 추이 차트의 원천이 된다. 용량은 1년에 수십 KB 수준.
+DAILY_HISTORY_PATH = os.path.join(BASE_DIR, "html", "rates_daily_history.json")
+DAILY_CHART_DAYS = 30                       # 추이 차트에 보여줄 기간
+DAILY_CHART_BRANDS = ["신세계", "롯데", "현대"]  # 선 3개까지가 읽기 한계
+DAILY_CHART_COLORS = {"신세계": "#1f4fa3", "롯데": "#c0392b", "현대": "#2e8b57"}
+
 
 def append_history(result):
     """브랜드별 최저 살때를 시각별로 기록한다(히어로 트렌드 차트용, 14일 보관).
@@ -171,6 +178,139 @@ def append_history(result):
         print(f"[완료] 시세 이력 {len(hist)}점 기록")
     except Exception as e:
         print(f"::warning::시세 이력 기록 실패: {e}")
+
+
+def update_daily_history(result):
+    """브랜드별 살때 최저·팔때 최고를 하루 1점으로 기록한다 (무기한 보관).
+
+    - 같은 날짜는 덮어쓴다 — 그날 마지막 수집값이 남는다.
+    - 파일이 없으면 시간별 이력(rates_market_history.json)에서 날짜별 마지막
+      살때값을 가져와 백필한다 (팔때는 시간별 이력에 없어 백필 불가).
+    - 실패해도 수집을 막지 않고, 있는 파일을 못 읽으면 덮어쓰지 않는다.
+    """
+    try:
+        today = result["updated_at"][:10]
+        entry = {"d": today}
+        for s in result.get("summary", []):
+            v = {}
+            if s.get("bestBuy"):
+                v["buy"] = s["bestBuy"]["price"]
+            if s.get("bestSell"):
+                v["sell"] = s["bestSell"]["price"]
+            if v:
+                entry[s["brand"]] = v
+        if len(entry) <= 1:
+            return
+
+        days = None
+        if os.path.exists(DAILY_HISTORY_PATH):
+            try:
+                with open(DAILY_HISTORY_PATH, encoding="utf-8") as f:
+                    days = json.load(f).get("days", [])
+            except Exception as e:
+                print(f"::warning::rates_daily_history.json 파싱 실패({e}) — 이번 기록 생략")
+                return
+        if days is None:
+            # 첫 생성 — 시간별 이력에서 날짜별 마지막 살때값 백필
+            days = []
+            try:
+                with open(HISTORY_PATH, encoding="utf-8") as f:
+                    by_date = {}
+                    for p in json.load(f).get("points", []):
+                        d = (p.get("t") or "")[:10]
+                        if d:
+                            by_date[d] = p  # 뒤에 오는(늦은) 점이 남는다
+                for d in sorted(by_date):
+                    e = {"d": d}
+                    for b, price in by_date[d].items():
+                        if b != "t":
+                            e[b] = {"buy": price}
+                    days.append(e)
+                print(f"[완료] 일별 시세 이력 백필 {len(days)}일 (시간별 이력 기반)")
+            except Exception:
+                pass
+
+        days = [e for e in days if e.get("d") != today]
+        days.append(entry)
+        days.sort(key=lambda e: e.get("d", ""))
+        with open(DAILY_HISTORY_PATH, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"days": days}, f, ensure_ascii=False, indent=1)
+        print(f"[완료] 일별 시세 이력 {len(days)}일 기록")
+    except Exception as e:
+        print(f"::warning::일별 시세 이력 기록 실패: {e}")
+
+
+def build_history_chart():
+    """일별 이력으로 최근 30일 살때 최저가 추이 SVG 를 만든다 (서버 렌더 전용 구간).
+
+    JS 렌더러는 이 구간을 건드리지 않으므로 파리티 의무가 없다.
+    데이터가 3일 미만이면 안내 문구를 반환한다.
+    """
+    try:
+        with open(DAILY_HISTORY_PATH, encoding="utf-8") as f:
+            days = json.load(f).get("days", [])
+    except Exception:
+        days = []
+    days = days[-DAILY_CHART_DAYS:]
+    usable = [e for e in days if any(b in e for b in DAILY_CHART_BRANDS)]
+    if len(usable) < 3:
+        return ('<p class="hist_empty">시세 이력을 쌓는 중입니다. 며칠 뒤부터 '
+                '추이 그래프가 표시됩니다.</p>')
+
+    from datetime import date as _date
+    def ord_(s):
+        y, m, d = s.split("-")
+        return _date(int(y), int(m), int(d)).toordinal()
+
+    x0, x1 = ord_(usable[0]["d"]), ord_(usable[-1]["d"])
+    span = max(x1 - x0, 1)
+    PL, PR_, PT, PB = 58, 14, 16, 30          # 플롯 여백
+    W, H = 680, 230
+    px = lambda o: PL + (o - x0) * (W - PL - PR_) / span
+
+    vals = [e[b]["buy"] for e in usable for b in DAILY_CHART_BRANDS
+            if b in e and e[b].get("buy")]
+    lo, hi = min(vals), max(vals)
+    pad = max((hi - lo) * 0.15, 200)
+    lo, hi = lo - pad, hi + pad
+    py = lambda v: PT + (hi - v) * (H - PT - PB) / (hi - lo)
+
+    lines, dots = [], []
+    for b in DAILY_CHART_BRANDS:
+        pts = [(px(ord_(e["d"])), py(e[b]["buy"]))
+               for e in usable if b in e and e[b].get("buy")]
+        if len(pts) < 2:
+            continue
+        c = DAILY_CHART_COLORS[b]
+        path = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts)
+        lines.append(f'<path d="{path}" fill="none" stroke="{c}" stroke-width="2.2" '
+                     f'stroke-linecap="round" stroke-linejoin="round"/>')
+        x, y = pts[-1]
+        dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.4" fill="{c}"/>')
+
+    # 축 라벨 — 세로는 상·하단 값, 가로는 처음·중간·끝 날짜
+    def dlabel(s):
+        return f"{int(s[5:7])}/{int(s[8:10])}"
+    mid = usable[len(usable) // 2]["d"]
+    axis = (
+        f'<text x="{PL - 8}" y="{py(hi - pad):.0f}" text-anchor="end" class="hist_axis">{won(round(hi - pad))}</text>'
+        f'<text x="{PL - 8}" y="{py(lo + pad):.0f}" text-anchor="end" class="hist_axis">{won(round(lo + pad))}</text>'
+        f'<text x="{PL}" y="{H - 8}" text-anchor="start" class="hist_axis">{dlabel(usable[0]["d"])}</text>'
+        f'<text x="{(PL + W - PR_) / 2:.0f}" y="{H - 8}" text-anchor="middle" class="hist_axis">{dlabel(mid)}</text>'
+        f'<text x="{W - PR_}" y="{H - 8}" text-anchor="end" class="hist_axis">{dlabel(usable[-1]["d"])}</text>')
+    grid = "".join(
+        f'<line x1="{PL}" y1="{PT + i * (H - PT - PB) / 3:.1f}" x2="{W - PR_}" '
+        f'y2="{PT + i * (H - PT - PB) / 3:.1f}" stroke="#eceef3" stroke-width="1"/>'
+        for i in range(4))
+    legend = "".join(
+        f'<span class="hist_key"><i style="background:{DAILY_CHART_COLORS[b]}"></i>{esc(b)}</span>'
+        for b in DAILY_CHART_BRANDS)
+    period = f'{dlabel(usable[0]["d"])}~{dlabel(usable[-1]["d"])} · {len(usable)}일'
+    return (
+        f'<div class="hist_legend">{legend}<span class="hist_period">{esc(period)}</span></div>'
+        f'<svg class="hist_svg" viewBox="0 0 {W} {H}" role="img" '
+        f'aria-label="최근 30일 백화점 상품권 살때 최저가 추이">'
+        f'{grid}{"".join(lines)}{"".join(dots)}{axis}</svg>')
 
 
 def build_trend(max_points=24):
@@ -340,6 +480,7 @@ def build_prerender(data):
     parts["heroBoard"] = build_hero_table(data)
     parts["heroChart"] = build_hero_chart()
     parts["heroChartTime"] = build_hero_chart_time()
+    parts["histChart"] = build_history_chart()  # 30일 추이 (서버 렌더 전용 — JS 파리티 불필요)
 
     cards = []
     for s in data.get("summary", []):
@@ -461,7 +602,8 @@ def main():
 
     # 순서 주의: 이력 기록 → 방향 주입 → rates.json 저장 → 프리렌더.
     # 방향(dir)을 저장 뒤에 넣으면 rates.json 에 빠져 JS 렌더러만 화살표를 못 그린다.
-    append_history(result)      # 히어로 트렌드 차트용 이력
+    append_history(result)      # 히어로 트렌드 차트용 이력 (시간별, 14일)
+    update_daily_history(result)  # 30일 추이 차트용 이력 (일별, 무기한)
     annotate_direction(result)  # 직전 대비 방향 — 프리렌더와 JS 가 같은 값을 쓰도록 데이터에 담는다
 
     # newline="\n" — 윈도우 로컬과 리눅스 Actions 가 교차 실행돼도 개행 diff 가 없게

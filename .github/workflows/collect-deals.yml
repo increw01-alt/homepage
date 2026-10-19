@@ -55,7 +55,7 @@ jobs:
           # 상품권 거래소 시세(별개 파이프라인)
           # 주의: 수집기가 만드는 산출물을 하나라도 빠뜨리면 unstaged 로 남아
           # 아래 git pull --rebase 가 "You have unstaged changes" 로 실패한다.
-          git add html/rates.json html/rates_market_history.json "html/상품권시세.html" || true
+          git add html/rates.json html/rates_market_history.json html/rates_daily_history.json "html/상품권시세.html" || true
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else
