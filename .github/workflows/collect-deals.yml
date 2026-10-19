@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  issues: write   # 고할인 복귀 알림 이슈 생성용
 
 concurrency:
   # add-deal.yml 과 같은 그룹 — 두 워크플로가 같은 파일(deals.json·상품권딜.html)을
@@ -49,6 +50,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # deals.json 과 함께 프리렌더된 상품권딜.html, sitemap.xml, 시세 이력도 커밋
           git add html/deals.json "html/상품권딜.html" html/sitemap.xml html/rates_history.json
+          # 핫딜 알림 산출물 (수집기가 만드는 파일을 빠뜨리면 아래 rebase 가 실패한다)
+          git add html/deal_alerts.json html/deals_rss.xml
           # 상품권 거래소 시세(별개 파이프라인)
           # 주의: 수집기가 만드는 산출물을 하나라도 빠뜨리면 unstaged 로 남아
           # 아래 git pull --rebase 가 "You have unstaged changes" 로 실패한다.
@@ -68,6 +71,25 @@ jobs:
             fi
             git push
           fi
+
+      - name: 고할인 복귀 알림 (신규 감지 시 GitHub 이슈 생성)
+        # 수집기가 상승-교차를 감지한 실행에서만 이슈를 만든다 — 폰의 GitHub 알림으로
+        # 받아 카카오톡 채널에 공유하는 반자동 알림 체계. 실패해도 수집에는 영향 없음.
+        # (github-actions 봇이 만든 이슈는 add-deal.yml 의 소유자 검사에 걸려 딜 등록으로
+        #  처리되지 않는다)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          n=$(jq -r '.collect_health.new_alerts // 0' html/deals.json)
+          if [ "$n" -le 0 ]; then
+            echo "신규 알림 없음"
+            exit 0
+          fi
+          summary=$(jq -r --argjson n "$n" '.alerts[:$n][] | "- \(.category) 최고 \(.rate)% (\(.seller))" + (if .price then " \(.price)원" else "" end)' html/deal_alerts.json)
+          gh issue create \
+            --title "[핫딜알림] $(TZ=Asia/Seoul date '+%m/%d %H시') 고할인 복귀 ${n}건" \
+            --body "$(printf '매시간 수집에서 고할인 복귀를 감지했습니다.\n\n%s\n\n페이지: https://koreagiftcard.co.kr/상품권딜\n\n카카오톡 채널에 공유하셨으면 이 이슈를 닫아 주세요.' "$summary")" \
+            || echo "::warning::알림 이슈 생성 실패 (수집에는 영향 없음)"
 
       - name: 자동 갱신 건강 점검 (0건 지속 시 실행 실패로 알림)
         # 커밋·푸시 뒤에 두었으므로 이 스텝이 실패해도 사이트 갱신은 이미 반영된 상태.

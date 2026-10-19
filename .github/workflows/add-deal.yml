@@ -63,6 +63,8 @@ jobs:
           fi
           # 수집이 프리렌더한 상품권딜.html·sitemap.xml·시세 이력도 함께 커밋 (deals.json 과 어긋나지 않게)
           git add manual_deals.json html/deals.json "html/상품권딜.html" html/sitemap.xml html/rates_history.json
+          # 핫딜 알림 산출물 (빠뜨리면 unstaged 로 남아 rebase 실패)
+          git add html/deal_alerts.json html/deals_rss.xml || true
           if git diff --staged --quiet; then
             echo "변경 없음 - 커밋 생략"
           else

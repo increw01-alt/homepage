@@ -448,6 +448,14 @@ PAGE_URL = "https://koreagiftcard.co.kr/상품권딜"
 # IndexNow 공개 키 — html/<키>.txt 파일과 반드시 일치해야 한다 (공개되어도 무방한 값)
 INDEXNOW_KEY = "d907cfe3732b7f0d4a64d7f84e3c9c28"
 
+# ── 핫딜 알림 (고할인 복귀 감지) ─────────────────────────────────
+# 카테고리 최고 할인율이 '직전 수집보다 오르면서' 이 값 이상이 될 때만 알림을 만든다.
+# 상승-교차 방식이라 상시 고할인 품목(예: 에그머니 8%)이 매시간 울리지 않는다.
+ALERT_MIN_RATE = 6.0
+ALERT_KEEP_DAYS = 60
+ALERTS_PATH = os.path.join(BASE_DIR, "html", "deal_alerts.json")  # 알림 이력
+DEALS_RSS_PATH = os.path.join(BASE_DIR, "html", "deals_rss.xml")  # 구독용 알림 피드
+
 # 아래 상수·마크업은 상품권딜.html 의 JS 렌더러와 1:1 동일해야 한다.
 # 마크업 구조를 바꿀 때는 반드시 양쪽을 함께 수정할 것.
 CHEVRON_SVG = ('<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
@@ -1002,6 +1010,102 @@ def ping_indexnow():
         print(f"[경고] IndexNow 핑 실패: {e}")
 
 
+def update_deal_alerts(deals, prev_data):
+    """카테고리 최고 할인율이 직전 수집보다 오르며 ALERT_MIN_RATE 이상이 되면
+    html/deal_alerts.json 에 알림을 쌓고 deals_rss.xml 을 재생성한다.
+    반환: 이번 실행에서 새로 생긴 알림 수 (collect_health.new_alerts 로 노출 →
+    워크플로가 이 값을 보고 GitHub 이슈 알림을 만든다)."""
+    prev_best = {}
+    for g in (prev_data.get("deals") or []):
+        items = g.get("items") or []
+        if items:
+            prev_best[g.get("category")] = max((i.get("rate") or 0) for i in items)
+
+    kst = timezone(timedelta(hours=9))
+    now = datetime.now(kst)
+    try:
+        with open(ALERTS_PATH, encoding="utf-8") as f:
+            alerts = json.load(f).get("alerts") or []
+    except Exception:
+        alerts = []
+
+    new = []
+    for g in deals:
+        items = g.get("items") or []
+        if not items:
+            continue
+        best = max(items, key=lambda i: i.get("rate") or 0)
+        rate = best.get("rate") or 0
+        if rate < ALERT_MIN_RATE or rate <= prev_best.get(g["category"], 0):
+            continue
+        new.append({
+            "ts": now.strftime("%Y-%m-%d %H:%M"),
+            "category": g["category"],
+            "seller": best.get("seller"),
+            "title": best.get("title"),
+            "rate": rate,
+            "price": best.get("price"),
+            "face": best.get("face"),
+            "url": best.get("url"),
+        })
+
+    alerts = new + alerts
+    cutoff = (now - timedelta(days=ALERT_KEEP_DAYS)).strftime("%Y-%m-%d")
+    alerts = [a for a in alerts if (a.get("ts") or "")[:10] >= cutoff]
+    with open(ALERTS_PATH, "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"alerts": alerts}, f, ensure_ascii=False, indent=1)
+
+    build_deals_rss(alerts, now)
+    for a in new:
+        print(f"       [알림] {a['category']} 최고 {a['rate']}% ({a['seller']}) — 고할인 복귀")
+    return len(new)
+
+
+def _rfc822_kst(ts):
+    """'YYYY-MM-DD HH:MM' → RFC822 (+0900). RSS pubDate 용 (locale 비의존)."""
+    dt = datetime.strptime(ts, "%Y-%m-%d %H:%M")
+    days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    return (f"{days[dt.weekday()]}, {dt.day:02d} {months[dt.month - 1]} {dt.year} "
+            f"{dt.hour:02d}:{dt.minute:02d}:00 +0900")
+
+
+def build_deals_rss(alerts, now):
+    """알림 이력으로 구독용 RSS 피드를 만든다 (최신 30건).
+    guid 는 ts+카테고리 고정 — 매시간 재생성돼도 리더에 중복 아이템이 생기지 않는다."""
+    items_xml = []
+    for a in alerts[:30]:
+        price = f" — {a['price']:,}원" if a.get("price") else ""
+        title = esc(f"[핫딜] {a['category']} 최고 {a['rate']}% ({a['seller']}){price}")
+        desc = esc(f"{a.get('title') or a['category']} / 할인율 {a['rate']}%로 복귀했습니다. "
+                   "현재 가격과 전체 목록은 상품권 핫딜 페이지에서 확인하세요.")
+        guid = esc(f"{PAGE_URL}#alert-{a['ts'].replace(' ', 'T')}-{a['category']}")
+        items_xml.append(
+            "    <item>\n"
+            f"      <title>{title}</title>\n"
+            f"      <link>{esc(PAGE_URL)}</link>\n"
+            f"      <description>{desc}</description>\n"
+            f"      <pubDate>{_rfc822_kst(a['ts'])}</pubDate>\n"
+            f"      <guid isPermaLink=\"false\">{guid}</guid>\n"
+            "    </item>\n")
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        "  <channel>\n"
+        "    <title>한국상품권협회 상품권 핫딜 알림</title>\n"
+        f"    <link>{esc(PAGE_URL)}</link>\n"
+        "    <description>컬쳐랜드·도서문화·백화점상품권 고할인 딜이 복귀하면 알려드립니다 (매시간 자동 감지)</description>\n"
+        "    <language>ko</language>\n"
+        f"    <lastBuildDate>{_rfc822_kst(now.strftime('%Y-%m-%d %H:%M'))}</lastBuildDate>\n"
+        '    <atom:link href="https://koreagiftcard.co.kr/deals_rss.xml" rel="self" type="application/rss+xml"/>\n'
+        + "".join(items_xml) +
+        "  </channel>\n"
+        "</rss>\n")
+    with open(DEALS_RSS_PATH, "w", encoding="utf-8", newline="\n") as f:
+        f.write(xml)
+
+
 def main():
     # 네이버 쇼핑 검색이 폐지된 뒤로는 키가 없어도 11번가 실시간 조회 + 수동 딜로
     # 정상 동작한다. 검색을 다시 켤 때만 키를 필수로 요구한다.
@@ -1105,13 +1209,17 @@ def main():
     # 네이버 쇼핑 검색이 폐지된 지금은 11번가 실시간 조회가 유일한 자동 경로이므로,
     # 감시 대상을 "네이버 수집 0건"에서 "11번가 실시간 조회 0건"으로 옮긴다.
     # (네이버 기준으로 두면 복구 불가능한 원인으로 매일 알림이 울려 소음만 된다.)
-    prev_streak = 0
+    prev_data = {}
     try:
         with open(out_path, encoding="utf-8") as f:
-            prev_streak = int(json.load(f).get("collect_health", {}).get("live_zero_streak", 0) or 0)
+            prev_data = json.load(f)
     except Exception:
         pass
+    prev_streak = int(prev_data.get("collect_health", {}).get("live_zero_streak", 0) or 0)
     live_zero_streak = prev_streak + 1 if live_items == 0 else 0
+
+    # 고할인 복귀 감지 — deals.json 을 덮어쓰기 전의 직전 상태와 비교한다
+    new_alerts = update_deal_alerts(deals, prev_data)
     if live_items == 0:
         print(f"::warning::11번가 실시간 조회 0건 (연속 {live_zero_streak}회) — 자동으로 검증되는 딜이 "
               "하나도 없습니다. 11번가 페이지 구조 변경·등록 상품 전량 품절 여부를 점검하세요.")
@@ -1127,6 +1235,8 @@ def main():
             # 네이버 쇼핑 검색은 2026-07-31 폐지(SE05) — 되살아나기 전까지 항상 0
             "auto_items": auto_items,
             "naver_shop_api": "disabled" if not NAVER_SHOP_SEARCH_ENABLED else "enabled",
+            # 이번 실행에서 새로 감지된 고할인 복귀 수 — 워크플로가 이슈 알림에 사용
+            "new_alerts": new_alerts,
         },
         "summary": {"columns": columns, "rows": rows},
         "deals": deals,
