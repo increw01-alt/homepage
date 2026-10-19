@@ -198,7 +198,7 @@ video {
     transition: .2s ease;
 }
 
-#sec-1 .wrap .text .btns .btn.onepass_site {
+#sec-1 .wrap .text .btns .btn.hotdeal_btn {
     background: transparent;
     backdrop-filter: blur(10px);
     color: #fff;
@@ -212,7 +212,7 @@ video {
     font-weight: 500;
 }
 
-#sec-1 .wrap .text .btns .btn.onepass_site:hover {
+#sec-1 .wrap .text .btns .btn.hotdeal_btn:hover {
     background: #fff;
     color: #222;
     font-family: 'paperlogy', sans-serif;
