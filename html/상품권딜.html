@@ -515,6 +515,19 @@
         table.summary_table .none { color: #d0d3d8; }
         .summary_hint { font-size: 1.3rem; color: #aaa; margin: 1rem 0 5.5rem; }
 
+        /* ---- 구매 한도·안전 체크리스트 ---- */
+        .limit_note { font-size: 1.3rem; color: #8a919e; margin-top: 1rem; line-height: 1.7; }
+        .safe_list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; }
+        .safe_list li {
+            background: #fff; border: 1px solid var(--deal-line); border-radius: var(--deal-radius);
+            padding: 14px 18px; font-size: 1.4rem; line-height: 1.75; color: #3a4050;
+        }
+        .safe_list li::before { content: "✓"; font-weight: 800; color: var(--po-color, #1f4fa3); margin-right: 8px; }
+        .safe_list li a { color: var(--deal-navy); font-weight: 700; text-decoration: underline; }
+        @media (max-width: 760px) {
+            .safe_list li { font-size: 1.35rem; }
+        }
+
         /* ---- 상품권 종류별 딜 목록 ---- */
         .deal_group { margin-bottom: 4rem; }
         .deal_cat_title {
@@ -1081,6 +1094,41 @@
                         <p class="faq_a">권장되지 않습니다. 최근 수년 사이 발행사 부실로 상품권 사용이 중단된 사례가 실제로 있었고, 환급이 이뤄지더라도 금액의 일부에 그쳤습니다. 구매 후에는 가급적 빨리 사용하시거나 현금화하시는 것이 안전합니다. 백화점·모바일상품권 처분이 필요하시면 협회 채널톡으로 매입 상담을 도와드리겠습니다.</p>
                     </details>
                 </div>
+            </div>
+
+            <!-- 구매 한도·안전 코너 — 상테크 커뮤니티 분석(2026-10) 기반 정적 자산.
+                 규정이 바뀌면 이 표와 아래 체크리스트를 함께 갱신할 것. -->
+            <div style="margin-top:4.5rem;">
+                <div class="deal_block_title">
+                    <h2>상품권 구매 한도 한눈에 보기</h2>
+                    <span>2026년 10월 기준 — 정책은 수시로 바뀌니 결제 전 꼭 확인하세요</span>
+                </div>
+                <table class="summary_table">
+                    <thead>
+                        <tr><th>구분</th><td>한도</td><td>참고</td></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>신용카드 상품권 결제</th><td><b>카드사별 월 100만원</b></td><td>초기화 기준일이 카드사마다 다름(매월 1일 또는 월중 특정일). 일부 체크카드에도 동일 한도 적용</td></tr>
+                        <tr><th>지마켓·옥션 상품권 구매</th><td><b>통합 24시간 50만원</b> (5만원권 10장)</td><td>자정이 아니라 마지막 결제 시점부터 24시간 계산</td></tr>
+                        <tr><th>11번가·네이버 등 딜</th><td>딜별 1인당 수량 제한</td><td>상품 페이지의 구매 제한 표기를 확인</td></tr>
+                        <tr><th>백화점 모바일 → 지류 교환</th><td>통상 1인 1일 100만원</td><td>본인 인증 필요, 지점별 운영이 다름</td></tr>
+                    </tbody>
+                </table>
+                <p class="limit_note">카드사 한도와 오픈마켓 한도는 <b>별개로 동시에</b> 적용됩니다. 고액·할부 구매가 필요하시면 한도 제약이 없는 협회 <a href="/신용카드-상품권-할부구매" style="color:var(--deal-navy);font-weight:700;text-decoration:underline;">신용카드 할부 구매 상담</a>을 이용해 보세요.</p>
+            </div>
+
+            <div style="margin-top:3.5rem;">
+                <div class="deal_block_title">
+                    <h2>안전 구매 체크리스트</h2>
+                    <span>사기·손실을 피하는 다섯 가지 기본 수칙</span>
+                </div>
+                <ul class="safe_list">
+                    <li><b>발행사 상태를 먼저 확인하세요.</b> 할인율이 유난히 높은 상품권은 발행사 부실 신호일 수 있습니다. 선불업 등록·지급보증 여부를 확인하는 습관이 안전합니다.</li>
+                    <li><b>개인 간 선입금 거래는 피하세요.</b> 이미 사용된 바코드·핀번호를 파는 사기가 계속 발생하고 있습니다. <a href="/noti_detail?id=11">중고거래 모바일상품권 사기 주의 공지</a>를 참고하세요.</li>
+                    <li><b>판매 대금은 거래 상대방 본인 명의 계좌로만 받으세요.</b> 제3자 명의 입금은 계좌 지급정지로 이어질 수 있습니다. <a href="/noti_detail?id=10">계좌 지급정지 주의 공지</a>에서 자세히 안내합니다.</li>
+                    <li><b>카드 결제 취소는 실적 소급 차감에 주의하세요.</b> 월을 넘긴 취소는 전월 실적에서 차감될 수 있습니다. <a href="/noti_detail?id=12">결제 취소 실적 차감 안내</a>를 확인하세요.</li>
+                    <li><b>상품권은 사두고 묵히지 마세요.</b> 발행사에 문제가 생기면 보유 상품권 가치가 훼손될 수 있으니, 구매 후엔 빨리 사용하거나 현금화하는 것이 안전합니다.</li>
+                </ul>
             </div>
 
             <!-- 시세 페이지 상호 링크 (내부링크 강화) -->
