@@ -74,7 +74,7 @@ jobs:
 
       - name: 고할인 복귀 알림 (신규 감지 시 GitHub 이슈 생성)
         # 수집기가 상승-교차를 감지한 실행에서만 이슈를 만든다 — 폰의 GitHub 알림으로
-        # 받아 카카오톡 채널에 공유하는 반자동 알림 체계. 실패해도 수집에는 영향 없음.
+        # 받아 채널톡 공지 등 필요한 곳에 공유하는 반자동 알림 체계. 실패해도 수집에는 영향 없음.
         # (github-actions 봇이 만든 이슈는 add-deal.yml 의 소유자 검사에 걸려 딜 등록으로
         #  처리되지 않는다)
         env:
@@ -88,7 +88,7 @@ jobs:
           summary=$(jq -r --argjson n "$n" '.alerts[:$n][] | "- \(.category) 최고 \(.rate)% (\(.seller))" + (if .price then " \(.price)원" else "" end)' html/deal_alerts.json)
           gh issue create \
             --title "[핫딜알림] $(TZ=Asia/Seoul date '+%m/%d %H시') 고할인 복귀 ${n}건" \
-            --body "$(printf '매시간 수집에서 고할인 복귀를 감지했습니다.\n\n%s\n\n페이지: https://koreagiftcard.co.kr/상품권딜\n\n카카오톡 채널에 공유하셨으면 이 이슈를 닫아 주세요.' "$summary")" \
+            --body "$(printf '매시간 수집에서 고할인 복귀를 감지했습니다.\n\n%s\n\n페이지: https://koreagiftcard.co.kr/상품권딜\n\n확인 후 채널톡 공지 등 필요한 곳에 공유하시고 이 이슈를 닫아 주세요.' "$summary")" \
             || echo "::warning::알림 이슈 생성 실패 (수집에는 영향 없음)"
 
       - name: 자동 갱신 건강 점검 (0건 지속 시 실행 실패로 알림)
