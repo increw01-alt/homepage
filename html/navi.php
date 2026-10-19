@@ -53,7 +53,7 @@
                 </li>
             </ul><!-- nav menu -->
 
-            <a href="https://koreagiftcard.channel.io/home?page=https://www.koreagiftcard.co.kr/" target="_blank"
+            <a href="https://koreagiftcard.channel.io/home?page=https://koreagiftcard.co.kr/" target="_blank"
                 class="navi_btn">
                 <img src="img/talk_icon.svg" alt="말풍선 아이콘">
                 <p>채널톡 상담</p>
@@ -72,7 +72,7 @@
             </div><!-- logo -->
 
             <div class="mob_nav_btn">
-                <a href="https://koreagiftcard.channel.io/home?page=https://www.koreagiftcard.co.kr/" target="_blank"
+                <a href="https://koreagiftcard.channel.io/home?page=https://koreagiftcard.co.kr/" target="_blank"
                     class="navi_btn">
                     <img src="img/talk_icon.svg" alt="말풍선 아이콘">
                 </a><!-- nab btn -->
