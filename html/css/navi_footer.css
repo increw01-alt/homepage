@@ -76,6 +76,12 @@
     gap: 20px;
 }
 
+.pc_navi_wrap .navi_btn {
+    /* 로고와 같은 플렉스 수축 방지 — 수축되면 '채널톡 상담'이 두 줄로 꺾인다 */
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 .menu {
     gap: 3vw;
 }
