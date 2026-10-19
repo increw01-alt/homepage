@@ -168,6 +168,25 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "xi25t80w4n");
   </script>
+
+    <!-- Q&A 페이지 콘텐츠 보강 (2026-10-19, 목업 컨펌 반영) -->
+    <style>
+        .quick_help { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 0 0 26px; }
+        @media (max-width: 860px) { .quick_help { grid-template-columns: 1fr; } }
+        .quick_help a { background: #f4faff; border: 1px solid #dbe9ff; border-radius: 15px;
+            padding: 18px 20px; color: #222; display: block; transition: .15s ease; }
+        .quick_help a:hover { border-color: #097CFF; box-shadow: 0 6px 18px rgba(9,124,255,.08); }
+        .quick_help .qh_icon { font-size: 2.4rem; }
+        .quick_help b { display: block; margin: 8px 0 4px; font-size: 1.6rem; }
+        .quick_help p { margin: 0; font-size: 1.3rem; color: #5a6472; line-height: 1.6; }
+        .quick_help .qh_live { color: #097CFF; font-weight: 700; }
+        .faq_chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 8px; }
+        .faq_chips button { border: none; cursor: pointer; background: #f1f5fa; color: #4a5158;
+            padding: 8px 18px; border-radius: 50px; font-size: 1.35rem; font-weight: 500; font-family: inherit; }
+        .faq_chips button.on { background: #097CFF; color: #fff; font-weight: 700; }
+        .hot_badge { background: #ffe9d9; color: #e85d1f; font-size: 1.15rem; font-weight: 800;
+            padding: 3px 9px; border-radius: 50px; flex-shrink: 0; margin-left: 8px; }
+    </style>
 </head>
 
 
@@ -299,6 +318,25 @@
             </a>
         </div><!-- top -->
 
+        <!-- 빠른 도움 카드: 질문 찾기 전에 바로 목적지로 -->
+        <div class="quick_help">
+            <a href="/신용카드-상품권-할부구매">
+                <span class="qh_icon" aria-hidden="true">💳</span>
+                <b>상품권 할부 구매</b>
+                <p>신용카드 무이자 할부로 안전하게 — 한도 걱정 없이 상담</p>
+            </a>
+            <a href="https://koreagiftcard.channel.io/home?page=https://koreagiftcard.co.kr/" target="_blank" rel="noopener">
+                <span class="qh_icon" aria-hidden="true">💰</span>
+                <b>상품권 매입(현금화)</b>
+                <p>모바일·백화점상품권 24시간 매입 — 검증 후 평균 5분 입금</p>
+            </a>
+            <a href="/상품권딜">
+                <span class="qh_icon" aria-hidden="true">🔥</span>
+                <b>오늘의 핫딜·시세</b>
+                <p><span class="qh_live" id="quickLive">실시간 할인율·시세 확인 ›</span></p>
+            </a>
+        </div>
+
         <div class="wrap">
             <div class="category">
                 <p id="faq">자주 묻는 질문</p>
@@ -306,11 +344,20 @@
             </div><!-- tab_nav -->
 
             <div class="tab_body">
+                <!-- 카테고리 칩 — 자주 묻는 질문 탭에서만 표시 (아래 스크립트) -->
+                <div class="faq_chips" id="faqChips">
+                    <button type="button" data-cat="all" class="on">전체</button>
+                    <button type="button" data-cat="buy">구매</button>
+                    <button type="button" data-cat="sell">매입·현금화</button>
+                    <button type="button" data-cat="etc">안전·기타</button>
+                </div>
+
                 <ul class="faq_body">
-                    <li>
+                    <li data-cat="buy">
                         <div class="accordion question">
                             <span class="number">01</span>
                             <h2 class="title">상품권 구매는 어떻게 진행되나요?</h2>
+                            <span class="hot_badge">인기</span>
                             <span class="arrow material-symbols-outlined">
                                 keyboard_arrow_down
                             </span>
@@ -332,7 +379,7 @@
                         </div>
                     </li><!-- 1 -->
 
-                    <li>
+                    <li data-cat="sell">
                         <div class="accordion question">
                             <span class="number">02</span>
                             <h2 class="title">컬쳐랜드 상품권 매입 절차는 어떻게 되나요?</h2>
@@ -349,7 +396,7 @@
                         </div>
                     </li><!-- 2 -->
 
-                    <li>
+                    <li data-cat="sell">
                         <div class="accordion question">
                             <span class="number">03</span>
                             <h2 class="title">상품권 매입 시 입금은 얼마나 걸리나요?</h2>
@@ -366,7 +413,7 @@
                         </div>
                     </li><!-- 3 -->
 
-                    <li>
+                    <li data-cat="buy">
                         <div class="accordion question">
                             <span class="number">04</span>
                             <h2 class="title">구매한 모바일상품권은 언제 수령할 수 있나요?</h2>
@@ -383,7 +430,7 @@
                         </div>
                     </li><!-- 4 -->
 
-                    <li>
+                    <li data-cat="etc">
                         <div class="accordion question">
                             <span class="number">05</span>
                             <h2 class="title">쇼핑몰 분양을 받으면 운영은 직접 해야 하나요?</h2>
@@ -400,7 +447,7 @@
                         </div>
                     </li><!-- 5 -->
 
-                    <li>
+                    <li data-cat="etc">
                         <div class="accordion question">
                             <span class="number">06</span>
                             <h2 class="title">상품권 시세는 어디서 확인할 수 있나요?</h2>
@@ -417,7 +464,7 @@
                         </div>
                     </li><!-- 6 -->
 
-                    <li>
+                    <li data-cat="buy">
                         <div class="accordion question">
                             <span class="number">07</span>
                             <h2 class="title">대량 구매 시 할인이나 별도 혜택이 있나요?</h2>
@@ -434,10 +481,11 @@
                         </div>
                     </li><!-- 7 -->
 
-                    <li>
+                    <li data-cat="sell">
                         <div class="accordion question">
                             <span class="number">08</span>
                             <h2 class="title">상품권을 현금화할 때 수수료가 발생하나요?</h2>
+                            <span class="hot_badge">인기</span>
                             <span class="arrow material-symbols-outlined">
                                 keyboard_arrow_down
                             </span>
@@ -450,7 +498,7 @@
                         </div>
                     </li><!-- 8 -->
 
-                    <li>
+                    <li data-cat="etc">
                         <div class="accordion question">
                             <span class="number">09</span>
                             <h2 class="title">불법·위조 상품권은 어떻게 구분하나요?</h2>
@@ -467,7 +515,7 @@
                         </div>
                     </li><!-- 9 -->
 
-                    <li>
+                    <li data-cat="etc">
                         <div class="accordion question">
                             <span class="number">10</span>
                             <h2 class="title">상담이나 고객지원은 어떻게 받을 수 있나요?</h2>
@@ -577,6 +625,47 @@
             </div><!-- bot -->
         </div><!-- wrap -->
     </footer>
+
+    <!-- Q&A 보강: 칩 필터 + 빠른 카드 실데이터 -->
+    <script>
+        (function () {
+            var chips = document.getElementById('faqChips');
+            if (chips) {
+                chips.addEventListener('click', function (e) {
+                    var btn = e.target.closest('button'); if (!btn) return;
+                    chips.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+                    btn.classList.add('on');
+                    var cat = btn.dataset.cat;
+                    document.querySelectorAll('.faq_body > li').forEach(function (li) {
+                        li.style.display = (cat === 'all' || li.dataset.cat === cat) ? '' : 'none';
+                    });
+                });
+                // 상담 Q&A 탭에서는 칩 숨김
+                var faqTab = document.getElementById('faq'), qnaTab = document.getElementById('qna');
+                if (faqTab && qnaTab) {
+                    qnaTab.addEventListener('click', function () { chips.style.display = 'none'; });
+                    faqTab.addEventListener('click', function () { chips.style.display = ''; });
+                }
+            }
+            // 빠른 카드에 오늘의 핫딜·시세 실데이터
+            Promise.all([
+                fetch('deals.json', { cache: 'no-store' }).then(r => r.json()).catch(() => null),
+                fetch('rates.json', { cache: 'no-store' }).then(r => r.json()).catch(() => null)
+            ]).then(function (res) {
+                var d = res[0], r = res[1], parts = [];
+                if (d) {
+                    var g = (d.deals || []).find(x => x.category === '컬쳐랜드 문화상품권');
+                    var b = g && Math.max.apply(null, (g.items || []).map(i => i.rate || 0).concat(0));
+                    if (b) parts.push('컬쳐랜드 최고 ' + b.toFixed(1) + '%');
+                }
+                if (r) {
+                    var s = (r.summary || []).find(x => x.brand === '신세계');
+                    if (s && s.bestBuy) parts.push('신세계 ' + s.bestBuy.price.toLocaleString('ko-KR') + '원');
+                }
+                if (parts.length) document.getElementById('quickLive').textContent = parts.join(' · ') + ' ›';
+            });
+        })();
+    </script>
 </body>
 
 

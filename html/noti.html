@@ -78,6 +78,49 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "xi25t80w4n");
   </script>
+
+    <!-- 공지 페이지 콘텐츠 보강 (2026-10-19, 목업 컨펌 반영) -->
+    <style>
+        .pin_cards { display: flex; gap: 14px; flex-wrap: wrap; margin: 0 0 22px; }
+        .pin_cards a { flex: 1 1 300px; background: #fff7f2; border: 1px solid #ffd9c4; border-radius: 15px;
+            padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start; color: #222; }
+        .pin_cards .pc_badge { background: #ff6b35; color: #fff; font-size: 1.2rem; font-weight: 800;
+            padding: 4px 10px; border-radius: 50px; flex-shrink: 0; }
+        .pin_cards b { display: block; font-size: 1.5rem; margin-bottom: 4px; line-height: 1.5; }
+        .pin_cards p { margin: 0; font-size: 1.3rem; color: #8a6a58; line-height: 1.6; }
+        .noti_layout { display: flex; gap: 26px; align-items: flex-start; flex-wrap: wrap; }
+        .noti_main { flex: 999 1 560px; min-width: 0; }
+        .noti_side { flex: 1 1 280px; display: flex; flex-direction: column; gap: 16px; }
+        .nbadge { font-size: 1.2rem; font-weight: 800; padding: 3px 10px; border-radius: 50px; flex-shrink: 0; }
+        .nb_notice { background: #eaf3ff; color: #097CFF; }
+        .nb_warn { background: #fff0e8; color: #e85d1f; }
+        .nb_major { background: #16245c; color: #fff; }
+        .nb_event { background: #eafaf1; color: #1e9e62; }
+        .noti_body li .title { flex: 1; min-width: 0; }
+        .new_badge { background: #00d9ff; color: #06354d; font-size: 1.1rem; font-weight: 800;
+            padding: 2px 8px; border-radius: 50px; flex-shrink: 0; }
+        .side_w { background: #fff; border: 1px solid #e9eaee; border-radius: 15px; padding: 18px 20px; }
+        .side_w.blue { background: #f4faff; border-color: #dbe9ff; }
+        .side_w .sw_head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .side_w .sw_head b { font-size: 1.5rem; }
+        .side_w .sw_head span { font-size: 1.2rem; color: #9aa1ab; }
+        .side_w .sw_row { display: flex; justify-content: space-between; font-size: 1.4rem; padding: 7px 0;
+            border-bottom: 1px dashed #e4ecf7; }
+        .side_w .sw_row:last-child { border-bottom: none; }
+        .side_w .sw_row b { color: #097CFF; }
+        .side_w .sw_btn { display: block; text-align: center; margin-top: 12px; background: #097CFF; color: #fff;
+            padding: 10px; border-radius: 50px; font-weight: 700; font-size: 1.35rem; }
+        .side_w .sw_btn.line { background: transparent; border: 2px solid #097CFF; color: #097CFF; padding: 8px; }
+        .side_alert { background: linear-gradient(135deg, #0b2a6b, #097CFF); border-radius: 15px;
+            padding: 20px; color: #fff; }
+        .side_alert b { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+        .side_alert p { margin: 0 0 12px; font-size: 1.3rem; line-height: 1.6; color: #cfe3ff; }
+        .side_alert .sa_btns { display: flex; gap: 8px; flex-wrap: wrap; }
+        .side_alert .sa_btns a { padding: 8px 14px; border-radius: 50px; font-weight: 700; font-size: 1.25rem; }
+        .side_alert .sa_btns a.w { background: #fff; color: #097CFF; }
+        .side_alert .sa_btns a.t { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.4); }
+        @media (max-width: 760px) { .noti_body li { padding: 1.6rem 1.4rem; gap: 1rem; } }
+    </style>
 </head>
 
 
@@ -209,72 +252,131 @@
         </div><!-- top -->
 
         <div class="wrap">
+            <!-- 중요 공지 핀 카드 -->
+            <div class="pin_cards">
+                <a href="/noti_detail?id=10">
+                    <span class="pc_badge">주의</span>
+                    <span><b>상품권 판매 대금, 계좌 지급정지 피해가 늘고 있습니다</b>
+                        <p>모르는 명의 계좌 입금은 3자사기 위험 — 안전 수칙 확인하기</p></span>
+                </a>
+                <a href="/noti_detail?id=11">
+                    <span class="pc_badge">주의</span>
+                    <span><b>중고거래 모바일상품권 사기가 계속되고 있습니다</b>
+                        <p>사용된 바코드 판매 수법 — 공식 채널 구매를 권장합니다</p></span>
+                </a>
+            </div>
             <div class="category">
                 <p id="noti">공지사항</p>
             </div><!-- tab_nav -->
 
+            <div class="noti_layout">
+            <div class="noti_main">
             <ul class="noti_body">
                 <li onclick="location.href='/noti_detail?id=12'">
                     <span class="number">12</span>
-                    <h2 class="title">[공지] 상품권 카드결제 취소 시 실적 소급 차감 및 소득공제 제외 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">상품권 카드결제 취소 시 실적 소급 차감 및 소득공제 제외 안내</h2>
                     <span class="date">2026-10-19</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=11'">
                     <span class="number">11</span>
-                    <h2 class="title">[주의] 중고거래 플랫폼 모바일상품권 사기 지속 — 공식 채널 구매 권장</h2>
+                    <span class="nbadge nb_warn">주의</span>
+                    <h2 class="title">중고거래 플랫폼 모바일상품권 사기 지속 — 공식 채널 구매 권장</h2>
                     <span class="date">2026-10-19</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=10'">
                     <span class="number">10</span>
-                    <h2 class="title">[주의] 상품권 판매 대금 계좌이체 관련 3자사기·계좌 지급정지 주의</h2>
+                    <span class="nbadge nb_warn">주의</span>
+                    <h2 class="title">상품권 판매 대금 계좌이체 관련 3자사기·계좌 지급정지 주의</h2>
                     <span class="date">2026-10-19</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=9'">
                     <span class="number">09</span>
-                    <h2 class="title">[공지] 신용카드 상품권 구매 월 100만원 한도 및 카드사별 기준일 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">신용카드 상품권 구매 월 100만원 한도 및 카드사별 기준일 안내</h2>
                     <span class="date">2026-10-19</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=8'">
                     <span class="number">08</span>
-                    <h2 class="title">[중요] 개인정보 처리방침 개정 안내</h2>
+                    <span class="nbadge nb_major">중요</span>
+                    <h2 class="title">개인정보 처리방침 개정 안내</h2>
                     <span class="date">2026-04-01</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=7'">
                     <span class="number">07</span>
-                    <h2 class="title">[공지] 2026년 설 연휴 채널톡 상담 운영 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">2026년 설 연휴 채널톡 상담 운영 안내</h2>
                     <span class="date">2026-02-10</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=6'">
                     <span class="number">06</span>
-                    <h2 class="title">[공지] 채널톡 1:1 상담·알림 서비스 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">채널톡 1:1 상담·알림 서비스 안내</h2>
                     <span class="date">2026-01-15</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=5'">
                     <span class="number">05</span>
-                    <h2 class="title">[중요] 상품권 사기 거래 주의 안내</h2>
+                    <span class="nbadge nb_major">중요</span>
+                    <h2 class="title">상품권 사기 거래 주의 안내</h2>
                     <span class="date">2025-11-04</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=4'">
                     <span class="number">04</span>
-                    <h2 class="title">[공지] 추석 연휴 채널톡 상담 운영 시간 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">추석 연휴 채널톡 상담 운영 시간 안내</h2>
                     <span class="date">2025-09-26</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=3'">
                     <span class="number">03</span>
-                    <h2 class="title">[이벤트] 신용카드 무이자 할부 프로모션 시작</h2>
+                    <span class="nbadge nb_event">이벤트</span>
+                    <h2 class="title">신용카드 무이자 할부 프로모션 시작</h2>
                     <span class="date">2025-09-10</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=2'">
                     <span class="number">02</span>
-                    <h2 class="title">[공지] 협회 인증 제휴 쇼핑몰 추가 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">협회 인증 제휴 쇼핑몰 추가 안내</h2>
                     <span class="date">2025-08-21</span>
                 </li>
                 <li onclick="location.href='/noti_detail?id=1'">
                     <span class="number">01</span>
-                    <h2 class="title">[한국상품권협회] 공식 출범 안내</h2>
+                    <span class="nbadge nb_notice">공지</span>
+                    <h2 class="title">공식 출범 안내</h2>
                     <span class="date">2025-05-15</span>
                 </li>
             </ul>
+            </div><!-- noti_main -->
+
+            <!-- 사이드 위젯: 핫딜·시세는 deals.json/rates.json 에서 실시간 채움 (아래 스크립트) -->
+            <aside class="noti_side">
+                <div class="side_w blue">
+                    <div class="sw_head"><b>🔥 오늘의 핫딜</b><span>매시간 자동 갱신</span></div>
+                    <div id="sideDeals">
+                        <div class="sw_row"><span>컬쳐랜드</span><b>—</b></div>
+                        <div class="sw_row"><span>도서문화(북앤)</span><b>—</b></div>
+                        <div class="sw_row"><span>에그머니</span><b>—</b></div>
+                    </div>
+                    <a class="sw_btn" href="/상품권딜">핫딜 전체 보기</a>
+                </div>
+                <div class="side_w">
+                    <div class="sw_head"><b>📈 백화점상품권 시세</b><span>10만원권 살때</span></div>
+                    <div id="sideRates">
+                        <div class="sw_row"><span>신세계</span><b>—</b></div>
+                        <div class="sw_row"><span>롯데</span><b>—</b></div>
+                        <div class="sw_row"><span>현대</span><b>—</b></div>
+                    </div>
+                    <a class="sw_btn line" href="/상품권시세">시세표·30일 추이 보기</a>
+                </div>
+                <div class="side_alert">
+                    <b>🔔 고할인 복귀 알림</b>
+                    <p>6% 이상 특가가 돌아오는 순간을 매시간 감지해 알려드립니다.</p>
+                    <div class="sa_btns">
+                        <a class="w" href="/deals_rss.xml" target="_blank" rel="noopener">RSS 구독</a>
+                        <a class="t" href="https://koreagiftcard.channel.io/home?page=https://koreagiftcard.co.kr/" target="_blank" rel="noopener">채널톡 소식</a>
+                    </div>
+                </div>
+            </aside>
+            </div><!-- noti_layout -->
         </div><!-- warp -->
 
         <!-- 채널톡 버튼 -->
@@ -328,6 +430,39 @@
             </div><!-- bot -->
         </div><!-- wrap -->
     </footer>
+
+    <!-- 공지 보강: 위젯 실데이터 + 최신 공지 N 뱃지 -->
+    <script>
+        (function () {
+            fetch('deals.json', { cache: 'no-store' }).then(r => r.json()).then(d => {
+                var groups = (d.deals || []).map(g => ({
+                    c: g.category,
+                    b: Math.max.apply(null, (g.items || []).map(i => i.rate || 0).concat(0))
+                })).filter(g => g.b > 0).sort((a, b) => b.b - a.b).slice(0, 3);
+                if (!groups.length) return;
+                var short = { '컬쳐랜드 문화상품권': '컬쳐랜드', '도서문화상품권 (북앤라이프)': '도서문화(북앤)',
+                    '구글플레이 기프트카드': '구글플레이', '현대백화점 상품권': '현대백화점', '신세계 상품권': '신세계' };
+                document.getElementById('sideDeals').innerHTML = groups.map(g =>
+                    '<div class="sw_row"><span>' + (short[g.c] || g.c) + '</span><b>최고 ' + g.b.toFixed(1) + '%</b></div>').join('');
+            }).catch(function () { });
+            fetch('rates.json', { cache: 'no-store' }).then(r => r.json()).then(d => {
+                var by = {}; (d.summary || []).forEach(s => { by[s.brand] = s; });
+                document.getElementById('sideRates').innerHTML = ['신세계', '롯데', '현대'].map(b => {
+                    var p = by[b] && by[b].bestBuy && by[b].bestBuy.price;
+                    return '<div class="sw_row"><span>' + b + '</span><b>' + (p ? p.toLocaleString('ko-KR') + '원' : '—') + '</b></div>';
+                }).join('');
+            }).catch(function () { });
+            var now = new Date();
+            document.querySelectorAll('.noti_body li .date').forEach(function (d) {
+                var t = new Date(d.textContent.trim());
+                if (!isNaN(t) && (now - t) / 864e5 <= 7) {
+                    var n = document.createElement('span');
+                    n.className = 'new_badge'; n.textContent = 'N';
+                    d.parentNode.insertBefore(n, d);
+                }
+            });
+        })();
+    </script>
 </body>
 
 
