@@ -798,6 +798,20 @@ def build_hero_stats(data):
             f'<div class="stat"><b>24회</b><span>매일 자동 갱신 · 매시간 집계</span></div>')
 
 
+def iso_modified_date(value):
+    """집계 시각을 KST ISO 8601로 바꾸고, 확인할 수 없는 시각은 생략한다."""
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(value)
+    except (TypeError, ValueError):
+        return None
+    kst = timezone(timedelta(hours=9))
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=kst)
+    return dt.astimezone(kst).isoformat(timespec="seconds")
+
+
 def build_prerender(data):
     """deals 데이터 → 마커 이름별 정적 HTML 조각 dict."""
     naver_sellers = set()
@@ -920,14 +934,11 @@ def build_prerender(data):
     cat_best.sort(key=lambda t: t[1], reverse=True)
     # 종류명은 연관검색어에 쓰이는 표기 그대로 나열한다(문화상품권·백화점 상품권 등).
     # title 이 40자 남짓에서 잘리므로, 거기서 빠지는 종류를 여기서 받아 준다.
+    desc = ("컬쳐랜드 문화상품권·도서문화상품권·백화점 상품권 할인 딜을 "
+            "신뢰할 수 있는 판매처에서만 골라 한국상품권협회가 매시간 집계합니다.")
     if cat_best:
         frag = "·".join(f"{name} {fmt_rate(rate)}%" for name, rate in cat_best[:3])
-        desc = (f"오늘의 상품권 핫딜 최고 할인율: {frag}. 컬쳐랜드 문화상품권·도서문화상품권·"
-                "신세계·롯데·현대백화점 상품권 핫딜을 11번가 등 신뢰 판매처만 선별해 "
-                "한국상품권협회가 매시간 자동 집계합니다.")
-    else:  # 수집 결과가 비어도 스니펫이 깨지지 않게 기본 문구 유지
-        desc = ("컬쳐랜드 문화상품권·도서문화상품권·신세계·롯데·현대백화점 상품권 핫딜의 "
-                "실시간 할인율을 신뢰 판매처만 선별해 한국상품권협회가 매시간 자동 집계합니다.")
+        desc = f"오늘의 상품권 핫딜 최고 할인율: {frag}. " + desc
     parts["metaDesc"] = f'<meta name="description" content="{esc(desc)}">'
 
     # ItemList 구조화 데이터 — 상위 딜 10개 (제휴 URL 은 넣지 않는다)
@@ -945,7 +956,45 @@ def build_prerender(data):
     }
     # '<' 전체를 JSON 이스케이프(<)로 치환 — 상품명을 통한 </script> 탈출·
     # 프리렌더 마커 주입·HTML 주석 상태 오염을 한 번에 차단 (외부 입력 방어)
-    ld_json = json.dumps(ld, ensure_ascii=False).replace("<", "\\u003c")
+    # 기존 CollectionPage를 자동 블록으로 옮겨 집계 시각도 매시간 갱신한다.
+    collection = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "상품권 핫딜 — 실시간 상품권 할인율 비교",
+        "description": "컬쳐랜드·도서문화·롯데·현대·신세계 상품권의 실시간 할인율을 한국상품권협회가 신뢰할 수 있는 판매처만 선별해 매시간 집계합니다.",
+        "url": "https://koreagiftcard.co.kr/상품권딜",
+        "inLanguage": "ko",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "한국상품권협회",
+            "url": "https://koreagiftcard.co.kr"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "한국상품권협회",
+            "url": "https://koreagiftcard.co.kr",
+            "logo": "https://koreagiftcard.co.kr/img/logo/logo.png"
+        },
+        "about": [
+            {
+                "@type": "Thing",
+                "name": "컬쳐랜드 문화상품권 할인"
+            },
+            {
+                "@type": "Thing",
+                "name": "도서문화상품권 할인"
+            },
+            {
+                "@type": "Thing",
+                "name": "백화점상품권 할인"
+            }
+        ]
+    }
+    modified = iso_modified_date(data.get("updated_at"))
+    if modified:
+        collection["dateModified"] = modified
+    graph = {"@context": "https://schema.org", "@graph": [collection, ld]}
+    ld_json = json.dumps(graph, ensure_ascii=False).replace("<", "\\u003c")
     parts["jsonld"] = f'<script type="application/ld+json">{ld_json}</script>'
 
     return parts

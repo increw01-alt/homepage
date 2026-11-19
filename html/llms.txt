@@ -34,6 +34,8 @@
 
 ## 주요 페이지
 
+- 상품권 핫딜: https://koreagiftcard.co.kr/상품권딜 — 신뢰 판매처의 상품권 할인율과 실구매가를 매시간 집계
+- 백화점 상품권 시세: https://koreagiftcard.co.kr/상품권시세 — 백화점 상품권 5종 살때·팔때 시세를 매시간 집계·검증
 - 메인: https://koreagiftcard.co.kr
 - 컬쳐랜드 할부 구매: https://koreagiftcard.co.kr/컬쳐랜드-할부구매
 - 백화점상품권 할부 구매: https://koreagiftcard.co.kr/백화점상품권-할부구매

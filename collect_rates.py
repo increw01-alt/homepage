@@ -34,6 +34,7 @@ import rate_parsers as rp
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 OUT_PATH = os.path.join(BASE_DIR, "html", "rates.json")
 RATE_PAGE = os.path.join(BASE_DIR, "html", "상품권시세.html")
+SITEMAP_PATH = os.path.join(BASE_DIR, "html", "sitemap.xml")
 FACE = rp.FACE
 
 # HTTP 헤더는 latin-1 로만 인코딩되므로 한글을 넣으면 안 된다
@@ -80,9 +81,9 @@ SHOPS = [
 
 BRANDS = ["신세계", "롯데", "현대", "갤러리아", "AK"]
 
-NOTE = ("각 업체가 홈페이지에 공시한 값을 수집한 참고 정보이며, 실제 거래 가격은 "
+NOTE = ("한국상품권협회가 공시 가격을 모아 검증한 참고 정보이며, 실제 거래 가격은 "
         "수량·권종·상품권 상태에 따라 다를 수 있습니다. "
-        "거래 전 해당 업체에 직접 확인하시기 바랍니다.")
+        "거래 전에 조건을 꼭 확인하시기 바랍니다.")
 
 
 # ─────────────────────────────────────────────────────────────
@@ -472,6 +473,20 @@ def build_hero_chart_time():
     return "".join(f"<span>{esc(series[i]['t'][-5:])}</span>" for i in idx)
 
 
+def iso_modified_date(value):
+    """집계 시각을 KST ISO 8601로 바꾸고, 확인할 수 없는 시각은 생략한다."""
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(value)
+    except (TypeError, ValueError):
+        return None
+    kst = timezone(timedelta(hours=9))
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=kst)
+    return dt.astimezone(kst).isoformat(timespec="seconds")
+
+
 def build_prerender(data):
     parts = {}
     # "기준"까지 한 노드에 담는다 — 텍스트를 <time> 밖에 두면 inline-flex 가
@@ -522,24 +537,40 @@ def build_prerender(data):
         f'<table class="rate_table"><thead><tr><th>상품권 샵</th>{head}</tr></thead>'
         f'<tbody>{"".join(body)}</tbody></table>')
 
-    frag = [f'{s["brand"]} {s["bestBuy"]["price"]:,}원'
-            for s in data.get("summary", []) if s.get("bestBuy")][:3]
-    desc = ("백화점 상품권 시세 " + "·".join(frag) + ". ") if frag else ""
-    desc += ("신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 "
-             "상품권 거래소별로 비교해 한국상품권협회가 매시간 자동 집계합니다.")
+    # 비교 기준(10만원권 최저 살때)을 스니펫에도 명시한다.
+    by_brand = {s["brand"]: s for s in data.get("summary", [])}
+    frag = [f'{brand} {by_brand[brand]["bestBuy"]["price"]:,}원'
+            for brand in ("신세계", "롯데", "현대")
+            if by_brand.get(brand, {}).get("bestBuy")]
+    if frag:
+        desc = ("오늘의 백화점 상품권 시세(10만원권 최저 살때): " + "·".join(frag) + ". "
+                "신세계·롯데·현대·갤러리아·AK 상품권의 살때·팔때 시세를 "
+                "한국상품권협회가 매시간 집계하고 검증합니다.")
+    else:
+        desc = ("신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 "
+                "한국상품권협회가 매시간 집계하고 검증합니다.")
     parts["ratesMetaDesc"] = f'<meta name="description" content="{esc(desc)}">'
 
+    dataset = {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "백화점 상품권 시세",
+        "description": desc,
+        "url": "https://koreagiftcard.co.kr/상품권시세",
+        "creator": {"@type": "Organization", "name": "한국상품권협회"},
+        "isAccessibleForFree": True,
+        "variableMeasured": [
+            {"@type": "PropertyValue", "name": name, "unitText": "원",
+             "description": "백화점 상품권 10만원권 기준"}
+            for name in ("살때 가격", "팔때 가격")
+        ],
+    }
+    modified = iso_modified_date(data.get("updated_at"))
+    if modified:
+        dataset["dateModified"] = modified
     parts["ratesJsonld"] = (
         '<script type="application/ld+json">'
-        + json.dumps({
-            "@context": "https://schema.org",
-            "@type": "Dataset",
-            "name": "백화점 상품권 시세",
-            "description": desc,
-            "dateModified": data.get("updated_at"),
-            "creator": {"@type": "Organization", "name": "한국상품권협회"},
-            "isAccessibleForFree": True,
-        }, ensure_ascii=False)
+        + json.dumps(dataset, ensure_ascii=False).replace("<", "\\u003c")
         + "</script>")
     return parts
 
@@ -561,10 +592,38 @@ def apply_prerender(data):
     print(f"[완료] 상품권시세.html 프리렌더 갱신")
 
 
+def update_sitemap_lastmod():
+    """sitemap.xml 의 /상품권시세 lastmod 를 KST 오늘 날짜로. 날짜가 바뀐 첫 실행에서만
+    실제로 변경되므로 하루 1회만 커밋 diff 가 생긴다. 변경 시 True 반환."""
+    today = datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+    try:
+        with open(SITEMAP_PATH, encoding="utf-8", newline="") as f:
+            xml = f.read()
+    except OSError as e:
+        print(f"::warning::sitemap.xml 읽기 실패: {e}")
+        return False
+    pattern = re.compile(
+        r"(<loc>https://koreagiftcard\.co\.kr/%EC%83%81%ED%92%88%EA%B6%8C%EC%8B%9C%EC%84%B8</loc>\s*"
+        r"<lastmod>)([^<]*)(</lastmod>)")
+    m = pattern.search(xml)
+    if not m:
+        # ::warning:: — GitHub Actions 실행 요약에 노란 경고로 표시되어 묻히지 않게
+        print("::warning::sitemap.xml 에서 상품권시세 항목을 찾지 못했습니다 — lastmod 갱신 생략")
+        return False
+    if m.group(2) == today:
+        return False
+    xml = pattern.sub(lambda mm: mm.group(1) + today + mm.group(3), xml, count=1)
+    with open(SITEMAP_PATH, "w", encoding="utf-8", newline="") as f:
+        f.write(xml)
+    print(f"[완료] sitemap.xml 상품권시세 lastmod → {today}")
+    return True
+
+
 def main():
     if "--render-only" in sys.argv:
         with open(OUT_PATH, encoding="utf-8") as f:
             apply_prerender(json.load(f))
+        update_sitemap_lastmod()
         return
 
     shops, health = collect()
@@ -612,6 +671,7 @@ def main():
 
     if os.path.exists(RATE_PAGE):
         apply_prerender(result)
+        update_sitemap_lastmod()
 
     print(f"[완료] {OUT_PATH}")
     print(f"       업체 {health['shops_ok']}/{health['shops_total']}곳 · "
