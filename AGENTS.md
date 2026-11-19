@@ -1,0 +1,67 @@
+# AGENTS.md - 한국상품권협회 사이트 작업 규칙
+
+이 파일은 Codex와 Claude Code가 작업 전에 읽는 직원 규칙이다. 대상 브랜드는 한국상품권협회(koreagiftcard.co.kr) 하나이며, 다른 브랜드(사용자의 다른 사이트 포함)의 이름, 값, 문구를 쓰지 않는다. 이유: 여러 사이트를 운영하므로 값이 섞이면 엉뚱한 사이트에 노출된다.
+
+> **이 저장소(`increw01-alt/homepage`)는 PUBLIC이므로** 이 파일과 커밋 메시지, docs 문서에는 내부 전략·금액·연락처·키를 쓰지 않는다.
+
+## 저장소 구조
+
+| 경로 | 내용 |
+| --- | --- |
+| `html/` | 배포 루트(Cloudflare Pages, GitHub main 연동 자동 배포). `/상품권딜` 같은 확장자 없는 주소가 `html/상품권딜.html`로 연결된다 |
+| `html/상품권딜.html` | 상품권딜(상품권 핫딜) 페이지. 전용 스타일은 파일 안 인라인 `<style>`, 딜 렌더러는 인라인 JS |
+| `html/상품권시세.html` | 상품권시세(백화점 상품권 시세) 페이지. 전용 스타일은 인라인 `<style>` |
+| `collect_deals.py` | 딜 수집 + 상품권딜 프리렌더 생성(`build_prerender()`), meta description·JSON-LD 생성, sitemap 상품권딜 lastmod 갱신 |
+| `collect_rates.py` | 시세 수집 + 상품권시세 프리렌더 생성(`build_prerender()`) |
+| `html/deals.json`, `html/rates*.json`, `manual_deals.json` | 수집 데이터. 자동 생성·운영 데이터이므로 이번 작업에서 손으로 고치지 않는다 |
+| `html/css/common.css`, `sub_common.css`, `navi_footer.css`, `html/js/navi.js` | 사이트 전체 공통 자원. 수정 금지 |
+| `html/img/` | 이미지 폴더. 이번 작업 새 이미지는 `html/img/seo/`에 둔다 |
+| `.github/workflows/collect-deals.yml` | 매시 정각 수집 → 자동 커밋 봇. 수정 금지 |
+| `tests/` | unittest 테스트(현재 51개) |
+
+### 프리렌더 구조 (가장 중요)
+
+두 페이지에는 `<!--PR:이름-->` … `<!--/PR:이름-->` 표식으로 묶인 영역이 있다(상품권딜 12개, 상품권시세 9개: metaDesc, jsonld, ratesJsonld, ratesMetaDesc, dealGroups 등). 이 영역 안은 **매시간 수집 스크립트가 덮어쓴다.**
+
+- 표식 안의 내용(meta description, JSON-LD, 딜·시세 표 등)을 바꾸려면 `collect_deals.py`/`collect_rates.py`의 `build_prerender()`를 고친다. HTML만 고치면 다음 수집 때 원래대로 돌아간다.
+- 상품권딜 딜 영역 마크업을 바꿀 때는 `build_prerender()`와 HTML 인라인 JS 렌더러를 **반드시 함께** 고친다(서버 렌더와 브라우저 렌더 결과가 같아야 한다). 상품권시세 `PR:histChart`는 서버 렌더 전용이다.
+- 표식 주석 자체를 지우거나 이름을 바꾸지 않는다.
+- 표식 밖의 정적 영역(title, canonical, og 태그, 정적 본문, FAQ 화면 영역 등)은 HTML에서 직접 고친다.
+
+## 명령
+
+| 목적 | 명령 |
+| --- | --- |
+| 작업 전 동기화 | `git pull --rebase` (자동 수집 봇이 원격에 수시로 커밋한다) |
+| 프리렌더 재생성 | `python collect_deals.py --render-only`, `python collect_rates.py --render-only` (API 키 불필요, 기존 json으로 HTML만 다시 만든다) |
+| 테스트 | `python -m unittest discover -s tests` (pytest는 설치돼 있지 않다) |
+| 로컬 실행 | `html` 폴더에서 `python -m http.server 8899` → `http://127.0.0.1:8899/상품권딜.html`, `http://127.0.0.1:8899/상품권시세.html` |
+
+브라우저가 CSS·이미지를 강하게 캐시하므로 확인할 때는 주소 뒤에 `?v=임의값`을 붙인다. 파일을 더블클릭해 열면 fetch가 막혀 프리렌더된 정적 데이터만 보인다.
+
+## 규칙
+
+1. 커밋은 로컬로만 한다. push, 배포, 파일 삭제, 원격 변경은 하지 않는다. 사용자 확인 뒤 팀장(Claude Code)이 한다.
+2. 이번 작업에서 수정해도 되는 파일:
+   - `html/상품권딜.html`, `html/상품권시세.html`(인라인 style·JS 포함)
+   - `collect_deals.py`, `collect_rates.py` 중 두 페이지의 프리렌더·meta·JSON-LD·sitemap lastmod 생성 부분
+   - `tests/`(위 변경에 대한 테스트 추가)
+   - `html/img/seo/`(새 이미지), `html/llms.txt`(두 페이지 소개 추가), `html/sitemap.xml`(두 페이지 lastmod)
+   - `docs/seo/`(문서)
+   - 그 외 파일은 읽기만 한다.
+3. 기존 분석·광고·검색 코드는 삭제하거나 바꾸지 않는다: GA4 `G-W2Y87NWC7W`(gtag), 애드센스 메타 `google-adsense-account`(ca-pub-7264132893256941), `html/ads.txt`, `html/index.html`의 google·naver 사이트 인증 메타, `html/d907cfe3732b7f0d4a64d7f84e3c9c28.txt`, `html/_redirects`, `html/404.html`, `html/robots.txt`. 이유: 지우면 측정, 애드센스 심사, 사이트 인증, 색인 수정이 끊긴다.
+4. 기존 FAQ(두 페이지 각 18문항, 화면과 FAQPage JSON-LD)는 지우거나 줄이지 않는다. 보강은 기존 문항 수정·추가로 한다.
+5. 문안에 없는 수치, 후기, 인증, 제휴, 이용자 수, 순위를 코드에 넣지 않는다. 시세·딜 수치는 협회가 자동 집계한 값이며 집계 기준 시각(업데이트 시각)과 수집 대상(판매처·거래소)을 함께 표기한다. 외부 자료 수치는 출처명과 기준일을 붙인다.
+6. 비교 표현 기준: 판매처·거래소별 할인율·시세를 객관적 데이터로 나란히 보여 주는 것은 페이지의 본래 기능이므로 허용한다(출처·집계 시각 표기). 금지하는 것은 특정 업체를 깎아내리거나 우열을 단정하는 홍보성 비교, 협회 서비스와 다른 업체의 가격을 대놓고 맞대는 광고 문구다.
+7. 금지 표현: 수익 보장, 근거 없는 "최저가 보장"·"업계 1위"·"최고", "무조건", "확정", 과장된 할인율. 단, "마켓별 최고 할인율", "최저 살때 · 최고 팔때"처럼 집계 데이터의 최댓값·최솟값을 가리키는 라벨은 금지 표현이 아니다.
+8. 브랜드 주의 사항:
+   - 발행사가 부도난 상품권(해피머니 등)은 노출하지 않는다. 코드의 `BLOCKED_BRANDS` 차단을 풀지 않는다.
+   - 현금화·소액결제성 판매처는 노출하지 않는다(신뢰 필터를 완화하지 않는다).
+   - 상담·알림 안내는 채널톡(koreagiftcard.channel.io)으로 연결한다. 협회는 카카오톡 채널을 운영하지 않으므로 카카오톡 채널 안내를 쓰지 않는다.
+9. 구조화 데이터(JSON-LD)는 화면에 보이는 내용과 일치해야 하며 JSON으로 파싱되어야 한다. 프리렌더가 만드는 JSON-LD는 `build_prerender()`에서 고친다.
+10. API 키, 토큰, 비밀번호 값을 코드, 문서, 커밋 메시지에 넣지 않는다. 필요하면 환경변수 이름만 적는다.
+11. 변경 뒤에는 `--render-only` 두 개와 테스트 명령을 실행하고 결과를 보고한다.
+
+## 보고 형식
+
+변경 파일 목록, 적용한 항목, 테스트 결과, 적용하지 못한 항목과 이유를 순서대로 쓴다. 커밋 해시를 함께 적고 push하지 않았음을 명시한다.
