@@ -49,6 +49,7 @@
    - `html/img/seo/`(새 이미지), `html/llms.txt`(두 페이지 소개 추가), `html/sitemap.xml`(두 페이지 lastmod)
    - `docs/seo/`(문서)
    - 상단 메뉴 이름 변경("상품권 시세" → "백화점상품권 시세", 2026-11-19 사용자 결정)에 한해, 메뉴가 들어 있는 `html/` 아래 페이지들의 해당 메뉴 링크 글자 한 곳씩. 그 페이지의 다른 부분은 건드리지 않는다.
+   - `html/img/1/ticker-*.png` 4개: 같은 파일명·형식을 유지한 크기 축소·최적화만(2026-11-19 검수 담당 승인).
    - 그 외 파일은 읽기만 한다.
 3. 기존 분석·광고·검색 코드는 삭제하거나 바꾸지 않는다: GA4 `G-W2Y87NWC7W`(gtag), 애드센스 메타 `google-adsense-account`(ca-pub-7264132893256941), `html/ads.txt`, `html/index.html`의 google·naver 사이트 인증 메타, `html/d907cfe3732b7f0d4a64d7f84e3c9c28.txt`, `html/_redirects`, `html/404.html`, `html/robots.txt`. 이유: 지우면 측정, 애드센스 심사, 사이트 인증, 색인 수정이 끊긴다.
 4. 기존 FAQ(두 페이지 각 18문항, 화면과 FAQPage JSON-LD)는 지우거나 줄이지 않는다. 현금화·매입 수수료처럼 소비자가 실제로 궁금해하는 문항은 협회 입장에서만 보지 않고 소비자 관점에서 필요한 정보로 보아 유지한다. 보강은 기존 문항 다듬기·추가로 한다.
