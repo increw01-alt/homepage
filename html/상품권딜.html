@@ -283,6 +283,19 @@
 
         /* ---- 히어로 (좌: 타이틀·신뢰 포인트 / 우: TOP3·시세 트렌드) ---- */
         .deal_hero { display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 26px; align-items: stretch; margin-bottom: 1.6rem; }
+        /* 히어로 배경 사진 — 왼쪽 글자 영역은 흰색으로 덮어 가독성 유지 */
+        .deal_hero {
+            padding: 30px 28px; border-radius: 22px; overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.93) 50%, rgba(255,255,255,.35) 60%, rgba(255,255,255,.12) 100%),
+                url('/img/seo/deal-hero-bg.webp?v=20261119d') right center / cover no-repeat;
+            box-shadow: 0 4px 24px rgba(17, 24, 39, .06);
+        }
+        /* 배경 사진이 비쳐 보이도록 히어로 안 카드를 반투명 유리 느낌으로 */
+        .deal_hero .hero_card, .deal_hero .trust_points .tp {
+            background: rgba(255,255,255,.92);
+            -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+        }
         .hero_eyebrow { display: inline-block; font-size: 1.5rem; font-weight: 700; color: var(--po-color); margin-bottom: 1rem; }
         .deal_hero h1 { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 4.4rem; font-weight: 900; letter-spacing: -.02em; line-height: 1.18; margin: 0 0 1.4rem; color: #16181d; }
         .deal_hero h1 .accent { color: var(--po-color); }
@@ -716,6 +729,13 @@
             /* 히어로 2단 → 세로 스택 */
             .deal_hero { grid-template-columns: 1fr; gap: 20px; }
             .deal_hero h1 { font-size: 3.6rem; }
+            .deal_hero {
+                padding: 22px 18px;
+                background:
+                    linear-gradient(180deg, rgba(255,255,255,.7) 0, rgba(255,255,255,.94) 30vw, #fff 66vw),
+                    url('/img/seo/deal-hero-bg.webp?v=20261119d') center top / 100% auto no-repeat,
+                    #fff;
+            }
         }
         @media screen and (max-width: 760px) {
             .cat_chips { top: 72px; }
@@ -942,11 +962,6 @@
 
             <!-- 실측 통계 (실데이터만 표기 — 허수 금지) -->
             <div class="hero_stats" id="heroStats"><!--PR:heroStats--><div class="stat"><b>2곳</b><span>오늘 딜 노출 판매처 · 신뢰 필터 통과</span></div><div class="stat"><b>4종 · 16건</b><span>오늘의 상품권 종류 · 등록 딜</span></div><div class="stat"><b>24회</b><span>매일 자동 갱신 · 매시간 집계</span></div><!--/PR:heroStats--></div>
-
-            <!-- 상품권 핫딜 이미지 배너 (정적, 프리렌더 마커 밖) -->
-            <figure class="deal_photo_banner">
-                <img src="/img/seo/deal-banner.webp?v=20261119c" alt="신용카드를 들고 노트북으로 상품권 할인 상품을 살펴보는 상품권 핫딜 배너" width="1536" height="576" loading="lazy" decoding="async">
-            </figure>
 
             <!-- 채널톡 상담 배너 (1b 다이내믹 그라디언트) — 디자인 원본: banner-1b-embed.html
                  문구·스텝 수정 시 이 블록만 고치면 된다 (프리렌더 마커 밖이라 자동 갱신 영향 없음). -->
@@ -1199,7 +1214,7 @@
                     <span>사기·손실을 피하는 다섯 가지 기본 수칙</span>
                 </div>
                 <figure class="seo_figure seo_figure--deal">
-                    <img src="/img/seo/deal-info.webp?v=20261119c" alt="상품권 딜을 사기 전에 확인할 3단계를 나타낸 흐름도" width="1200" height="800" loading="lazy" decoding="async" style="max-width:100%;height:auto">
+                    <img src="/img/seo/deal-info.webp?v=20261119d" alt="상품권 딜을 사기 전에 확인할 3단계를 나타낸 흐름도" width="1200" height="800" loading="lazy" decoding="async" style="max-width:100%;height:auto">
                     <figcaption>
                         <ol class="seo_labels seo_labels--deal">
                             <li>① 믿을 수 있는 판매처인지 확인</li>
