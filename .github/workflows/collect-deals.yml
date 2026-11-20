@@ -105,6 +105,45 @@ jobs:
             --body "$(printf '매시간 수집에서 고할인 복귀를 감지했습니다.\n\n%s\n\n페이지: https://koreagiftcard.co.kr/상품권딜\n\n확인 후 채널톡 공지 등 필요한 곳에 공유하시고 이 이슈를 닫아 주세요.' "$summary")" \
             || echo "::warning::알림 이슈 생성 실패 (수집에는 영향 없음)"
 
+      - name: 수동딜 만료 예고 (D-3부터 GitHub 이슈, 해소되면 자동 닫기)
+        # 지마켓·옥션 등 수동딜은 checked 후 14일이 지나면 자동으로 노출에서 빠진다.
+        # 만료 예고가 실행 로그 경고에만 남아 2026-11-02 17건 일괄 만료를 아무도 못 봤고,
+        # 11번가 조회 오류와 겹쳐 12일 수집 공백이 됐다. 그래서 D-3부터 이슈로 알린다.
+        # - 만료 임박 딜이 있고 열린 [수동딜만료] 이슈가 없으면 새로 만든다(중복 생성 안 함).
+        # - 만료 임박 딜이 없어지면(checked 갱신 또는 만료 경과) 이슈를 닫으며 결과를 남긴다.
+        # 딜 수집이 실패한 실행은 deals.json 이 직전 값이라 판단하지 않는다.
+        # (github-actions 봇이 만든 이슈는 add-deal.yml 의 소유자 검사에 걸려 딜 등록으로
+        #  처리되지 않는다)
+        if: steps.deals.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          n=$(jq -r '.collect_health.manual_expiring // [] | length' html/deals.json)
+          expired=$(jq -r '.collect_health.manual_expired // 0' html/deals.json)
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | startswith("[수동딜만료]"))][0].number // empty') \
+            || { echo "::warning::이슈 목록 조회 실패 (수집에는 영향 없음)"; exit 0; }
+          echo "만료 임박 수동딜 ${n}건 / 만료 제외 ${expired}건 / 열린 이슈 ${open:-없음}"
+          if [ "$n" -gt 0 ]; then
+            if [ -n "$open" ]; then
+              echo "이미 열린 만료 예고 이슈 #${open} 이 있어 새로 만들지 않습니다."
+              exit 0
+            fi
+            list=$(jq -r '.collect_health.manual_expiring[] | "- " + .' html/deals.json)
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "[수동딜만료] $(TZ=Asia/Seoul date '+%m/%d') 만료 임박 수동딜 ${n}건" \
+              --body "$(printf '아래 수동딜이 곧 노출에서 제외됩니다(checked 후 14일 경과 시 자동 제외).\n\n%s\n\n판매처에서 가격을 다시 확인한 뒤 manual_deals.json 의 checked 를 갱신해 주세요.\n모든 딜이 11번가 조회 오류와 겹쳐 3건 미만이 되면 상품권딜 수집이 실패합니다.\n만료 임박 딜이 없어지면 이 이슈는 자동으로 닫힙니다.' "$list")" \
+              || echo "::warning::만료 예고 이슈 생성 실패 (수집에는 영향 없음)"
+          elif [ -n "$open" ]; then
+            if [ "$expired" -gt 0 ]; then
+              msg="만료 임박 딜이 없어졌습니다. 현재 만료로 노출에서 제외된 수동딜은 ${expired}건입니다 — manual_deals.json 의 checked 를 갱신하면 다시 노출됩니다."
+            else
+              msg="checked 갱신으로 만료 임박 수동딜이 모두 해소됐습니다."
+            fi
+            gh issue close "$open" --repo "$GITHUB_REPOSITORY" --comment "$msg" \
+              || echo "::warning::만료 예고 이슈 닫기 실패"
+          fi
+
       - name: 자동 갱신 건강 점검 (0건 지속 시 실행 실패로 알림)
         # 커밋·푸시 뒤에 두었으므로 이 스텝이 실패해도 사이트 갱신은 이미 반영된 상태.
         # 감시 대상은 11번가 실시간 조회 건수 — 네이버 쇼핑 검색 API 가 2026-07-31

@@ -44,7 +44,8 @@ class LiveCacheTest(unittest.TestCase):
 
     def load(self, cache, fetch):
         with patch.object(cd, "fetch_11st_live", fetch):
-            return cd.load_manual_deals(cache, path=self.manual)
+            # 4번째 값(수동딜 만료 현황)은 test_manual_expiry.py 에서 검증한다
+            return cd.load_manual_deals(cache, path=self.manual)[:3]
 
     def test_success_records_cache(self):
         cache = {}

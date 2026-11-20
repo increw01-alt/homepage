@@ -396,18 +396,19 @@ def save_live_cache(cache, path=LIVE_CACHE_PATH, now=None):
 def load_manual_deals(live_cache=None, path=None):
     """manual_deals.json 의 수동 등록 딜을 읽어 카테고리별로 반환.
 
-    반환: (카테고리별 딜, 11번가 실시간 조회 성공 수, 캐시로 대신 채운 11번가 딜 수)
+    반환: (카테고리별 딜, 11번가 실시간 조회 성공 수, 캐시로 대신 채운 11번가 딜 수,
+           수동딜 만료 현황 {"expiring": ["D-n 판매처 상품명", ...], "expired": 만료 제외 건수})
     live_cache 를 넘기면 11번가 조회 성공값을 기록하고, 조회 오류 시 그 값을 쓴다.
     """
     path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "manual_deals.json")
     if not os.path.exists(path):
-        return {}, 0, 0
+        return {}, 0, 0, {"expiring": [], "expired": 0}
     try:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
         print(f"[경고] manual_deals.json 읽기 실패: {e}")
-        return {}, 0, 0
+        return {}, 0, 0, {"expiring": [], "expired": 0}
     by_cat = {}
     expired = []   # 만료로 제외된 수동 딜 (요약 경고용)
     expiring = []  # 만료 임박 수동 딜 (요약 경고용)
@@ -515,7 +516,7 @@ def load_manual_deals(live_cache=None, path=None):
     if live_cached:
         print(f"::warning::[캐시] 11번가 조회 오류로 딜 {live_cached}건을 직전 성공값"
               f"({LIVE_CACHE_TTL_HOURS}시간 이내)으로 노출했습니다 — 11번가 응답(502/503 등)을 점검하세요.")
-    return by_cat, live_ok, live_cached
+    return by_cat, live_ok, live_cached, {"expiring": expiring, "expired": len(expired)}
 
 
 # ─────────────────────────────────────────────────────────────
@@ -1255,7 +1256,7 @@ def main():
     sellers_seen = {}
     auto_items = 0  # 네이버 API 자동수집으로 필터를 통과한 딜 수 (현재 API 폐지로 항상 0)
     live_cache = load_live_cache()
-    manual_by_cat, live_items, live_cached = load_manual_deals(live_cache)
+    manual_by_cat, live_items, live_cached, manual_expiry = load_manual_deals(live_cache)
 
     for cat in CATEGORIES:
         # 수동 등록 딜 먼저 반영 (자동수집이 놓친 특가)
@@ -1379,6 +1380,10 @@ def main():
             "new_alerts": new_alerts,
             # 11번가 조회 오류로 직전 성공값(LIVE_CACHE_TTL_HOURS 이내)을 대신 쓴 딜 수
             "live_cached": live_cached,
+            # 수동딜(지마켓·옥션 등) 만료 현황 — 워크플로가 만료 예고 이슈를 열고 닫는 데 사용.
+            # 실행 로그 경고만으로는 아무도 보지 않아 2026-11-02 일괄 만료를 놓쳤다.
+            "manual_expiring": manual_expiry["expiring"][:20],
+            "manual_expired": manual_expiry["expired"],
         },
         "summary": {"columns": columns, "rows": rows},
         "deals": deals,
