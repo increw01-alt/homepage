@@ -1234,11 +1234,16 @@ def main():
             for d in items
         ]})
 
-    # 수집이 통째로 실패(API 장애·쿼터 초과 등)한 경우 빈 페이지를 배포하지 않도록
-    # 실행 자체를 실패시켜 기존 deals.json·프리렌더를 보존한다 (조용한 실패 방지).
+    # 수집이 통째로 실패한 경우 빈 페이지를 배포하지 않도록 아무 파일도 쓰지 않고
+    # exit 1 해 기존 deals.json·프리렌더를 보존한다 (조용한 실패 방지).
+    # 워크플로는 이 스텝을 continue-on-error 로 두어 시세 수집·커밋은 계속 진행하고,
+    # 마지막 "딜 수집 실패 처리" 스텝에서 실행을 실패로 표시한 뒤 이슈로 알린다.
+    # 실제 사례(2026-11-02~11-16): 11번가가 러너 IP에 502/503 + 수동딜 일괄 만료.
     total_items = sum(len(g["items"]) for g in deals)
     if total_items < 3:
-        print(f"::error::수집된 딜이 {total_items}건뿐입니다 — API 장애 가능성. 기존 데이터를 보존하고 종료합니다.")
+        print(f"::error::수집된 딜이 {total_items}건뿐입니다(11번가 실시간 {live_items}건) — "
+              "11번가 조회 오류·manual_deals.json checked 만료 여부를 점검하세요. "
+              "기존 deals.json·프리렌더를 보존하고 종료합니다.")
         sys.exit(1)
 
     columns = [c["key"] for c in CATEGORIES]

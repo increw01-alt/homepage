@@ -32,6 +32,13 @@ jobs:
           python-version: "3.11"
 
       - name: 딜 수집 실행
+        id: deals
+        # 딜이 3건 미만이면 collect_deals.py 가 deals.json·상품권딜 프리렌더를 그대로 두고
+        # exit 1 한다. 여기서 job 을 멈추면 시세 수집·커밋까지 막혀 상품권시세도 함께
+        # 멈춘다(2026-11-02~11-16: 11번가 러너 IP 차단 + 수동딜 일괄 만료로 12일 공백).
+        # 그래서 이 스텝 실패로는 job 을 멈추지 않고, 아래 "딜 수집 실패 처리" 스텝에서
+        # 실행을 실패로 표시하고 이슈로 알린다.
+        continue-on-error: true
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
@@ -45,6 +52,7 @@ jobs:
         run: python collect_rates.py
 
       - name: 변경 시 커밋 & 푸시
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -77,6 +85,9 @@ jobs:
         # 받아 채널톡 공지 등 필요한 곳에 공유하는 반자동 알림 체계. 실패해도 수집에는 영향 없음.
         # (github-actions 봇이 만든 이슈는 add-deal.yml 의 소유자 검사에 걸려 딜 등록으로
         #  처리되지 않는다)
+        # 딜 수집이 실패한 실행에서는 deals.json 이 직전 값 그대로라 지난번 new_alerts 로
+        # 같은 알림 이슈가 매시간 다시 생기므로 건너뛴다.
+        if: steps.deals.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -118,3 +129,50 @@ jobs:
             echo "::error::시세 수집 업체가 ${rlow}회 연속 절반 미만입니다(${rok}/${rtot}) — tests/fixtures 를 갱신하고 파서를 점검하세요."
             exit 1
           fi
+
+      - name: 딜 수집 실패 처리
+        # 딜 수집 스텝은 continue-on-error 라 실패해도 job 이 green 으로 끝난다.
+        # 시세 수집·커밋을 마친 뒤 여기서 실행을 실패로 표시해 장애가 묻히지 않게 한다.
+        if: always() && steps.deals.outcome == 'failure'
+        run: |
+          echo "::error::딜 수집이 실패했습니다 — 상품권딜(deals.json·프리렌더)은 직전 데이터를 유지하고, 시세 수집·커밋은 진행했습니다. '딜 수집 실행' 스텝 로그를 확인하세요."
+          exit 1
+
+      - name: 수집 실패 알림 (GitHub 이슈, 열린 이슈가 있으면 생략)
+        # 딜 수집 또는 커밋·푸시가 실패하면 첫 실패 시점에 이슈를 만든다 — 폰의 GitHub
+        # 알림으로 바로 받기 위함. 같은 장애로 매시간 이슈가 쌓이지 않도록 열린
+        # [수집실패] 이슈가 있으면 새로 만들지 않는다. 건강 점검 스텝 실패(11번가 24회
+        # 연속 0건 등)는 기존처럼 실행 실패 알림만 쓴다.
+        # (github-actions 봇이 만든 이슈는 add-deal.yml 의 소유자 검사에 걸려 딜 등록으로
+        #  처리되지 않는다)
+        if: always() && (steps.deals.outcome == 'failure' || steps.commit.outcome == 'failure')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEALS_OUTCOME: ${{ steps.deals.outcome }}
+          COMMIT_OUTCOME: ${{ steps.commit.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | startswith("[수집실패]"))][0].number // empty')
+          if [ -n "$open" ]; then
+            echo "이미 열린 수집 실패 이슈 #${open} 이 있어 새로 만들지 않습니다."
+            exit 0
+          fi
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "[수집실패] $(TZ=Asia/Seoul date '+%m/%d %H시') 상품권 자동 수집 실패" \
+            --body "$(printf '매시간 자동 수집이 실패했습니다.\n\n- 딜 수집: %s\n- 커밋·푸시: %s\n- 실행 로그: %s\n\n딜 수집 실패 시 상품권딜 페이지는 직전 데이터를 유지합니다. 11번가 조회 오류(502/503)와 manual_deals.json 의 checked 만료 여부를 먼저 확인하세요.\n수집이 다시 성공하면 이 이슈는 자동으로 닫힙니다.' "$DEALS_OUTCOME" "$COMMIT_OUTCOME" "$RUN_URL")" \
+            || echo "::warning::수집 실패 알림 이슈 생성 실패"
+
+      - name: 수집 정상화 시 실패 이슈 닫기
+        # 열린 [수집실패] 이슈가 남아 있으면 다음 장애 때 새 이슈가 생략되므로,
+        # 딜 수집과 커밋이 다시 성공하면 자동으로 닫는다.
+        if: always() && steps.deals.outcome == 'success' && steps.commit.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          for n in $(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 --json number,title \
+              --jq '.[] | select(.title | startswith("[수집실패]")) | .number'); do
+            gh issue close "$n" --repo "$GITHUB_REPOSITORY" --comment "자동 수집이 다시 성공했습니다: $RUN_URL" \
+              || echo "::warning::이슈 #${n} 닫기 실패"
+          done
