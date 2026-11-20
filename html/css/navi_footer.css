@@ -570,3 +570,29 @@ footer .bot .right a {
 }
 
 /* max 500 */
+
+/* 상단 메뉴 8개(소액결제 메뉴 추가, 2026-11-20) — 971~1480px에서 채널톡 상담 버튼이 화면 밖으로 밀리지 않도록 간격 조정.
+   하위 메뉴(.submenu) 글자에는 영향을 주지 않도록 최상위 항목(> li > a)에만 적용한다. */
+@media screen and (min-width: 971px) and (max-width: 1480px) {
+    .pc_navi_wrap { gap: 14px; }
+    .pc_navi_wrap .menu { gap: 1.1vw; }
+    .pc_navi_wrap .menu > li > a { padding: 5px 6px; }
+    .pc_navi_wrap .navi_btn { padding: 10px 20px 11px; }
+}
+@media screen and (min-width: 1301px) and (max-width: 1480px) {
+    .pc_navi_wrap .menu { gap: 1.9vw; }
+}
+@media screen and (min-width: 1381px) and (max-width: 1480px) {
+    .pc_navi_wrap .menu { gap: 2.5vw; }
+}
+@media screen and (min-width: 971px) and (max-width: 1140px) {
+    .pc_navi_wrap .menu { gap: calc(.4vw + (100vw - 971px) * .06); }
+    .pc_navi_wrap .menu > li > a { padding: 5px 4px; font-size: 1.45rem; }
+    .pc_navi_wrap .menu > li.has-submenu > a { padding-right: 12px; }
+    .pc_navi_wrap .menu > li.deal-menu > a { padding: 7px 10px; }
+    .pc_navi_wrap .navi_btn { padding: 9px 14px 10px; }
+}
+
+/* Q&A·공지사항 페이지 전용 CSS가 .row_c를 1085px로 줄이면서 상단 메뉴 줄까지 좁아지던 문제 —
+   상단 메뉴 줄은 다른 페이지와 같은 폭(common.css .row_c 1550px)을 쓴다. */
+#gnb .pc_navi_wrap.row_c { max-width: 1550px; }

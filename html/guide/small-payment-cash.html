@@ -30,7 +30,7 @@
     <!-- css -->
     <link rel="stylesheet" href="/css/common.css?v=20260812a">
     <link rel="stylesheet" href="/css/sub_common.css?v=20260812a">
-    <link rel="stylesheet" href="/css/navi_footer.css?v=20261019b">
+    <link rel="stylesheet" href="/css/navi_footer.css?v=20261120a">
 
     <!-- js -->
     <script src="/js/jquery-3.7.1.min.js"></script>
@@ -229,28 +229,6 @@
         .spc-end .spc-btn-ghost:hover { border-color: #fff; color: #fff; }
 
 
-        /* [예시] 상단 메뉴가 8개로 늘어 971~1480px에서 버튼이 밀리지 않도록 간격만 줄인다.
-           사이트 전체에 적용할 때는 이 규칙을 navi_footer.css로 옮긴다. */
-        @media (min-width: 971px) and (max-width: 1480px) {
-            .spc-page .pc_navi_wrap { gap: 14px; }
-            .spc-page .pc_navi_wrap .menu { gap: 1.1vw; }
-            .spc-page .pc_navi_wrap .menu > li > a { padding: 5px 6px; }
-            .spc-page .pc_navi_wrap .navi_btn { padding: 10px 20px 11px; }
-        }
-        @media (min-width: 1301px) and (max-width: 1480px) {
-            .spc-page .pc_navi_wrap .menu { gap: 1.9vw; }
-        }
-        @media (min-width: 1381px) and (max-width: 1480px) {
-            .spc-page .pc_navi_wrap .menu { gap: 2.5vw; }
-        }
-        @media (min-width: 971px) and (max-width: 1140px) {
-            .spc-page .pc_navi_wrap .menu { gap: calc(.4vw + (100vw - 971px) * .06); }
-            .spc-page .pc_navi_wrap .menu > li > a { padding: 5px 4px; font-size: 1.45rem; }
-            .spc-page .pc_navi_wrap .menu > li.has-submenu > a { padding-right: 12px; }
-            .spc-page .pc_navi_wrap .menu > li.deal-menu > a { padding: 7px 10px; }
-            .spc-page .pc_navi_wrap .navi_btn { padding: 9px 14px 10px; }
-        }
-
         /* 모바일 고정 바 */
         .spc-sticky { display: none; }
 
@@ -333,7 +311,6 @@
                         </div>
                     </li>
 
-                    <!-- [예시] 소액결제 메뉴 분리: 할부 구매 아래 두 항목을 옮기고 가이드를 추가 -->
                     <li class="main-menu has-submenu">
                         <a href="/guide/small-payment-cash">소액결제</a>
                         <div class="sub-wrap">
