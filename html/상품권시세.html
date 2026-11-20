@@ -23,7 +23,7 @@
     <meta property="og:description" content="신세계·롯데·현대·갤러리아·AK 백화점 상품권의 살때·팔때 시세를 한국상품권협회가 매시간 집계하고 검증합니다.">
     <meta property="og:url" content="https://koreagiftcard.co.kr/상품권시세">
     <link rel="canonical" href="https://koreagiftcard.co.kr/상품권시세">
-    <meta property="og:image" content="https://koreagiftcard.co.kr/img/seo/price-og.webp?v=20261119b">
+    <meta property="og:image" content="https://koreagiftcard.co.kr/img/seo/price-og.webp?v=20261119e">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="한국상품권협회 백화점 상품권 시세 대표 이미지">
@@ -711,15 +711,65 @@
         .rate_intro + .rate_intro { margin-top: -1.4rem; }
 
         /* ---- 최근 30일 시세 추이 차트 ---- */
-        .hist_chart_box { background: #fff; border: 1px solid #e9eaee; border-radius: 14px;
-            padding: 18px 20px 12px; margin-bottom: 3.4rem; }
-        .hist_legend { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-            font-size: 1.3rem; color: #4a5158; margin-bottom: 6px; }
-        .hist_key { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
-        .hist_key i { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
+        .hist_chart_box { background: linear-gradient(180deg, #f7faff 0%, #fff 46%); border: 1px solid #e3e9f3;
+            border-radius: 18px; padding: 20px 22px 14px; margin-bottom: 3.4rem;
+            box-shadow: 0 10px 30px rgba(31, 79, 163, .07); }
+        .hist_legend { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            font-size: 1.3rem; color: #4a5158; margin-bottom: 10px; }
+        .hist_key { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px;
+            background: #fff; border: 1px solid #e6ebf3; border-radius: 999px;
+            box-shadow: 0 2px 8px rgba(17, 24, 39, .04); }
+        .hist_key i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .hist_key b { font-weight: 800; color: #1c2330; }
+        .hist_val { font-weight: 800; color: #1c2330; font-variant-numeric: tabular-nums; }
+        .hist_key em { font-style: normal; font-size: 1.15rem; font-weight: 800; }
+        .hist_up { color: #e5483a; } .hist_down { color: #1f6fe5; } .hist_flat { color: #9aa1ab; }
         .hist_period { margin-left: auto; color: #9aa1ab; font-size: 1.2rem; }
-        .hist_svg { width: 100%; height: auto; display: block; }
-        .hist_svg .hist_axis { font-size: 11px; fill: #9aa1ab; }
+        .hist_plot { position: relative; }
+        .hist_svg { width: 100%; height: auto; display: block; overflow: visible; touch-action: pan-y; }
+        .hist_svg .hist_axis { font-size: 11px; fill: #9aa1ab; font-variant-numeric: tabular-nums; }
+        .hist_svg .hist_grid { stroke: #e9edf4; stroke-width: 1; stroke-dasharray: 3 5; }
+        .hist_svg .hist_gapband { fill: #f1f4f9; }
+        .hist_svg .hist_gaptext { font-size: 11px; font-weight: 700; fill: #a3abb8; }
+        .hist_svg .hist_gapline { stroke-width: 1.6; stroke-dasharray: 2 5; opacity: .45; }
+        .hist_pulse { transform-box: fill-box; transform-origin: center; opacity: .35;
+            animation: histPulse 2.4s ease-out infinite; animation-delay: calc(var(--d) * .4s); }
+        @keyframes histPulse { 0% { transform: scale(.6); opacity: .45; } 100% { transform: scale(3); opacity: 0; } }
+        /* 스크립트가 있을 때만 등장 애니메이션 — 없으면 그래프는 처음부터 다 보인다 */
+        .hist_ready .hist_line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+        .hist_ready .hist_area, .hist_ready .hist_end, .hist_ready .hist_pulse { opacity: 0; }
+        .hist_in .hist_line { animation: histDraw 1.6s cubic-bezier(.45, 0, .2, 1) forwards;
+            animation-delay: calc(var(--d) * .25s); }
+        .hist_in .hist_area { animation: histFade .9s ease forwards; animation-delay: calc(1s + var(--d) * .25s); }
+        .hist_in .hist_end { animation: histFade .3s ease forwards; animation-delay: 1.7s; }
+        .hist_in .hist_pulse { animation: histPulse 2.4s ease-out 2s infinite; }
+        .hist_done .hist_line { stroke-dasharray: none; stroke-dashoffset: 0; }
+        .hist_done .hist_area, .hist_done .hist_end { opacity: 1; }
+        @keyframes histDraw { to { stroke-dashoffset: 0; } }
+        @keyframes histFade { to { opacity: 1; } }
+        .hist_cursor { stroke: #9fb3d4; stroke-width: 1; stroke-dasharray: 4 4; pointer-events: none; }
+        .hist_tip { position: absolute; top: 0; z-index: 3; min-width: 150px; padding: 10px 12px;
+            background: rgba(16, 27, 45, .92); color: #fff; border-radius: 10px; font-size: 1.25rem;
+            line-height: 1.6; pointer-events: none; box-shadow: 0 8px 22px rgba(16, 27, 45, .25);
+            transform: translateX(-50%); white-space: nowrap; }
+        .hist_tip b { display: block; font-size: 1.2rem; color: #b9c7de; margin-bottom: 2px; }
+        .hist_tip span { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+        .hist_tip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        @media (max-width: 640px) {
+            .hist_chart_box { padding: 14px 12px 10px; }
+            .hist_period { margin-left: 0; width: 100%; }
+            .hist_key { padding: 5px 10px; font-size: 1.2rem; }
+            /* 좁은 화면: 그래프를 가로로 넓게 두고 안에서 옆으로 넘겨 본다(최신 날짜가 먼저 보이게) */
+            .hist_plot { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding-bottom: 4px; }
+            .hist_svg { min-width: 620px; }
+            .hist_svg .hist_axis, .hist_svg .hist_gaptext { font-size: 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hist_pulse { animation: none; opacity: 0; }
+            .hist_ready .hist_line { stroke-dasharray: none; stroke-dashoffset: 0; }
+            .hist_ready .hist_area, .hist_ready .hist_end { opacity: 1; }
+            .hist_in .hist_line, .hist_in .hist_area, .hist_in .hist_end { animation: none; }
+        }
         .hist_empty { font-size: 1.4rem; color: #8a919e; padding: 2rem 0; text-align: center; }
         .hist_note { font-size: 1.3rem; color: #8a919e; line-height: 1.7; margin: 8px 2px 4px; }
         .rate_cards { display: grid; gap: 12px; margin-bottom: 3.4rem;
@@ -1132,6 +1182,31 @@
         @media (max-width: 640px) {
             .seo_labels { grid-template-columns: 1fr; gap: 8px; }
         }
+
+        /* ---- 첫 화면 사진(스마트폰으로 시세 확인) ----
+           넓은 화면(2열): 히어로 전체 배경으로 깔고 왼쪽 글자 영역은 흰색으로 덮는다.
+           CSS로 그린 상품권 카드 자리는 비워 사진 속 스마트폰이 보이게 한다.
+           좁은 화면(1열): 상품권 카드 자리에 사진만 둥근 카드로 보여 준다. */
+        .kgc-vouchers > * { display: none; }
+        .kgc-vouchers {
+            border-radius: 22px; overflow: hidden;
+            background: url('/img/seo/price-hero-bg.webp?v=20261119e') 78% 30% / cover no-repeat;
+            box-shadow: 0 18px 40px rgba(37, 76, 137, 0.14);
+        }
+        @media (min-width: 1140px) {
+            .kgc-market-hero {
+                background:
+                    linear-gradient(90deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 36%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 64%),
+                    url('/img/seo/price-hero-bg.webp?v=20261119e') right top / cover no-repeat,
+                    #f6f9ff;
+            }
+            .kgc-market-hero::before, .kgc-market-hero::after, .kgc-plus, .kgc-dot-field { display: none; }
+            .kgc-vouchers { background: none; box-shadow: none; }
+        }
+        .seo_figure--price { max-width: 960px; }
+        @media (min-width: 641px) {
+            .seo_labels--price { grid-template-columns: repeat(4, minmax(0, 1fr)); text-align: center; }
+        }
     </style>
 </head>
 
@@ -1444,11 +1519,73 @@
                 <span>최근 30일 살때 최저가 흐름 — 매일 자동 기록</span>
             </div>
             <div class="hist_chart_box">
-                <!--PR:histChart--><div class="hist_legend"><span class="hist_key"><i style="background:#1f4fa3"></i>신세계</span><span class="hist_key"><i style="background:#c0392b"></i>롯데</span><span class="hist_key"><i style="background:#2e8b57"></i>현대</span><span class="hist_period">10/10~11/20 · 30일</span></div><svg class="hist_svg" viewBox="0 0 680 230" role="img" aria-label="최근 30일 백화점 상품권 살때 최저가 추이"><line x1="58" y1="16.0" x2="666" y2="16.0" stroke="#eceef3" stroke-width="1"/><line x1="58" y1="77.3" x2="666" y2="77.3" stroke="#eceef3" stroke-width="1"/><line x1="58" y1="138.7" x2="666" y2="138.7" stroke="#eceef3" stroke-width="1"/><line x1="58" y1="200.0" x2="666" y2="200.0" stroke="#eceef3" stroke-width="1"/><path d="M58.0 64.6 L72.8 63.1 L87.7 52.8 L102.5 60.2 L117.3 60.2 L132.1 60.2 L147.0 60.2 L161.8 67.5 L176.6 74.9 L191.5 67.5 L206.3 74.9 L221.1 89.6 L236.0 92.5 L250.8 92.5 L265.6 89.6 L280.4 74.9 L295.3 60.2 L310.1 45.4 L324.9 52.8 L339.8 60.2 L354.6 52.8 L369.4 60.2 L384.2 60.2 L399.1 67.5 L413.9 67.5 L606.7 67.5 L621.5 67.5 L636.3 67.5 L651.2 67.5 L666.0 67.5" fill="none" stroke="#1f4fa3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M58.0 142.6 L72.8 148.5 L87.7 142.6 L102.5 148.5 L117.3 148.5 L132.1 148.5 L147.0 155.8 L161.8 170.6 L176.6 170.6 L191.5 148.5 L206.3 163.2 L221.1 148.5 L236.0 148.5 L250.8 104.3 L265.6 74.9 L280.4 74.9 L295.3 74.9 L310.1 82.2 L324.9 82.2 L339.8 89.6 L354.6 89.6 L369.4 74.9 L384.2 74.9 L399.1 74.9 L413.9 77.8 L606.7 82.2 L621.5 92.5 L636.3 99.9 L651.2 104.3 L666.0 104.3" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M58.0 60.2 L72.8 60.2 L87.7 60.2 L102.5 60.2 L117.3 60.2 L132.1 60.2 L147.0 60.2 L161.8 60.2 L176.6 60.2 L191.5 60.2 L206.3 60.2 L221.1 60.2 L236.0 60.2 L250.8 60.2 L265.6 60.2 L280.4 60.2 L295.3 60.2 L310.1 60.2 L324.9 60.2 L339.8 60.2 L354.6 60.2 L369.4 63.1 L384.2 63.1 L399.1 63.1 L413.9 67.5 L606.7 67.5 L621.5 67.5 L636.3 67.5 L651.2 67.5 L666.0 67.5" fill="none" stroke="#2e8b57" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="666.0" cy="67.5" r="3.4" fill="#1f4fa3"/><circle cx="666.0" cy="104.3" r="3.4" fill="#c0392b"/><circle cx="666.0" cy="67.5" r="3.4" fill="#2e8b57"/><text x="50" y="45" text-anchor="end" class="hist_axis">96,600원</text><text x="50" y="171" text-anchor="end" class="hist_axis">95,750원</text><text x="58" y="222" text-anchor="start" class="hist_axis">10/10</text><text x="362" y="222" text-anchor="middle" class="hist_axis">10/25</text><text x="666" y="222" text-anchor="end" class="hist_axis">11/20</text></svg><!--/PR:histChart-->
+                <!--PR:histChart--><div class="hist_legend"><span class="hist_key"><i style="background:#1f4fa3"></i><b>신세계</b><span class="hist_val">96,450원</span><em class="hist_down">▼20</em></span><span class="hist_key"><i style="background:#c0392b"></i><b>롯데</b><span class="hist_val">96,200원</span><em class="hist_up">▲260</em></span><span class="hist_key"><i style="background:#2e8b57"></i><b>현대</b><span class="hist_val">96,450원</span><em class="hist_down">▼50</em></span><span class="hist_period">10/10~11/20 · 30일 · 기간 대비 변동</span></div><div class="hist_plot"><svg class="hist_svg" viewBox="0 0 720 280" role="img" aria-label="최근 30일 백화점 상품권 살때 최저가 추이" data-chart="{&quot;x&quot;:[66.0,81.5,97.0,112.5,128.0,143.6,159.1,174.6,190.1,205.6,221.1,236.6,252.1,267.7,283.2,298.7,314.2,329.7,345.2,360.7,376.2,391.8,407.3,422.8,438.3,640.0,655.5,671.0,686.5,702.0],&quot;d&quot;:[&quot;10/10&quot;,&quot;10/11&quot;,&quot;10/12&quot;,&quot;10/13&quot;,&quot;10/14&quot;,&quot;10/15&quot;,&quot;10/16&quot;,&quot;10/17&quot;,&quot;10/18&quot;,&quot;10/19&quot;,&quot;10/20&quot;,&quot;10/21&quot;,&quot;10/22&quot;,&quot;10/23&quot;,&quot;10/24&quot;,&quot;10/25&quot;,&quot;10/26&quot;,&quot;10/27&quot;,&quot;10/28&quot;,&quot;10/29&quot;,&quot;10/30&quot;,&quot;10/31&quot;,&quot;11/1&quot;,&quot;11/2&quot;,&quot;11/3&quot;,&quot;11/16&quot;,&quot;11/17&quot;,&quot;11/18&quot;,&quot;11/19&quot;,&quot;11/20&quot;],&quot;y0&quot;:18,&quot;y1&quot;:246,&quot;lo&quot;:95600,&quot;hi&quot;:96800,&quot;w&quot;:720,&quot;s&quot;:[{&quot;n&quot;:&quot;신세계&quot;,&quot;c&quot;:&quot;#1f4fa3&quot;,&quot;v&quot;:[96470,96480,96550,96500,96500,96500,96500,96450,96400,96450,96400,96300,96280,96280,96300,96400,96500,96600,96550,96500,96550,96500,96500,96450,96450,96450,96450,96450,96450,96450]},{&quot;n&quot;:&quot;롯데&quot;,&quot;c&quot;:&quot;#c0392b&quot;,&quot;v&quot;:[95940,95900,95940,95900,95900,95900,95850,95750,95750,95900,95800,95900,95900,96200,96400,96400,96400,96350,96350,96300,96300,96400,96400,96400,96380,96350,96280,96230,96200,96200]},{&quot;n&quot;:&quot;현대&quot;,&quot;c&quot;:&quot;#2e8b57&quot;,&quot;v&quot;:[96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96500,96480,96480,96480,96450,96450,96450,96450,96450,96450]}]}"><defs><linearGradient id="histFill0" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1f4fa3" stop-opacity="0.09"/><stop offset="55%" stop-color="#1f4fa3" stop-opacity="0.02"/><stop offset="100%" stop-color="#1f4fa3" stop-opacity="0"/></linearGradient><linearGradient id="histFill1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c0392b" stop-opacity="0.09"/><stop offset="55%" stop-color="#c0392b" stop-opacity="0.02"/><stop offset="100%" stop-color="#c0392b" stop-opacity="0"/></linearGradient><linearGradient id="histFill2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2e8b57" stop-opacity="0.09"/><stop offset="55%" stop-color="#2e8b57" stop-opacity="0.02"/><stop offset="100%" stop-color="#2e8b57" stop-opacity="0"/></linearGradient></defs><line class="hist_grid" x1="66" y1="246.0" x2="702" y2="246.0"/><line class="hist_grid" x1="66" y1="189.0" x2="702" y2="189.0"/><line class="hist_grid" x1="66" y1="132.0" x2="702" y2="132.0"/><line class="hist_grid" x1="66" y1="75.0" x2="702" y2="75.0"/><line class="hist_grid" x1="66" y1="18.0" x2="702" y2="18.0"/><rect class="hist_gapband" x="438.3" y="18" width="201.7" height="228"/><text class="hist_gaptext" x="539.1" y="32" text-anchor="middle">데이터 없음 11/4~11/15</text><path class="hist_area" style="--d:0" d="M66.0 80.7 C71.2 80.2 76.3 80.6 81.5 78.8 C86.7 77.0 91.9 65.5 97.0 65.5 C102.2 65.5 107.4 75.0 112.5 75.0 C117.7 75.0 122.9 75.0 128.0 75.0 C133.2 75.0 138.4 75.0 143.6 75.0 C148.7 75.0 153.9 75.0 159.1 75.0 C164.2 75.0 169.4 81.3 174.6 84.5 C179.8 87.7 184.9 94.0 190.1 94.0 C195.3 94.0 200.4 84.5 205.6 84.5 C210.8 84.5 216.0 89.2 221.1 94.0 C226.3 98.8 231.5 109.2 236.6 113.0 C241.8 116.8 247.0 116.8 252.1 116.8 C257.3 116.8 262.5 116.8 267.7 116.8 C272.8 116.8 278.0 116.8 283.2 113.0 C288.3 109.2 293.5 100.3 298.7 94.0 C303.9 87.7 309.0 81.3 314.2 75.0 C319.4 68.7 324.5 56.0 329.7 56.0 C334.9 56.0 340.0 62.3 345.2 65.5 C350.4 68.7 355.6 75.0 360.7 75.0 C365.9 75.0 371.1 65.5 376.2 65.5 C381.4 65.5 386.6 75.0 391.8 75.0 C396.9 75.0 402.1 75.0 407.3 75.0 C412.4 75.0 417.6 84.5 422.8 84.5 C428.0 84.5 433.1 84.5 438.3 84.5 L438.3 246 L66.0 246 Z M640.0 84.5 C645.1 84.5 650.3 84.5 655.5 84.5 C660.6 84.5 665.8 84.5 671.0 84.5 C676.1 84.5 681.3 84.5 686.5 84.5 C691.7 84.5 696.8 84.5 702.0 84.5 L702.0 246 L640.0 246 Z" fill="url(#histFill0)"/><path class="hist_area" style="--d:1" d="M66.0 181.4 C71.2 183.9 76.3 189.0 81.5 189.0 C86.7 189.0 91.9 181.4 97.0 181.4 C102.2 181.4 107.4 189.0 112.5 189.0 C117.7 189.0 122.9 189.0 128.0 189.0 C133.2 189.0 138.4 189.0 143.6 189.0 C148.7 189.0 153.9 193.8 159.1 198.5 C164.2 203.2 169.4 217.5 174.6 217.5 C179.8 217.5 184.9 217.5 190.1 217.5 C195.3 217.5 200.4 189.0 205.6 189.0 C210.8 189.0 216.0 208.0 221.1 208.0 C226.3 208.0 231.5 189.0 236.6 189.0 C241.8 189.0 247.0 189.0 252.1 189.0 C257.3 189.0 262.5 147.8 267.7 132.0 C272.8 116.2 278.0 94.0 283.2 94.0 C288.3 94.0 293.5 94.0 298.7 94.0 C303.9 94.0 309.0 94.0 314.2 94.0 C319.4 94.0 324.5 103.5 329.7 103.5 C334.9 103.5 340.0 103.5 345.2 103.5 C350.4 103.5 355.6 113.0 360.7 113.0 C365.9 113.0 371.1 113.0 376.2 113.0 C381.4 113.0 386.6 94.0 391.8 94.0 C396.9 94.0 402.1 94.0 407.3 94.0 C412.4 94.0 417.6 94.0 422.8 94.0 C428.0 94.0 433.1 96.5 438.3 97.8 L438.3 246 L66.0 246 Z M640.0 103.5 C645.1 107.9 650.3 113.0 655.5 116.8 C660.6 120.6 665.8 123.8 671.0 126.3 C676.1 128.8 681.3 132.0 686.5 132.0 C691.7 132.0 696.8 132.0 702.0 132.0 L702.0 246 L640.0 246 Z" fill="url(#histFill1)"/><path class="hist_area" style="--d:2" d="M66.0 75.0 C71.2 75.0 76.3 75.0 81.5 75.0 C86.7 75.0 91.9 75.0 97.0 75.0 C102.2 75.0 107.4 75.0 112.5 75.0 C117.7 75.0 122.9 75.0 128.0 75.0 C133.2 75.0 138.4 75.0 143.6 75.0 C148.7 75.0 153.9 75.0 159.1 75.0 C164.2 75.0 169.4 75.0 174.6 75.0 C179.8 75.0 184.9 75.0 190.1 75.0 C195.3 75.0 200.4 75.0 205.6 75.0 C210.8 75.0 216.0 75.0 221.1 75.0 C226.3 75.0 231.5 75.0 236.6 75.0 C241.8 75.0 247.0 75.0 252.1 75.0 C257.3 75.0 262.5 75.0 267.7 75.0 C272.8 75.0 278.0 75.0 283.2 75.0 C288.3 75.0 293.5 75.0 298.7 75.0 C303.9 75.0 309.0 75.0 314.2 75.0 C319.4 75.0 324.5 75.0 329.7 75.0 C334.9 75.0 340.0 75.0 345.2 75.0 C350.4 75.0 355.6 75.0 360.7 75.0 C365.9 75.0 371.1 75.0 376.2 75.0 C381.4 75.0 386.6 78.8 391.8 78.8 C396.9 78.8 402.1 78.8 407.3 78.8 C412.4 78.8 417.6 78.8 422.8 78.8 C428.0 78.8 433.1 82.6 438.3 84.5 L438.3 246 L66.0 246 Z M640.0 84.5 C645.1 84.5 650.3 84.5 655.5 84.5 C660.6 84.5 665.8 84.5 671.0 84.5 C676.1 84.5 681.3 84.5 686.5 84.5 C691.7 84.5 696.8 84.5 702.0 84.5 L702.0 246 L640.0 246 Z" fill="url(#histFill2)"/><line class="hist_gapline" x1="438.3" y1="84.5" x2="640.0" y2="84.5" stroke="#1f4fa3"/><path class="hist_line" style="--d:0" pathLength="1" d="M66.0 80.7 C71.2 80.2 76.3 80.6 81.5 78.8 C86.7 77.0 91.9 65.5 97.0 65.5 C102.2 65.5 107.4 75.0 112.5 75.0 C117.7 75.0 122.9 75.0 128.0 75.0 C133.2 75.0 138.4 75.0 143.6 75.0 C148.7 75.0 153.9 75.0 159.1 75.0 C164.2 75.0 169.4 81.3 174.6 84.5 C179.8 87.7 184.9 94.0 190.1 94.0 C195.3 94.0 200.4 84.5 205.6 84.5 C210.8 84.5 216.0 89.2 221.1 94.0 C226.3 98.8 231.5 109.2 236.6 113.0 C241.8 116.8 247.0 116.8 252.1 116.8 C257.3 116.8 262.5 116.8 267.7 116.8 C272.8 116.8 278.0 116.8 283.2 113.0 C288.3 109.2 293.5 100.3 298.7 94.0 C303.9 87.7 309.0 81.3 314.2 75.0 C319.4 68.7 324.5 56.0 329.7 56.0 C334.9 56.0 340.0 62.3 345.2 65.5 C350.4 68.7 355.6 75.0 360.7 75.0 C365.9 75.0 371.1 65.5 376.2 65.5 C381.4 65.5 386.6 75.0 391.8 75.0 C396.9 75.0 402.1 75.0 407.3 75.0 C412.4 75.0 417.6 84.5 422.8 84.5 C428.0 84.5 433.1 84.5 438.3 84.5 M640.0 84.5 C645.1 84.5 650.3 84.5 655.5 84.5 C660.6 84.5 665.8 84.5 671.0 84.5 C676.1 84.5 681.3 84.5 686.5 84.5 C691.7 84.5 696.8 84.5 702.0 84.5" fill="none" stroke="#1f4fa3" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><line class="hist_gapline" x1="438.3" y1="97.8" x2="640.0" y2="103.5" stroke="#c0392b"/><path class="hist_line" style="--d:1" pathLength="1" d="M66.0 181.4 C71.2 183.9 76.3 189.0 81.5 189.0 C86.7 189.0 91.9 181.4 97.0 181.4 C102.2 181.4 107.4 189.0 112.5 189.0 C117.7 189.0 122.9 189.0 128.0 189.0 C133.2 189.0 138.4 189.0 143.6 189.0 C148.7 189.0 153.9 193.8 159.1 198.5 C164.2 203.2 169.4 217.5 174.6 217.5 C179.8 217.5 184.9 217.5 190.1 217.5 C195.3 217.5 200.4 189.0 205.6 189.0 C210.8 189.0 216.0 208.0 221.1 208.0 C226.3 208.0 231.5 189.0 236.6 189.0 C241.8 189.0 247.0 189.0 252.1 189.0 C257.3 189.0 262.5 147.8 267.7 132.0 C272.8 116.2 278.0 94.0 283.2 94.0 C288.3 94.0 293.5 94.0 298.7 94.0 C303.9 94.0 309.0 94.0 314.2 94.0 C319.4 94.0 324.5 103.5 329.7 103.5 C334.9 103.5 340.0 103.5 345.2 103.5 C350.4 103.5 355.6 113.0 360.7 113.0 C365.9 113.0 371.1 113.0 376.2 113.0 C381.4 113.0 386.6 94.0 391.8 94.0 C396.9 94.0 402.1 94.0 407.3 94.0 C412.4 94.0 417.6 94.0 422.8 94.0 C428.0 94.0 433.1 96.5 438.3 97.8 M640.0 103.5 C645.1 107.9 650.3 113.0 655.5 116.8 C660.6 120.6 665.8 123.8 671.0 126.3 C676.1 128.8 681.3 132.0 686.5 132.0 C691.7 132.0 696.8 132.0 702.0 132.0" fill="none" stroke="#c0392b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><line class="hist_gapline" x1="438.3" y1="84.5" x2="640.0" y2="84.5" stroke="#2e8b57"/><path class="hist_line" style="--d:2" pathLength="1" d="M66.0 75.0 C71.2 75.0 76.3 75.0 81.5 75.0 C86.7 75.0 91.9 75.0 97.0 75.0 C102.2 75.0 107.4 75.0 112.5 75.0 C117.7 75.0 122.9 75.0 128.0 75.0 C133.2 75.0 138.4 75.0 143.6 75.0 C148.7 75.0 153.9 75.0 159.1 75.0 C164.2 75.0 169.4 75.0 174.6 75.0 C179.8 75.0 184.9 75.0 190.1 75.0 C195.3 75.0 200.4 75.0 205.6 75.0 C210.8 75.0 216.0 75.0 221.1 75.0 C226.3 75.0 231.5 75.0 236.6 75.0 C241.8 75.0 247.0 75.0 252.1 75.0 C257.3 75.0 262.5 75.0 267.7 75.0 C272.8 75.0 278.0 75.0 283.2 75.0 C288.3 75.0 293.5 75.0 298.7 75.0 C303.9 75.0 309.0 75.0 314.2 75.0 C319.4 75.0 324.5 75.0 329.7 75.0 C334.9 75.0 340.0 75.0 345.2 75.0 C350.4 75.0 355.6 75.0 360.7 75.0 C365.9 75.0 371.1 75.0 376.2 75.0 C381.4 75.0 386.6 78.8 391.8 78.8 C396.9 78.8 402.1 78.8 407.3 78.8 C412.4 78.8 417.6 78.8 422.8 78.8 C428.0 78.8 433.1 82.6 438.3 84.5 M640.0 84.5 C645.1 84.5 650.3 84.5 655.5 84.5 C660.6 84.5 665.8 84.5 671.0 84.5 C676.1 84.5 681.3 84.5 686.5 84.5 C691.7 84.5 696.8 84.5 702.0 84.5" fill="none" stroke="#2e8b57" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle class="hist_pulse" style="--d:0" cx="702.0" cy="84.5" r="5" fill="#1f4fa3"/><circle class="hist_end" cx="702.0" cy="84.5" r="4.2" fill="#fff" stroke="#1f4fa3" stroke-width="2.6"/><circle class="hist_pulse" style="--d:1" cx="702.0" cy="132.0" r="5" fill="#c0392b"/><circle class="hist_end" cx="702.0" cy="132.0" r="4.2" fill="#fff" stroke="#c0392b" stroke-width="2.6"/><circle class="hist_pulse" style="--d:2" cx="702.0" cy="84.5" r="5" fill="#2e8b57"/><circle class="hist_end" cx="702.0" cy="84.5" r="4.2" fill="#fff" stroke="#2e8b57" stroke-width="2.6"/><text x="56" y="250.0" text-anchor="end" class="hist_axis">95,600원</text><text x="56" y="193.0" text-anchor="end" class="hist_axis">95,900원</text><text x="56" y="136.0" text-anchor="end" class="hist_axis">96,200원</text><text x="56" y="79.0" text-anchor="end" class="hist_axis">96,500원</text><text x="56" y="22.0" text-anchor="end" class="hist_axis">96,800원</text><text x="66.0" y="270" text-anchor="start" class="hist_axis">10/10</text><text x="174.6" y="270" text-anchor="middle" class="hist_axis">10/17</text><text x="283.2" y="270" text-anchor="middle" class="hist_axis">10/24</text><text x="407.3" y="270" text-anchor="middle" class="hist_axis">11/1</text><text x="702.0" y="270" text-anchor="end" class="hist_axis">11/20</text></svg><div class="hist_tip" hidden></div></div><!--/PR:histChart-->
                 <p class="hist_note">살때 최저가 기준입니다. 살때와 팔때 시세는 대체로 함께 움직이므로,
                     흐름이 내려가는 시기에는 매도를 서두르지 않는 것이 유리합니다. 월말에는 법인 물량이
                     풀려 내려가고 월 중순에 회복되는 경향이 있습니다.</p>
             </div>
+            <script>
+            /* 30일 추이: 화면에 들어올 때 선이 그려지는 효과 + 마우스·터치 툴팁.
+               그래프 자체는 서버가 구운 SVG 이고, 이 스크립트가 없어도 그대로 보인다. */
+            (function () {
+                var box = document.querySelector('.hist_chart_box');
+                var svg = box && box.querySelector('.hist_svg');
+                if (!svg || !svg.dataset.chart) return;
+                var data; try { data = JSON.parse(svg.dataset.chart); } catch (e) { return; }
+                var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (!reduce && 'IntersectionObserver' in window) {
+                    box.classList.add('hist_ready');
+                    var started = false;
+                    var start = function () {
+                        if (started) return; started = true;
+                        box.classList.add('hist_in'); io.disconnect();
+                        /* 애니메이션이 멈춘 환경(백그라운드 탭 등)에서도 결국 선이 보이도록 */
+                        setTimeout(function () { box.classList.add('hist_done'); }, 2600);
+                    };
+                    var io = new IntersectionObserver(function (es) {
+                        es.forEach(function (e) { if (e.isIntersecting) start(); });
+                    }, { threshold: 0.15 });
+                    io.observe(box);
+                    /* 감지가 안 되는 환경에서도 선이 숨은 채로 남지 않게 */
+                    setTimeout(start, 5000);
+                }
+                var plot = box.querySelector('.hist_plot');
+                if (plot && plot.scrollWidth > plot.clientWidth) plot.scrollLeft = plot.scrollWidth;
+                var NS = 'http://www.w3.org/2000/svg';
+                var tip = box.querySelector('.hist_tip');
+                var cur = document.createElementNS(NS, 'line');
+                cur.setAttribute('class', 'hist_cursor'); cur.setAttribute('y1', data.y0); cur.setAttribute('y2', data.y1);
+                cur.style.display = 'none'; svg.appendChild(cur);
+                var marks = data.s.map(function (s) {
+                    var c = document.createElementNS(NS, 'circle');
+                    c.setAttribute('r', 5); c.setAttribute('fill', '#fff'); c.setAttribute('stroke', s.c);
+                    c.setAttribute('stroke-width', 3); c.style.display = 'none'; c.style.pointerEvents = 'none';
+                    svg.appendChild(c); return c;
+                });
+                var yOf = function (v) { return data.y0 + (data.hi - v) * (data.y1 - data.y0) / (data.hi - data.lo); };
+                var fmt = function (v) { return v == null ? '—' : v.toLocaleString('ko-KR') + '원'; };
+                function show(clientX) {
+                    var r = svg.getBoundingClientRect(), vx = (clientX - r.left) * data.w / r.width, k = 0;
+                    data.x.forEach(function (x, i) { if (Math.abs(x - vx) < Math.abs(data.x[k] - vx)) k = i; });
+                    var x = data.x[k];
+                    cur.setAttribute('x1', x); cur.setAttribute('x2', x); cur.style.display = '';
+                    var html = '<b>' + data.d[k] + ' 살때 최저가</b>';
+                    data.s.forEach(function (s, i) {
+                        var v = s.v[k];
+                        if (v == null) { marks[i].style.display = 'none'; }
+                        else { marks[i].setAttribute('cx', x); marks[i].setAttribute('cy', yOf(v)); marks[i].style.display = ''; }
+                        html += '<span><i style="background:' + s.c + '"></i>' + s.n + ' ' + fmt(v) + '</span>';
+                    });
+                    tip.innerHTML = html; tip.hidden = false;
+                    var left = x * r.width / data.w, half = tip.offsetWidth / 2;
+                    tip.style.left = Math.min(Math.max(left, half), r.width - half) + 'px';
+                }
+                function hide() { cur.style.display = 'none'; tip.hidden = true; marks.forEach(function (m) { m.style.display = 'none'; }); }
+                svg.addEventListener('pointermove', function (e) { show(e.clientX); });
+                svg.addEventListener('pointerdown', function (e) { show(e.clientX); });
+                svg.addEventListener('pointerleave', hide);
+            })();
+            </script>
 
             <!-- 시세 읽는 법 — 표만 있으면 검색엔진이 '가격표'로만 본다.
                  설명 문장이 있어야 '백화점 상품권 시세를 다루는 문서'로 읽힌다. -->
@@ -1457,7 +1594,7 @@
                 <span>살때·팔때 차이와 종류별 특징</span>
             </div>
                 <figure class="seo_figure seo_figure--price">
-                    <img src="/img/seo/price-info.webp?v=20261119b" alt="백화점 상품권 시세를 볼 때 확인할 네 가지 요소 도식" width="1200" height="900" loading="lazy" decoding="async" style="max-width:100%;height:auto">
+                    <img src="/img/seo/price-info.webp?v=20261119e" alt="백화점 상품권 시세를 볼 때 확인할 네 가지 요소: 기준 시각, 살때·팔때 차이, 권종·액면가, 상태·거래 조건" width="1200" height="550" loading="lazy" decoding="async" style="max-width:100%;height:auto">
                     <figcaption>
                         <ul class="seo_labels seo_labels--price">
                             <li>집계 기준 시각</li>

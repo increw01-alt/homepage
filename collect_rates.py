@@ -241,10 +241,44 @@ def update_daily_history(result):
         print(f"::warning::일별 시세 이력 기록 실패: {e}")
 
 
+def _smooth_path(pts):
+    """점 목록을 단조 3차 곡선(Fritsch–Carlson) SVG 경로로 바꾼다.
+
+    값이 실제보다 튀어 오르거나 내려가는 '오버슈트'가 없어 시세 그래프에 맞다.
+    """
+    n = len(pts)
+    if n < 3:
+        return "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts)
+    xs = [p[0] for p in pts]
+    ys = [p[1] for p in pts]
+    dx = [xs[i + 1] - xs[i] or 1e-6 for i in range(n - 1)]
+    m = [(ys[i + 1] - ys[i]) / dx[i] for i in range(n - 1)]
+    t = [m[0]] + [0.0 if m[i - 1] * m[i] <= 0 else (m[i - 1] + m[i]) / 2
+                  for i in range(1, n - 1)] + [m[-1]]
+    for i in range(n - 1):
+        if m[i] == 0:
+            t[i] = t[i + 1] = 0.0
+            continue
+        a, b = t[i] / m[i], t[i + 1] / m[i]
+        s = a * a + b * b
+        if s > 9:
+            k = 3 / s ** 0.5
+            t[i], t[i + 1] = k * a * m[i], k * b * m[i]
+    d = [f"M{xs[0]:.1f} {ys[0]:.1f}"]
+    for i in range(n - 1):
+        h = dx[i] / 3
+        d.append(f"C{xs[i] + h:.1f} {ys[i] + t[i] * h:.1f} "
+                 f"{xs[i + 1] - h:.1f} {ys[i + 1] - t[i + 1] * h:.1f} "
+                 f"{xs[i + 1]:.1f} {ys[i + 1]:.1f}")
+    return " ".join(d)
+
+
 def build_history_chart():
     """일별 이력으로 최근 30일 살때 최저가 추이 SVG 를 만든다 (서버 렌더 전용 구간).
 
-    JS 렌더러는 이 구간을 건드리지 않으므로 파리티 의무가 없다.
+    JS 렌더러는 이 구간을 다시 그리지 않으므로 파리티 의무가 없다. 페이지의 작은
+    스크립트가 svg 의 data-chart 값으로 마우스·터치 툴팁과 등장 애니메이션만 더한다
+    (스크립트가 없어도 그래프는 그대로 보인다).
     데이터가 3일 미만이면 안내 문구를 반환한다.
     """
     try:
@@ -263,55 +297,112 @@ def build_history_chart():
         y, m, d = s.split("-")
         return _date(int(y), int(m), int(d)).toordinal()
 
+    def dlabel(s):
+        return f"{int(s[5:7])}/{int(s[8:10])}"
+
     x0, x1 = ord_(usable[0]["d"]), ord_(usable[-1]["d"])
     span = max(x1 - x0, 1)
-    PL, PR_, PT, PB = 58, 14, 16, 30          # 플롯 여백
-    W, H = 680, 230
+    PL, PR_, PT, PB = 66, 18, 18, 34          # 플롯 여백
+    W, H = 720, 280
     px = lambda o: PL + (o - x0) * (W - PL - PR_) / span
 
     vals = [e[b]["buy"] for e in usable for b in DAILY_CHART_BRANDS
             if b in e and e[b].get("buy")]
     lo, hi = min(vals), max(vals)
-    pad = max((hi - lo) * 0.15, 200)
-    lo, hi = lo - pad, hi + pad
+    # 눈금이 100원 단위로 떨어지도록 위아래를 넓힌다
+    step = max(100, ((hi - lo) // 3 // 100 + 1) * 100)
+    lo = (lo - step // 2) // 100 * 100
+    hi = lo + step * 4
+    while hi < max(vals) + step // 4:
+        hi += step
     py = lambda v: PT + (hi - v) * (H - PT - PB) / (hi - lo)
+    base_y = H - PB
 
-    lines, dots = [], []
-    for b in DAILY_CHART_BRANDS:
+    # 가로 눈금선·세로 금액 라벨
+    grid, axis = [], []
+    v = lo
+    while v <= hi:
+        y = py(v)
+        grid.append(f'<line class="hist_grid" x1="{PL}" y1="{y:.1f}" x2="{W - PR_}" y2="{y:.1f}"/>')
+        axis.append(f'<text x="{PL - 10}" y="{y + 4:.1f}" text-anchor="end" class="hist_axis">{won(int(v))}</text>')
+        v += step
+    # 날짜 라벨 — 처음·끝과 그 사이 3곳
+    idxs = sorted({0, len(usable) - 1} | {round((len(usable) - 1) * k / 4) for k in (1, 2, 3)})
+    for i in idxs:
+        x = px(ord_(usable[i]["d"]))
+        anchor = "start" if i == 0 else "end" if i == len(usable) - 1 else "middle"
+        axis.append(f'<text x="{x:.1f}" y="{H - 10}" text-anchor="{anchor}" class="hist_axis">{dlabel(usable[i]["d"])}</text>')
+
+    # 수집이 끊긴 날(이틀 넘게 기록 없음)은 선을 잇지 않고 '데이터 없음' 구간으로 표시한다
+    gaps = []
+    for a, b2 in zip(usable, usable[1:]):
+        if ord_(b2["d"]) - ord_(a["d"]) > 2:
+            gaps.append((ord_(a["d"]), ord_(b2["d"])))
+    gap_marks = []
+    for g0, g1 in gaps:
+        gx0, gx1 = px(g0), px(g1)
+        gap_marks.append(
+            f'<rect class="hist_gapband" x="{gx0:.1f}" y="{PT}" width="{gx1 - gx0:.1f}" height="{base_y - PT}"/>'
+            f'<text class="hist_gaptext" x="{(gx0 + gx1) / 2:.1f}" y="{PT + 14}" text-anchor="middle">'
+            f'데이터 없음 {dlabel(_date.fromordinal(g0 + 1).isoformat())}~{dlabel(_date.fromordinal(g1 - 1).isoformat())}</text>')
+
+    defs, areas, lines, dots, legend, series = [], [], [], [], [], []
+    for k, b in enumerate(DAILY_CHART_BRANDS):
+        c = DAILY_CHART_COLORS[b]
         pts = [(px(ord_(e["d"])), py(e[b]["buy"]))
                for e in usable if b in e and e[b].get("buy")]
+        row = [e[b]["buy"] if b in e and e[b].get("buy") else None for e in usable]
+        series.append({"n": b, "c": c, "v": row})
         if len(pts) < 2:
             continue
-        c = DAILY_CHART_COLORS[b]
-        path = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts)
-        lines.append(f'<path d="{path}" fill="none" stroke="{c}" stroke-width="2.2" '
-                     f'stroke-linecap="round" stroke-linejoin="round"/>')
+        # 공백 구간에서 선을 끊어 여러 조각으로 그린다
+        ords = [ord_(e["d"]) for e in usable if b in e and e[b].get("buy")]
+        segs, cur = [], [pts[0]]
+        for i in range(1, len(pts)):
+            if ords[i] - ords[i - 1] > 2:
+                segs.append(cur); cur = []
+            cur.append(pts[i])
+        segs.append(cur)
+        path = " ".join(_smooth_path(sg) for sg in segs if len(sg) >= 1)
+        area_d = " ".join(f"{_smooth_path(sg)} L{sg[-1][0]:.1f} {base_y} L{sg[0][0]:.1f} {base_y} Z"
+                          for sg in segs if len(sg) >= 2)
+        for sa, sb in zip(segs, segs[1:]):
+            lines.append(f'<line class="hist_gapline" x1="{sa[-1][0]:.1f}" y1="{sa[-1][1]:.1f}" '
+                         f'x2="{sb[0][0]:.1f}" y2="{sb[0][1]:.1f}" stroke="{c}"/>')
+        defs.append(f'<linearGradient id="histFill{k}" x1="0" y1="0" x2="0" y2="1">'
+                    f'<stop offset="0%" stop-color="{c}" stop-opacity="0.09"/>'
+                    f'<stop offset="55%" stop-color="{c}" stop-opacity="0.02"/>'
+                    f'<stop offset="100%" stop-color="{c}" stop-opacity="0"/></linearGradient>')
+        areas.append(f'<path class="hist_area" style="--d:{k}" d="{area_d}" fill="url(#histFill{k})"/>')
+        lines.append(f'<path class="hist_line" style="--d:{k}" pathLength="1" d="{path}" fill="none" '
+                     f'stroke="{c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>')
         x, y = pts[-1]
-        dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.4" fill="{c}"/>')
+        dots.append(f'<circle class="hist_pulse" style="--d:{k}" cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{c}"/>'
+                    f'<circle class="hist_end" cx="{x:.1f}" cy="{y:.1f}" r="4.2" fill="#fff" '
+                    f'stroke="{c}" stroke-width="2.6"/>')
+        first = next(p for p in row if p)
+        last = next(p for p in reversed(row) if p)
+        diff = last - first
+        mark = (f'<em class="hist_up">▲{diff:,}</em>' if diff > 0 else
+                f'<em class="hist_down">▼{-diff:,}</em>' if diff < 0 else
+                '<em class="hist_flat">변동 없음</em>')
+        legend.append(f'<span class="hist_key"><i style="background:{c}"></i>'
+                      f'<b>{esc(b)}</b><span class="hist_val">{won(last)}</span>{mark}</span>')
 
-    # 축 라벨 — 세로는 상·하단 값, 가로는 처음·중간·끝 날짜
-    def dlabel(s):
-        return f"{int(s[5:7])}/{int(s[8:10])}"
-    mid = usable[len(usable) // 2]["d"]
-    axis = (
-        f'<text x="{PL - 8}" y="{py(hi - pad):.0f}" text-anchor="end" class="hist_axis">{won(round(hi - pad))}</text>'
-        f'<text x="{PL - 8}" y="{py(lo + pad):.0f}" text-anchor="end" class="hist_axis">{won(round(lo + pad))}</text>'
-        f'<text x="{PL}" y="{H - 8}" text-anchor="start" class="hist_axis">{dlabel(usable[0]["d"])}</text>'
-        f'<text x="{(PL + W - PR_) / 2:.0f}" y="{H - 8}" text-anchor="middle" class="hist_axis">{dlabel(mid)}</text>'
-        f'<text x="{W - PR_}" y="{H - 8}" text-anchor="end" class="hist_axis">{dlabel(usable[-1]["d"])}</text>')
-    grid = "".join(
-        f'<line x1="{PL}" y1="{PT + i * (H - PT - PB) / 3:.1f}" x2="{W - PR_}" '
-        f'y2="{PT + i * (H - PT - PB) / 3:.1f}" stroke="#eceef3" stroke-width="1"/>'
-        for i in range(4))
-    legend = "".join(
-        f'<span class="hist_key"><i style="background:{DAILY_CHART_COLORS[b]}"></i>{esc(b)}</span>'
-        for b in DAILY_CHART_BRANDS)
-    period = f'{dlabel(usable[0]["d"])}~{dlabel(usable[-1]["d"])} · {len(usable)}일'
+    period = f'{dlabel(usable[0]["d"])}~{dlabel(usable[-1]["d"])} · {len(usable)}일 · 기간 대비 변동'
+    data = {"x": [round(px(ord_(e["d"])), 1) for e in usable],
+            "d": [dlabel(e["d"]) for e in usable],
+            "y0": PT, "y1": base_y, "lo": lo, "hi": hi, "w": W, "s": series}
     return (
-        f'<div class="hist_legend">{legend}<span class="hist_period">{esc(period)}</span></div>'
+        f'<div class="hist_legend">{"".join(legend)}<span class="hist_period">{esc(period)}</span></div>'
+        f'<div class="hist_plot">'
         f'<svg class="hist_svg" viewBox="0 0 {W} {H}" role="img" '
-        f'aria-label="최근 30일 백화점 상품권 살때 최저가 추이">'
-        f'{grid}{"".join(lines)}{"".join(dots)}{axis}</svg>')
+        f'aria-label="최근 30일 백화점 상품권 살때 최저가 추이" '
+        f'data-chart="{esc(json.dumps(data, ensure_ascii=False, separators=(",", ":")))}">'
+        f'<defs>{"".join(defs)}</defs>{"".join(grid)}{"".join(gap_marks)}{"".join(areas)}{"".join(lines)}'
+        f'{"".join(dots)}{"".join(axis)}</svg>'
+        f'<div class="hist_tip" hidden></div></div>')
+
 
 
 def build_trend(max_points=24):

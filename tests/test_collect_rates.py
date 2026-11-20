@@ -260,6 +260,15 @@ class TestDailyHistory(unittest.TestCase):
         self.assertIn("<path", html)
         self.assertIn("hist_legend", html)
 
+    def test_수집_공백은_선을_끊고_데이터없음으로_표시(self):
+        for i, d in enumerate(["2026-10-01", "2026-10-02", "2026-10-03",
+                               "2026-10-10", "2026-10-11"]):
+            cr.update_daily_history(self._result(f"{d} 09:00", buy=96500 - i * 50))
+        html = cr.build_history_chart()
+        self.assertIn("데이터 없음 10/4~10/9", html)
+        self.assertIn("hist_gapline", html)
+        self.assertIn('data-chart="', html)
+
 
 if __name__ == "__main__":
     unittest.main()
