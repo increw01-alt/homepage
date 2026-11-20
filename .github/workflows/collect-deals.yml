@@ -60,6 +60,9 @@ jobs:
           git add html/deals.json "html/상품권딜.html" html/sitemap.xml html/rates_history.json
           # 핫딜 알림 산출물 (수집기가 만드는 파일을 빠뜨리면 아래 rebase 가 실패한다)
           git add html/deal_alerts.json html/deals_rss.xml
+          # 11번가 직전 성공값 캐시(배포 대상 아님). 딜 수집이 실패한 실행에서는 아직
+          # 없을 수 있어 따로 add 한다 (없는 경로가 섞이면 git add 전체가 실패한다)
+          git add live_11st_cache.json || true
           # 상품권 거래소 시세(별개 파이프라인)
           # 주의: 수집기가 만드는 산출물을 하나라도 빠뜨리면 unstaged 로 남아
           # 아래 git pull --rebase 가 "You have unstaged changes" 로 실패한다.

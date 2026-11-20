@@ -334,23 +334,87 @@ def days_since_checked(checked):
     return (kst_today - d).days
 
 
-def load_manual_deals():
-    """manual_deals.json 의 수동 등록 딜을 읽어 카테고리별로 반환."""
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "manual_deals.json")
-    if not os.path.exists(path):
+# 11번가 실시간 조회 직전 성공값 캐시.
+# 11번가가 러너 IP에 502/503을 돌려주는 일이 있다(2026-11-02~ 실제 사례). 이때 URL만
+# 등록된 11번가 딜은 통째로 사라져, 수동딜 만료와 겹치면 딜 0건 → 수집 실패가 된다.
+# 조회 "오류"(네트워크·HTTP 오류)일 때만 직전 성공값을 유효 시간 동안 대신 쓰고,
+# 조회는 됐는데 품절·판매중단·비정상가인 경우에는 캐시를 지워 다시 노출하지 않는다.
+# 캐시로 채운 딜은 live_items 에 세지 않으므로 live_zero_streak 감시는 그대로 동작한다.
+LIVE_CACHE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "live_11st_cache.json")
+LIVE_CACHE_TTL_HOURS = 48
+KST = timezone(timedelta(hours=9))
+
+
+def _cache_age_hours(entry, now):
+    try:
+        fetched = datetime.fromisoformat(entry["fetched_at"])
+    except Exception:
+        return None
+    return (now - fetched).total_seconds() / 3600
+
+
+def load_live_cache(path=LIVE_CACHE_PATH):
+    """11번가 직전 성공값 캐시를 읽는다. 없거나 깨졌으면 빈 dict."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except FileNotFoundError:
         return {}
+    except Exception as e:
+        print(f"[경고] {os.path.basename(path)} 읽기 실패: {e}")
+        return {}
+
+
+def live_cache_get(cache, url, now=None):
+    """유효 시간(LIVE_CACHE_TTL_HOURS) 안의 캐시 항목만 돌려준다."""
+    entry = cache.get(url)
+    if not isinstance(entry, dict):
+        return None
+    age = _cache_age_hours(entry, now or datetime.now(KST))
+    if age is None or age < 0 or age > LIVE_CACHE_TTL_HOURS:
+        return None
+    if not entry.get("rate") or not entry.get("title"):
+        return None
+    return entry
+
+
+def save_live_cache(cache, path=LIVE_CACHE_PATH, now=None):
+    """유효 시간이 지난 항목을 버리고 저장한다 (파일이 무한히 커지지 않게)."""
+    now = now or datetime.now(KST)
+    kept = {}
+    for url, entry in sorted(cache.items()):
+        age = _cache_age_hours(entry, now) if isinstance(entry, dict) else None
+        if age is not None and 0 <= age <= LIVE_CACHE_TTL_HOURS:
+            kept[url] = entry
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(kept, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    return kept
+
+
+def load_manual_deals(live_cache=None, path=None):
+    """manual_deals.json 의 수동 등록 딜을 읽어 카테고리별로 반환.
+
+    반환: (카테고리별 딜, 11번가 실시간 조회 성공 수, 캐시로 대신 채운 11번가 딜 수)
+    live_cache 를 넘기면 11번가 조회 성공값을 기록하고, 조회 오류 시 그 값을 쓴다.
+    """
+    path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "manual_deals.json")
+    if not os.path.exists(path):
+        return {}, 0, 0
     try:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
         print(f"[경고] manual_deals.json 읽기 실패: {e}")
-        return {}
+        return {}, 0, 0
     by_cat = {}
     expired = []   # 만료로 제외된 수동 딜 (요약 경고용)
     expiring = []  # 만료 임박 수동 딜 (요약 경고용)
     # 네이버 쇼핑 검색 폐지 후 11번가 실시간 조회가 유일하게 남은 자동 갱신 경로다.
     # 이 건수가 0 이 되면 페이지에 자동 검증되는 딜이 하나도 없다는 뜻이므로 감시한다.
     live_ok = 0
+    live_cached = 0  # 조회 오류로 직전 성공값(캐시)을 대신 쓴 11번가 딜 수
     for d in data.get("deals", []):
         url = d.get("url", "")
         # URL 미입력(플레이스홀더) 항목은 건너뜀
@@ -383,13 +447,31 @@ def load_manual_deals():
                         print(f"::warning::[차단] 노출 금지 브랜드 딜 제외(실시간 상품명): {title[:40]}")
                         continue
                     live_ok += 1
+                    if live_cache is not None:
+                        live_cache[url] = {
+                            "title": title, "price": price, "face": face, "rate": rate,
+                            "fetched_at": datetime.now(KST).isoformat(timespec="minutes"),
+                        }
                 else:
                     # 품절·판매중단·비정상가 → 노출 제외 (등록값으로 잘못 노출하지 않음)
                     print(f"[제외] 11번가 딜 확인 불가(품절/변경): {title[:30] or url}")
+                    if live_cache is not None:
+                        live_cache.pop(url, None)  # 품절 상품을 캐시로 되살리지 않게
                     continue
             except Exception as e:
                 print(f"[경고] 11번가 조회 오류({title[:20] or url}): {e}")
-                if not rate or not title:
+                cached = live_cache_get(live_cache, url) if live_cache is not None else None
+                if cached:
+                    rate = cached["rate"]
+                    title = cached["title"]
+                    face = cached.get("face")
+                    price = cached.get("price")
+                    seller = seller or "11번가"
+                    if is_blocked_brand(title):
+                        continue
+                    live_cached += 1
+                    print(f"[캐시] 11번가 직전 성공값 사용({cached['fetched_at']}): {title[:30]}")
+                elif not rate or not title:
                     continue  # 등록 정보도 없으면 건너뜀
             time.sleep(0.3)
 
@@ -430,7 +512,10 @@ def load_manual_deals():
     if expiring:
         print(f"::warning::[만료 임박] 수동 딜 {len(expiring)}건 — manual_deals.json 의 checked 갱신 필요: "
               + "; ".join(expiring[:5]) + (f" 외 {len(expiring) - 5}건" if len(expiring) > 5 else ""))
-    return by_cat, live_ok
+    if live_cached:
+        print(f"::warning::[캐시] 11번가 조회 오류로 딜 {live_cached}건을 직전 성공값"
+              f"({LIVE_CACHE_TTL_HOURS}시간 이내)으로 노출했습니다 — 11번가 응답(502/503 등)을 점검하세요.")
+    return by_cat, live_ok, live_cached
 
 
 # ─────────────────────────────────────────────────────────────
@@ -1169,7 +1254,8 @@ def main():
     matrix = {}
     sellers_seen = {}
     auto_items = 0  # 네이버 API 자동수집으로 필터를 통과한 딜 수 (현재 API 폐지로 항상 0)
-    manual_by_cat, live_items = load_manual_deals()
+    live_cache = load_live_cache()
+    manual_by_cat, live_items, live_cached = load_manual_deals(live_cache)
 
     for cat in CATEGORIES:
         # 수동 등록 딜 먼저 반영 (자동수집이 놓친 특가)
@@ -1291,6 +1377,8 @@ def main():
             "naver_shop_api": "disabled" if not NAVER_SHOP_SEARCH_ENABLED else "enabled",
             # 이번 실행에서 새로 감지된 고할인 복귀 수 — 워크플로가 이슈 알림에 사용
             "new_alerts": new_alerts,
+            # 11번가 조회 오류로 직전 성공값(LIVE_CACHE_TTL_HOURS 이내)을 대신 쓴 딜 수
+            "live_cached": live_cached,
         },
         "summary": {"columns": columns, "rows": rows},
         "deals": deals,
@@ -1299,6 +1387,8 @@ def main():
     # newline="\n" — 윈도우 로컬 실행과 리눅스 Actions 실행이 교차해도 개행 차이 diff 가 없게
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
+    # 11번가 직전 성공값 캐시 — 워크플로 커밋 대상(collect-deals.yml·add-deal.yml)에 포함돼 있다
+    save_live_cache(live_cache)
 
     # 시세 이력 기록 + 프리렌더(SEO) + 사이트맵 갱신 + 색인 통지
     append_history(result)
