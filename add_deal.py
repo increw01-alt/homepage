@@ -255,7 +255,7 @@ def main():
         for f in failed:
             print(f"- {f}")
     if added:
-        print("\n곧 사이트에 반영됩니다. (매시 정각 자동 갱신)")
+        print("\n곧 사이트에 반영됩니다. (매시간 자동 갱신)")
 
 
 if __name__ == "__main__":

@@ -66,6 +66,17 @@ class CollectWorkflowFailureHandlingTest(unittest.TestCase):
         self.assertIn("[수집실패]", close["run"])
         self.assertGreater(self.index(close), self.index(create))
 
+    def test_schedule_avoids_top_of_hour(self):
+        # 정각(:00) 예약 실행은 GitHub 가 대량으로 누락시켰다(하루 24회 중 3~5회 실행)
+        with open(WORKFLOW, encoding="utf-8") as f:
+            doc = yaml.safe_load(f)
+        triggers = doc.get("on", doc.get(True))  # PyYAML 은 키 on 을 True 로 읽는다
+        crons = [s["cron"] for s in triggers["schedule"]]
+        self.assertEqual(len(crons), 1)
+        minute, hour = crons[0].split()[:2]
+        self.assertEqual(hour, "*")  # 매시간 실행 유지
+        self.assertTrue(minute.isdigit() and 1 <= int(minute) <= 59, crons[0])
+
     def test_deal_alert_issue_skipped_when_deals_failed(self):
         alert = self.step(name="고할인 복귀 알림 (신규 감지 시 GitHub 이슈 생성)")
         self.assertEqual(alert.get("if"), "steps.deals.outcome == 'success'")

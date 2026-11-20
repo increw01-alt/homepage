@@ -16,7 +16,7 @@
 | `html/deals.json`, `html/rates*.json`, `manual_deals.json` | 수집 데이터. 자동 생성·운영 데이터이므로 이번 작업에서 손으로 고치지 않는다 |
 | `html/css/common.css`, `sub_common.css`, `navi_footer.css`, `html/js/navi.js` | 사이트 전체 공통 자원. 수정 금지 |
 | `html/img/` | 이미지 폴더. 이번 작업 새 이미지는 `html/img/seo/`에 둔다 |
-| `.github/workflows/collect-deals.yml` | 매시 정각 수집 → 자동 커밋 봇. 수정 금지 |
+| `.github/workflows/collect-deals.yml` | 매시 17분 수집 → 자동 커밋 봇. 수정 금지 |
 | `tests/` | unittest 테스트(현재 51개) |
 
 ### 프리렌더 구조 (가장 중요)
