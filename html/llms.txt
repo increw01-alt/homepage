@@ -41,6 +41,7 @@
 - 백화점상품권 할부 구매: https://koreagiftcard.co.kr/백화점상품권-할부구매
 - 신용카드 상품권 할부 구매: https://koreagiftcard.co.kr/신용카드-상품권-할부구매
 - 소액결제 상품권 구매: https://koreagiftcard.co.kr/소액결제-상품권-구매
+- 소액결제 현금화 가이드: https://koreagiftcard.co.kr/guide/small-payment-cash — 소액결제 진행 절차와 청구 시점, 한도 기준, 정산 금액 계산 구조, 거래 전 확인할 7가지를 정리
 - 할부 구매 쇼핑몰 안내: https://koreagiftcard.co.kr/installment_shoppingmall
 - 자주 묻는 질문(FAQ): https://koreagiftcard.co.kr/qna
 - 공지사항: https://koreagiftcard.co.kr/noti
