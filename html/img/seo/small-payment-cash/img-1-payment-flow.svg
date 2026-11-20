@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="1000" height="420" role="img" aria-labelledby="t1 d1">
+<title id="t1">소액결제 현금화 진행 절차와 청구 시점</title>
+<desc id="d1">결제 승인, 상품 수령과 판매, 공제 후 정산, 다음 달 요금 청구 순서로 이어지는 4단계 흐름도</desc>
+<defs>
+<marker id="ah1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#6B7280"/></marker>
+<style>
+text{font-family:Pretendard,'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.ttl{font-size:26px;font-weight:700;fill:#1F2430;letter-spacing:-0.6px}
+.lead{font-size:16px;fill:#5B6475}
+.step{font-size:14px;font-weight:700;fill:#097CFF}
+.step-on{font-size:14px;font-weight:700;fill:#1B3A6B}
+.lbl{font-size:18px;font-weight:700;fill:#1F2430;letter-spacing:-0.3px}
+.note{font-size:15px;fill:#5B6475}
+.brand{font-size:13px;fill:#98A1B0}
+</style>
+</defs>
+<rect width="1000" height="420" fill="#FFFFFF"/>
+<text class="ttl" x="64" y="84">소액결제 현금화 진행 절차와 청구 시점</text>
+<text class="lead" x="64" y="122">네 단계는 각각 다른 주체가 판단합니다. 앞 단계가 끝났다고 다음 단계가 자동으로 통과되지는 않습니다.</text>
+<g stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none">
+<line x1="246" y1="255" x2="289" y2="255" marker-end="url(#ah1)"/>
+<line x1="476" y1="255" x2="519" y2="255" marker-end="url(#ah1)"/>
+<line x1="706" y1="255" x2="749" y2="255" marker-end="url(#ah1)"/>
+</g>
+<rect x="64" y="196" width="182" height="118" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<text class="step" x="88" y="240">1단계</text>
+<text class="lbl" x="88" y="270">결제 승인</text>
+<rect x="294" y="196" width="182" height="118" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<text class="step" x="318" y="240">2단계</text>
+<text class="lbl" x="318" y="270">상품 수령과 판매</text>
+<rect x="524" y="196" width="182" height="118" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<text class="step" x="548" y="240">3단계</text>
+<text class="lbl" x="548" y="270">공제 후 정산</text>
+<rect x="754" y="196" width="182" height="118" rx="12" fill="#EEF1F8" stroke="#1F2D5C" stroke-width="2"/>
+<text class="step-on" x="778" y="240">4단계</text>
+<text class="lbl" x="778" y="270">다음 달 요금 청구</text>
+<text class="note" x="64" y="360">본인인증이 끝나도 결제 승인이 보장되지는 않습니다. 마지막 단계는 다음 달에 옵니다.</text>
+<text class="brand" x="936" y="396" text-anchor="end">한국상품권협회</text>
+</svg>

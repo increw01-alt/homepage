@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" width="900" height="660" role="img" aria-labelledby="t3 d3">
+<title id="t3">거래 전 확인할 7가지</title>
+<desc id="d3">통신사 기준 잔여 한도부터 취소와 환불이 가능한 범위까지 거래 전에 확인할 일곱 가지 항목 체크리스트</desc>
+<defs>
+<style>
+text{font-family:Pretendard,'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.ttl{font-size:28px;font-weight:700;fill:#1F2430;letter-spacing:-0.6px}
+.num{font-size:16px;font-weight:700;fill:#FFFFFF}
+.item{font-size:19px;font-weight:600;fill:#1F2430;letter-spacing:-0.3px}
+.note{font-size:15px;fill:#5B6475}
+</style>
+</defs>
+<rect width="900" height="660" fill="#FFFFFF"/>
+<text class="ttl" x="60" y="74">거래 전 확인할 7가지</text>
+<g>
+<rect x="60" y="110" width="780" height="56" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<circle cx="98" cy="138" r="16" fill="#1F2D5C"/><text class="num" x="98" y="144" text-anchor="middle">1</text>
+<path transform="translate(126 126)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="145">통신사 기준 잔여 한도</text>
+
+<rect x="60" y="178" width="780" height="56" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<circle cx="98" cy="206" r="16" fill="#1F2D5C"/><text class="num" x="98" y="212" text-anchor="middle">2</text>
+<path transform="translate(126 194)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="213">총 결제금액</text>
+
+<rect x="60" y="246" width="780" height="56" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<circle cx="98" cy="274" r="16" fill="#1F2D5C"/><text class="num" x="98" y="280" text-anchor="middle">3</text>
+<path transform="translate(126 262)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="281">정산 기준율</text>
+
+<rect x="60" y="314" width="780" height="56" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<circle cx="98" cy="342" r="16" fill="#1F2D5C"/><text class="num" x="98" y="348" text-anchor="middle">4</text>
+<path transform="translate(126 330)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="349">별도 공제 항목과 금액</text>
+
+<rect x="60" y="382" width="780" height="56" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<circle cx="98" cy="410" r="16" fill="#1F2D5C"/><text class="num" x="98" y="416" text-anchor="middle">5</text>
+<path transform="translate(126 398)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="417">다음 달 통신요금 납부 가능 여부</text>
+
+<rect x="60" y="450" width="780" height="56" rx="12" fill="#FFFFFF" stroke="#D9DCE3" stroke-width="1.5"/>
+<circle cx="98" cy="478" r="16" fill="#1F2D5C"/><text class="num" x="98" y="484" text-anchor="middle">6</text>
+<path transform="translate(126 466)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="485">거래 상대의 상호와 사업자등록번호</text>
+
+<rect x="60" y="518" width="780" height="56" rx="12" fill="#EEF1F8" stroke="#1F2D5C" stroke-width="2"/>
+<circle cx="98" cy="546" r="16" fill="#1F2D5C"/><text class="num" x="98" y="552" text-anchor="middle">7</text>
+<path transform="translate(126 534)" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#097CFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="item" x="164" y="553">취소와 환불이 가능한 범위</text>
+</g>
+<text class="note" x="60" y="626">말로만 설명되는 항목이 있으면 그 항목부터 다시 물어보세요.</text>
+</svg>
