@@ -244,7 +244,7 @@
             .spc-page .pc_navi_wrap .menu { gap: 2.5vw; }
         }
         @media (min-width: 971px) and (max-width: 1140px) {
-            .spc-page .pc_navi_wrap .menu { gap: .4vw; }
+            .spc-page .pc_navi_wrap .menu { gap: calc(.4vw + (100vw - 971px) * .06); }
             .spc-page .pc_navi_wrap .menu > li > a { padding: 5px 4px; font-size: 1.45rem; }
             .spc-page .pc_navi_wrap .menu > li.has-submenu > a { padding-right: 12px; }
             .spc-page .pc_navi_wrap .menu > li.deal-menu > a { padding: 7px 10px; }
@@ -335,12 +335,12 @@
 
                     <!-- [예시] 소액결제 메뉴 분리: 할부 구매 아래 두 항목을 옮기고 가이드를 추가 -->
                     <li class="main-menu has-submenu">
-                        <a href="/소액결제-상품권-구매">소액결제</a>
+                        <a href="/guide/small-payment-cash.html">소액결제</a>
                         <div class="sub-wrap">
                             <ul class="submenu">
+                                <li><a href="/guide/small-payment-cash.html" aria-current="page">소액결제 현금화 가이드</a></li>
                                 <li><a href="/소액결제-상품권-구매">소액결제 상품권 구매</a></li>
                                 <li><a href="/소액결제-상품권-상담">소액결제 상품권 상담</a></li>
-                                <li><a href="/guide/small-payment-cash.html" aria-current="page">소액결제 현금화 가이드</a></li>
                             </ul>
                         </div>
                     </li>
@@ -693,8 +693,8 @@
         <!-- 마무리 CTA -->
         <section class="spc-end" aria-labelledby="h-end">
             <div class="spc-inner">
-                <h2 id="h-end">계산부터 같이 맞춰 보세요</h2>
-                <p>잔여 한도, 총 결제금액, 공제 항목 세 가지를 확인하면 받을 금액이 나옵니다. 확인만 하고 진행하지 않아도 됩니다.</p>
+                <h2 id="h-end">결제보다 확인이 먼저입니다</h2>
+                <p>잔여 한도와 공제 항목, 다음 달 청구액까지 1:1 상담에서 함께 짚어 드립니다. 확인만 하고 진행하지 않으셔도 괜찮습니다.</p>
                 <div class="spc-hero-btns">
                     <a class="spc-btn spc-btn-primary"
                         href="https://koreagiftcard.channel.io/home?page=소액결제현금화가이드&amp;utm_source=site&amp;utm_medium=guide&amp;utm_campaign=small-payment-cash&amp;utm_content=bottom" target="_blank" rel="noopener"
