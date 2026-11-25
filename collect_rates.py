@@ -650,6 +650,9 @@ def build_prerender(data):
         "url": "https://koreagiftcard.co.kr/상품권시세",
         "creator": {"@type": "Organization", "name": "한국상품권협회"},
         "isAccessibleForFree": True,
+        # Search Console 'license 누락' 경고 대응 (2026-11-21 감지).
+        # 출처 표기·비영리·변경 금지 — 화면의 데이터 이용 안내 문구와 일치해야 한다.
+        "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
         "variableMeasured": [
             {"@type": "PropertyValue", "name": name, "unitText": "원",
              "description": "백화점 상품권 10만원권 기준"}

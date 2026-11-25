@@ -54,6 +54,16 @@ class TestSeoPrerender(unittest.TestCase):
         self.assertEqual([v['name'] for v in data['variableMeasured']], ['살때 가격', '팔때 가격'])
         self.assertTrue(all('10만원권' in v['description'] for v in data['variableMeasured']))
 
+    def test_dataset_license_matches_visible_notice(self):
+        # Search Console 'license 누락' 경고(2026-11-21) 대응: Dataset 에 license 가 있고,
+        # 규칙 9에 따라 같은 라이선스가 화면 안내 문구에도 표기되어야 한다.
+        license_url = 'https://creativecommons.org/licenses/by-nc-nd/4.0/'
+        self.assertEqual(ld(cr.build_prerender(self.rates)['ratesJsonld'])['license'], license_url)
+        self.assertEqual(ld(cr.build_prerender({})['ratesJsonld'])['license'], license_url)
+        page = (ROOT / 'html/상품권시세.html').read_text(encoding='utf-8')
+        self.assertIn(license_url, page)
+        self.assertIn('CC BY-NC-ND 4.0', page)
+
     def test_dates_convert_timezone_and_omit_unknown_values(self):
         for module in (cd, cr):
             self.assertEqual(module.iso_modified_date('2026-11-18T21:09:00Z'), '2026-11-19T06:09:00+09:00')
