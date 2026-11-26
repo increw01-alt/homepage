@@ -107,7 +107,7 @@
       "rate": 3.3,
       "face": 50000,
       "price": 48350,
-      "checked": "2026-11-16",
+      "checked": "2026-11-27",
       "title": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용",
       "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F355391843"
     },
@@ -117,14 +117,14 @@
       "rate": 3.3,
       "face": 50000,
       "price": 48350,
-      "checked": "2026-11-16",
+      "checked": "2026-11-27",
       "title": "(특가) 북앤라이프 도서문화상품권 5만원권 / 온라인전용",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4551232530"
     },
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "옥션",
-      "rate": 3.0,
+      "rate": 3,
       "face": 30000,
       "price": 29100,
       "checked": "2026-11-16",
@@ -144,7 +144,7 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "지마켓",
-      "rate": 3.0,
+      "rate": 3,
       "face": 30000,
       "price": 29100,
       "checked": "2026-11-16",
@@ -164,7 +164,7 @@
     {
       "category": "도서문화상품권 (북앤라이프)",
       "seller": "옥션",
-      "rate": 3.0,
+      "rate": 3,
       "face": 30000,
       "price": 29100,
       "checked": "2026-11-16",
@@ -174,7 +174,7 @@
     {
       "category": "도서문화상품권 (북앤라이프)",
       "seller": "옥션",
-      "rate": 3.0,
+      "rate": 3,
       "face": 10000,
       "price": 9700,
       "checked": "2026-11-16",
@@ -184,7 +184,7 @@
     {
       "category": "도서문화상품권 (북앤라이프)",
       "seller": "지마켓",
-      "rate": 3.0,
+      "rate": 3,
       "face": 30000,
       "price": 29100,
       "checked": "2026-11-16",
@@ -194,7 +194,7 @@
     {
       "category": "도서문화상품권 (북앤라이프)",
       "seller": "지마켓",
-      "rate": 3.0,
+      "rate": 3,
       "face": 10000,
       "price": 9700,
       "checked": "2026-11-16",
@@ -204,7 +204,7 @@
     {
       "category": "컬쳐랜드 문화상품권",
       "seller": "옥션",
-      "rate": 3.0,
+      "rate": 3,
       "face": 500000,
       "price": 485000,
       "checked": "2026-11-16",
@@ -217,14 +217,14 @@
       "rate": 6.5,
       "face": 50000,
       "price": 46750,
-      "checked": "2026-11-16",
+      "checked": "2026-11-27",
       "title": "(특가) (에그머니) 온라인게임상품권 5만원",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4551552043"
     },
     {
       "category": "구글플레이 기프트카드",
       "seller": "지마켓",
-      "rate": 1.0,
+      "rate": 1,
       "face": 100000,
       "price": 99000,
       "checked": "2026-11-16",
@@ -234,7 +234,7 @@
     {
       "category": "구글플레이 기프트카드",
       "seller": "지마켓",
-      "rate": 1.0,
+      "rate": 1,
       "face": 50000,
       "price": 49500,
       "checked": "2026-11-16",
@@ -244,12 +244,42 @@
     {
       "category": "구글플레이 기프트카드",
       "seller": "지마켓",
-      "rate": 1.0,
+      "rate": 1,
       "face": 30000,
       "price": 29700,
       "checked": "2026-11-16",
       "title": "(Google Play 기프트코드) 3만원권 / 구글 기프트카드",
       "url": "https://item.gmarket.co.kr/Item?goodscode=4541984448"
+    },
+    {
+      "category": "에그머니",
+      "seller": "지마켓",
+      "rate": 6.5,
+      "face": 500000,
+      "price": 467500,
+      "checked": "2026-11-27",
+      "title": "(특가) (에그머니) 온라인게임상품권 50만원",
+      "url": "https://item.gmarket.co.kr/Item?goodscode=4551559109"
+    },
+    {
+      "category": "에그머니",
+      "seller": "옥션",
+      "rate": 6.5,
+      "face": 50000,
+      "price": 46750,
+      "checked": "2026-11-27",
+      "title": "(특가) (에그머니) 온라인게임상품권 5만원",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=F356726343"
+    },
+    {
+      "category": "도서문화상품권 (북앤라이프)",
+      "seller": "옥션",
+      "rate": 3,
+      "face": 20000,
+      "price": 19400,
+      "checked": "2026-11-27",
+      "title": "(북앤라이프) 도서문화상품권 2만원권 / 온라인전용",
+      "url": "https://itempage3.auction.co.kr/DetailView.aspx?itemno=E917052884"
     }
   ]
 }
